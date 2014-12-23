@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxBox2d.h"
 #include "ofxCv.h"
 #include "ofxOpenCv.h"
 #include "ofxKinect.h"
