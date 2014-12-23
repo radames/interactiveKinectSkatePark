@@ -26,7 +26,7 @@ public:
 	void mouseMoved(int x, int y);
     
     void screenSetup();
-    void kinectSetup();
+    void kinectSetup(int kinectNumber, string id);
     void kinectUpdate();
     void debugMode();
     
@@ -44,38 +44,33 @@ public:
 
 
     
-	ofxKinect kinect1,kinect2;
     ofxSyphonServer syphonServer;
     
-    ofxCv::ContourFinder contourFinder;
-
-
-	ofxCvColorImage colorImg1;
-	ofxCvGrayscaleImage grayImage1; // grayscale depth image
-	ofxCvGrayscaleImage grayThreshNear1; // the near thresholded image
-	ofxCvGrayscaleImage grayThreshFar1; // the far thresholded image
-   
-    ofxCvColorImage colorImg2;
-    ofxCvGrayscaleImage grayImage2; // grayscale depth image
-    ofxCvGrayscaleImage grayThreshNear2; // the near thresholded image
-    ofxCvGrayscaleImage grayThreshFar2; // the far thresholded image
     
+    //Kinects
+    ofxKinect kinect[2];
+    ofxCv::ContourFinder contourFinder[2];
+	ofxCvColorImage colorImg[2];
+	ofxCvGrayscaleImage grayImage[2]; // grayscale depth image
+	ofxCvGrayscaleImage grayThreshNear[2]; // the near thresholded image
+	ofxCvGrayscaleImage grayThreshFar[2]; // the far thresholded image
+   
+
     
     //GUI
     ofxPanel gui; //
 
-    ofParameterGroup parametersKinect;
-    
-
     ofParameter<bool> enableMouse;
-    ofParameter<int> farThreshold = 143;
-    ofParameter<float> offsetX;
-    ofParameter<float> offsetY;
-    ofParameter<int> numMaxBlobs = 15;
-    ofParameter<int> minBlobSize = 22;
-    ofParameter<int> maxBlobSize = 354;
-    ofParameter<int> kinectWidth = 640;
-    ofParameter<int> kinectHeight = 480;
+
+    ofParameterGroup parametersKinect[2];
+
+    ofParameter<int> farThreshold[2];
+    ofParameter<float> offsetX[2];
+    ofParameter<float> offsetY[2];
+    ofParameter<int> numMaxBlobs[2];
+    ofParameter<int> minBlobSize[2];
+    ofParameter<int> maxBlobSize[2];
+
     
     
     //options variables

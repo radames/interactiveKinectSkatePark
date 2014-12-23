@@ -8,7 +8,10 @@ using namespace ofxCv;
 void ofApp::setup() {
 
     screenSetup(); //screen and some OF setups
-    kinectSetup(); //kinetic setup
+    kinectSetup(0,"A00367813858042A"); //kinetic setup
+    kinectSetup(1,""); //kinetic setup
+
+
     guiSetup(); //GUI Setup
 
 
@@ -22,7 +25,8 @@ void ofApp::update() {
     kinectUpdate();
 
     //varre os blobs, checa
-    RectTracker& tracker = contourFinder.getTracker();
+
+    RectTracker& tracker = contourFinder[0].getTracker();
 //    for(int i = 0; i < contourFinder.size(); i++) {
 //        unsigned int label = contourFinder.getLabel(i);
 //
@@ -119,79 +123,64 @@ void ofApp::draw() {
 void ofApp::debugMode(){
 
     //showing kinect stuffs
-    ofPushStyle();
-
-        // draw from the live kinect
-        kinect1.draw(0, 200, 300, 200);
-        kinect1.drawDepth(0, 0, 300, 200);
     
-        kinect2.draw(300, 200, 300, 200);
-        kinect2.drawDepth(300, 0, 300, 200);
+    //width height debug screens
+    float w = 300;
+    float h = 200;
     
-    ofPopStyle();
+    for(int j = 0; j < 2; j++){
+            // draw from the live kinect
+        kinect[j].draw(j * w, h, w, h);
+        kinect[j].drawDepth(j * w, 0, w, h);
+        //contourFinder[j].draw();
 
-    ofPushMatrix();
+        ofPushMatrix();
 
-        ofTranslate(0,400);
-        ofScale(300.0/kinect1.width,200.0/kinect1.height);
+            ofTranslate(j * w, h*2);
+        
+            //scale grayImage and contourPositions to a small screen
+        
+            ofScale(w/kinect[j].width,h/kinect[j].height);
+        
+            grayImage[j].draw(0,0);
+            contourFinder[j].draw();
+        
+        ofPopMatrix();
 
-        grayImage1.draw(0,0);
+        //loop through all blobs detected and draw the centroid and lables
 
-            ofPushMatrix();
-                ofTranslate(kinect1.width/2,kinect1.height/2);
+        RectTracker& tracker = contourFinder[j].getTracker();
+        
+        for(int i=0; i < contourFinder[j].size(); i++){
+            
+            unsigned int label = contourFinder[j].getLabel(i);
+            
+            if(tracker.existsPrevious(label)) {
+
+                ofPoint center = toOf(contourFinder[j].getCenter(i));
                 ofPushStyle();
-                //drawing the actual kinect area, used to the positions calculation inside de morphrender funciton
-                ofSetRectMode(OF_RECTMODE_CENTER);
-                ofSetColor(255,0,0,100);
+                ofSetColor(255,0,0);
                 ofFill();
-                ofRect(0,0, kinectWidth, kinectHeight);
-                ofPopStyle();
-            ofPopMatrix();
-        contourFinder.draw();
-
-    ofPushStyle();
-    //draw simuled blob
-    ofSetColor(0,255,0);
-    ofFill();
-    ofCircle(blobx ,bloby, 5);
-
-    ofPopStyle();
-
-    ofPopMatrix();
-
-    //loop through all blobs detected and draw the centroid and lables
-
-    RectTracker& tracker = contourFinder.getTracker();
-    
-    for(int i=0; i < contourFinder.size(); i++){
-        unsigned int label = contourFinder.getLabel(i);
-
-        if(tracker.existsPrevious(label)) {
-
-            ofPoint center = toOf(contourFinder.getCenter(i));
-            ofPushStyle();
-            ofSetColor(255,0,0);
-            ofFill();
-            ofPushMatrix();
-                ofTranslate(0,400);
-                //ofScale(300.0/kinect.width,200.0/kinect.height);
-                ofEllipse(center.x,center.y,10,10);
-                string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
-                ofDrawBitmapString(msg,center.x,center.y);
-                ofVec2f velocity = toOf(contourFinder.getVelocity(i));
                 ofPushMatrix();
-                    ofTranslate(center.x, center.y);
-                    ofScale(10, 10);
-                    ofLine(0, 0, velocity.x, velocity.y);
+                    ofTranslate(j * w,h*2);
+                    ofScale(w/kinect[i].width,h/kinect[i].height);
+                    ofEllipse(center.x,center.y,10,10);
+                    string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
+                    ofDrawBitmapString(msg,center.x,center.y);
+                    ofVec2f velocity = toOf(contourFinder[j].getVelocity(i));
+                    ofPushMatrix();
+                        ofTranslate(center.x, center.y);
+                        ofScale(10, 10);
+                        ofLine(0, 0, velocity.x, velocity.y);
+                        ofPopMatrix();
                     ofPopMatrix();
                 ofPopMatrix();
-            ofPopMatrix();
-            ofPopStyle();
+                ofPopStyle();
+            }
+
         }
-
     }
-
-    // draw instructions
+        // draw instructions
     ofPushStyle();
 
     ofSetColor(255, 255, 255);
@@ -234,91 +223,77 @@ void ofApp::screenSetup(){
 
 void ofApp::kinectUpdate(){
 
-    kinect1.update();
-    kinect2.update();
+    for(int i = 0; i < 2; i++){
+        kinect[i].update();
+        // there is a new frame and we are connected
+        if(kinect[i].isFrameNew()) {
 
-    // there is a new frame and we are connected
-    if(kinect1.isFrameNew()) {
+            // load grayscale depth image from the kinect source
+            grayImage[i].setFromPixels(kinect[i].getDepthPixels(), kinect[i].width, kinect[i].height);
 
-        // load grayscale depth image from the kinect source
-        grayImage1.setFromPixels(kinect1.getDepthPixels(), kinect1.width, kinect1.height);
-
-        // we do two thresholds - one for the far plane and one for the near plane
-        // we then do a cvAnd to get the pixels which are a union of the two thresholds
-        grayThreshNear1 = grayImage1;
-        grayThreshFar1 = grayImage1;
-        grayThreshNear1.threshold(nearThreshold, true);
-        grayThreshFar1.threshold(farThreshold);
-        cvAnd(grayThreshNear1.getCvImage(), grayThreshFar1.getCvImage(), grayImage1.getCvImage(), NULL);
+            // we do two thresholds - one for the far plane and one for the near plane
+            // we then do a cvAnd to get the pixels which are a union of the two thresholds
+            grayThreshNear[i] = grayImage[i];
+            grayThreshFar[i] = grayImage[i];
+            grayThreshNear[i].threshold(nearThreshold, true);
+            grayThreshFar[i].threshold(farThreshold[i]);
+            cvAnd(grayThreshNear[i].getCvImage(), grayThreshFar[i].getCvImage(), grayImage[i].getCvImage(), NULL);
 
 
-        // update the cv images
-        grayImage1.flagImageChanged();
+            // update the cv images
+            grayImage[i].flagImageChanged();
 
-        contourFinder.setMinAreaRadius(minBlobSize);
-        contourFinder.setMaxAreaRadius(maxBlobSize);
-        contourFinder.findContours(grayImage1);
-
+            contourFinder[i].setMinAreaRadius(minBlobSize[i]);
+            contourFinder[i].setMaxAreaRadius(maxBlobSize[i]);
+            contourFinder[i].findContours(grayImage[i]);
+        }
     }
 
 }
-void ofApp::kinectSetup(){
+void ofApp::kinectSetup(int kinectNumber, string id){
+    
+    //A00367813858042A
 
     // enable depth.video image calibration
-    kinect1.setRegistration(true);
+    kinect[kinectNumber].setRegistration(true);
 
-    kinect1.init();
-    kinect2.init();
+    kinect[kinectNumber].init();
+    
+    if(id.empty()){
+        kinect[kinectNumber].open();
+    }else{
+        kinect[kinectNumber].open(id);
+    }
 
     //kinect.init(true); // shows infrared instead of RGB video image
     //kinect.init(false, false); // disable video image (faster fps)
 
-    kinect1.open();
-    kinect2.open();		// opens first available kinect
-    //kinect.open(1);	// open a kinect by id, starting with 0 (sorted by serial # lexicographically))
-    //kinect.open("A00362A08602047A");	// open a kinect using it's unique serial #
 
     // print the intrinsic IR sensor values
-    if(kinect1.isConnected()) {
-        ofLogNotice() << "Kinect 1 Connected";
-        ofLogNotice() << "sensor-emitter dist: " << kinect1.getSensorEmitterDistance() << "cm";
-        ofLogNotice() << "sensor-camera dist:  " << kinect1.getSensorCameraDistance() << "cm";
-        ofLogNotice() << "zero plane pixel size: " << kinect1.getZeroPlanePixelSize() << "mm";
-        ofLogNotice() << "zero plane dist: " << kinect1.getZeroPlaneDistance() << "mm";
+    if(kinect[kinectNumber].isConnected()) {
+        ofLogNotice() << "Kinect " << id << " Connected";
+        ofLogNotice() << "sensor-emitter dist: " << kinect[kinectNumber].getSensorEmitterDistance() << "cm";
+        ofLogNotice() << "sensor-camera dist:  " << kinect[kinectNumber].getSensorCameraDistance() << "cm";
+        ofLogNotice() << "zero plane pixel size: " << kinect[kinectNumber].getZeroPlanePixelSize() << "mm";
+        ofLogNotice() << "zero plane dist: " << kinect[kinectNumber].getZeroPlaneDistance() << "mm";
     }
     
-    
-    
-    if(kinect2.isConnected()) {
-        ofLogNotice() << "Kinect 1 Connected";
-        ofLogNotice() << "sensor-emitter dist: " << kinect2.getSensorEmitterDistance() << "cm";
-        ofLogNotice() << "sensor-camera dist:  " << kinect2.getSensorCameraDistance() << "cm";
-        ofLogNotice() << "zero plane pixel size: " << kinect2.getZeroPlanePixelSize() << "mm";
-        ofLogNotice() << "zero plane dist: " << kinect2.getZeroPlaneDistance() << "mm";
-    }
 
-
-    colorImg1.allocate(kinect1.width, kinect1.height);
-    grayImage1.allocate(kinect1.width, kinect1.height);
-    grayThreshNear1.allocate(kinect1.width, kinect1.height);
-    grayThreshFar1.allocate(kinect1.width, kinect1.height);
-
-    colorImg2.allocate(kinect2.width, kinect2.height);
-    grayImage2.allocate(kinect2.width, kinect2.height);
-    grayThreshNear2.allocate(kinect2.width, kinect2.height);
-    grayThreshFar2.allocate(kinect2.width, kinect2.height);
+    colorImg[kinectNumber].allocate(kinect[kinectNumber].width, kinect[kinectNumber].height);
+    grayImage[kinectNumber].allocate(kinect[kinectNumber].width, kinect[kinectNumber].height);
+    grayThreshNear[kinectNumber].allocate(kinect[kinectNumber].width, kinect[kinectNumber].height);
+    grayThreshFar[kinectNumber].allocate(kinect[kinectNumber].width, kinect[kinectNumber].height);
 
     
     ofSetFrameRate(60);
     // zero the tilt on startup
-    kinect1.setCameraTiltAngle(0);
-    kinect2.setCameraTiltAngle(0);
+    kinect[kinectNumber].setCameraTiltAngle(0);
 
     nearThreshold = 255;
-
+    
     //blob tracking system parameter
-    contourFinder.getTracker().setPersistence(10);
-    contourFinder.getTracker().setMaximumDistance(128);
+    contourFinder[kinectNumber].getTracker().setPersistence(10);
+    contourFinder[kinectNumber].getTracker().setMaximumDistance(128);
     
 }
 
@@ -329,28 +304,21 @@ void ofApp::guiSetup(){
     gui.setup("Settings", "settings.xml", 310,100);
 
     gui.add(enableMouse.set("Mouse DEBUG",true));
-    parametersKinect.setName("Kinect");
-    parametersKinect.add(kinectWidth.set("Width",640, 540,740));
-    parametersKinect.add(kinectHeight.set("Height",480, 380,580));
+    
+    for(int i = 0; i < 2; i++){
+    
+        parametersKinect[i].setName("Kinect " + ofToString(i));
+        parametersKinect[i].add(farThreshold[i].set("Far Threshold", 0,0, 255 ));
+        parametersKinect[i].add(numMaxBlobs[i].set("Num Max Blos",10,0,15));
+        parametersKinect[i].add(maxBlobSize[i].set("max Blob Size",0,0,500));
+        parametersKinect[i].add(minBlobSize[i].set("min Blob Size",0,0,500));
+        parametersKinect[i].add(offsetX[i].set("Offset X", 0,-200, 200 ));
+        parametersKinect[i].add(offsetY[i].set("Offset Y", 0,-200, 200 ));
+        gui.add(parametersKinect[i]);
 
-
-
-    parametersKinect.add(farThreshold.set("Far Threshold", 0,0, 255 ));
-    parametersKinect.add(numMaxBlobs.set("Num Max Blos",10,0,15));
-    parametersKinect.add(maxBlobSize.set("max Blob Size",0,0,500));
-    parametersKinect.add(minBlobSize.set("min Blob Size",0,0,500));
-
-    parametersKinect.add(offsetX.set("Offset X", 0,-200, 200 ));
-    parametersKinect.add(offsetY.set("Offset Y", 0,-200, 200 ));
-
-
-
-    gui.add(parametersKinect);
-
+    }
     gui.minimizeAll();
     // events for change in paramenters on ofpp application
-    kinectWidth.addListener(this,&ofApp::kinectUpdateAreaW);
-    kinectHeight.addListener(this,&ofApp::kinectUpdateAreaH);
 
     gui.loadFromFile("settings.xml");
 
@@ -366,11 +334,13 @@ void ofApp::kinectUpdateAreaH(int& kinectHeight){
 
 
 float ofApp::applyOffsetX(float _x){
-    return _x + offsetX;
+    return;
+    //return _x + offsetX;
 
 }
 float ofApp::applyOffsetY(float _y){
-    return _y + offsetY;
+    return;
+    //return _y + offsetY;
 }
 
 
@@ -457,6 +427,6 @@ void ofApp::windowResized(int w, int h)
 
 
 void ofApp::exit() {
-    kinect1.close();
-    kinect2.close();
+    kinect[0].close();
+    kinect[1].close();
 }
