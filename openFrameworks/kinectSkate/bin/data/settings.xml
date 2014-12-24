@@ -1,10 +1,10 @@
 <Settings>
 	<Mouse_DEBUG>1</Mouse_DEBUG>
 	<Kinect_0>
-		<Far_Threshold>131</Far_Threshold>
+		<Far_Threshold>221</Far_Threshold>
 		<Num_Max_Blos>10</Num_Max_Blos>
-		<max_Blob_Size>211</max_Blob_Size>
-		<min_Blob_Size>91</min_Blob_Size>
+		<max_Blob_Size>227</max_Blob_Size>
+		<min_Blob_Size>25</min_Blob_Size>
 		<Offset_X>0</Offset_X>
 		<Offset_Y>0</Offset_Y>
 	</Kinect_0>

@@ -7,7 +7,7 @@
 #include "ofxKinect.h"
 #include "ofxSyphon.h"
 #include "ofxGui.h"
-
+#include <tr1/unordered_map>
 
 class ofApp : public ofBaseApp {
 public:
@@ -31,6 +31,7 @@ public:
     void kinectUpdate();
     void debugMode();
     
+    void createObjects();
 
     void guiSetup();
     
@@ -72,7 +73,8 @@ public:
     ofParameter<int> minBlobSize[2];
     ofParameter<int> maxBlobSize[2];
 
-    
+    tr1::unordered_map<int, int> addedObjs;
+
     
     //options variables
     bool bDebugMode = true;
@@ -86,5 +88,9 @@ public:
     
     //ofscreen buffers
     ofFbo screen1;
+    
+    // Box2D
+    ofxBox2d box2d;
+	vector <ofPtr<ofxBox2dRect> > boxes;
 
 };

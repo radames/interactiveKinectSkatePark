@@ -14,7 +14,109 @@ void ofApp::setup() {
 
     guiSetup(); //GUI Setup
 
+    box2d.init();
+	box2d.setGravity(0, 0);
+	box2d.setFPS(30.0);
 
+}
+
+void ofApp::createObjects() {
+    int j = 0;
+    
+    RectTracker& tracker = contourFinder[j].getTracker();
+    const vector<unsigned int>& newLabels = tracker.getNewLabels();
+    const vector<unsigned int>& currentLabels = tracker.getCurrentLabels();
+    
+    /*
+    for(int i = 0; i < currentLabels.size(); i++) {
+        int label = currentLabels[i];
+        const cv::Rect& current = tracker.getCurrent(label);
+        
+        ofVec2f velocity = toOf(tracker.getVelocity(label));
+
+        cout << label << " - " << velocity << endl;
+        
+            if (addedObjs.count(label) == 0) {
+                float w = ofRandom(4, 20);
+                float h = ofRandom(4, 20);
+                ofPoint center = ofPoint(current.x, current.y);
+
+                boxes.push_back(ofPtr<ofxBox2dRect>(new ofxBox2dRect));
+                ofxBox2dRect * rect = boxes.back().get();
+                ofVec2f velocity = toOf(tracker.getVelocity(label));
+
+                cout << velocity << endl;
+                rect->setVelocity(velocity.x, velocity.y);
+                rect->setPhysics(3.0, 0.53, 0.1);
+                rect->setup(box2d.getWorld(), center.x, center.y, w, h);
+                addedObjs[label] = boxes.size() - 1;
+                cout << "ANOTADO" << label << endl;
+            } else if (addedObjs[label] != -1) {
+                ofVec2f velocity = toOf(tracker.getVelocity(i));
+               //cout << "GIVE VEL " << velocity << endl;
+                ofPtr<ofxBox2dRect> rect = boxes[addedObjs[label]];
+                rect->setVelocity(velocity.x, velocity.y);
+                addedObjs[label] = -1;
+            }
+    }*/
+    
+    for(int i=0; i < contourFinder[j].size(); i++){
+        
+        unsigned int label = contourFinder[j].getLabel(i);
+        
+        if (addedObjs.count(label) == 0) {
+            float w = 20;
+            float h = 20;
+            ofPoint center = toOf(contourFinder[j].getCenter(i));
+            boxes.push_back(ofPtr<ofxBox2dRect>(new ofxBox2dRect));
+            ofxBox2dRect * rect = boxes.back().get();
+            ofVec2f velocity = toOf(tracker.getVelocity(i));
+            
+            cout << velocity << endl;
+            rect->setVelocity(velocity.x, velocity.y);
+            rect->setPhysics(3.0, 0.53, 0.1);
+            rect->setup(box2d.getWorld(), center.x, center.y, w, h);
+            addedObjs[label] = boxes.size() - 1;
+        }
+        
+        if(tracker.existsPrevious(label)) {
+            ofVec2f velocity = toOf(tracker.getVelocity(i));
+            ofPtr<ofxBox2dRect> rect = boxes[addedObjs[label]];
+            if (velocity.x != 0 && velocity.y != 0)
+                rect->setVelocity(-1*velocity.x, velocity.y);
+        }
+        
+    }
+    /*
+    for(int i = 0; i < newLabels.size(); i++) {
+        int label = newLabels[i];
+        const cv::Rect& current = tracker.getCurrent(label);
+     
+        ofPoint center = ofPoint(current.x, current.y);
+        
+        cout << "BEG"<< endl;
+        for (int k = 0; k < contourFinder[j].size(); ++k) {
+            ofVec2f velocity = toOf(contourFinder[j].getVelocity(k));
+            cout << "V " << velocity << endl;
+        }
+        
+        ofVec2f velocity = toOf(tracker.getVelocity(label));
+        cout << velocity << endl;
+        
+        
+        
+        float w = ofRandom(4, 20);
+        float h = ofRandom(4, 20);
+        
+        boxes.push_back(ofPtr<ofxBox2dRect>(new ofxBox2dRect));
+        ofxBox2dRect * rect = boxes.back().get();
+        rect->setVelocity(velocity.x, velocity.y);
+        rect->setPhysics(3.0, 0.53, 0.1);
+        rect->setup(box2d.getWorld(), center.x, center.y, w, h);
+        
+    }*/
+  
+    
 }
 
 //--------------------------------------------------------------
@@ -23,6 +125,7 @@ void ofApp::update() {
     ofEnableAlphaBlending();
 	ofBackground(255, 255, 255);
     kinectUpdate();
+	box2d.update();
 
     //varre os blobs, checa
 
@@ -46,9 +149,9 @@ void ofApp::update() {
 
     const vector<unsigned int>& currentLabels = tracker.getCurrentLabels();
     const vector<unsigned int>& previousLabels = tracker.getPreviousLabels();
-    const vector<unsigned int>& newLabels = tracker.getNewLabels();
     const vector<unsigned int>& deadLabels = tracker.getDeadLabels();
 
+    createObjects();
 
     //varrer deadLabels e procurar morphs e KILL them
     /*
@@ -112,6 +215,12 @@ void ofApp::draw() {
     
     
     screen1.draw(0,0);
+    
+    for(int i=0; i<boxes.size(); i++) {
+		ofFill();
+		ofSetHexColor(0xe63b8b);
+		boxes[i].get()->draw();
+	}
     
     syphonServer.publishScreen(); //syphon screen
 
@@ -180,7 +289,7 @@ void ofApp::debugMode(){
 
         }
     }
-        // draw instructions
+    // draw instructions
     ofPushStyle();
 
     ofSetColor(255, 255, 255);
@@ -190,8 +299,6 @@ void ofApp::debugMode(){
     ofDrawBitmapString(reportStream.str(), 20, 652);
     ofPopStyle();
     gui.draw();
-
-
 
 
 
