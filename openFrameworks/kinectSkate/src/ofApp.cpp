@@ -7,6 +7,8 @@ using namespace ofxCv;
 //--------------------------------------------------------------
 void ofApp::setup() {
 
+    ofRectangle bounds = ofRectangle(0, 0, CWIDTH, CHEIGHT);
+    
     screenSetup(); //screen and some OF setups
     kinectSetup(0,"A00367813858042A"); //kinetic setup
     kinectSetup(1,""); //kinetic setup
@@ -17,7 +19,8 @@ void ofApp::setup() {
     box2d.init();
 	box2d.setGravity(0, 0);
 	box2d.setFPS(30.0);
-
+    box2d.createBounds(bounds);
+    
 }
 
 void ofApp::createObjects() {
