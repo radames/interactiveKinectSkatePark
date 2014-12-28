@@ -82,8 +82,8 @@ public:
 	
     float blobx,bloby;
         
-    static const int CHEIGHT = 1980; //canvas height
-    static const int CWIDTH = 1280; //canvas width 1
+    static const int CHEIGHT = 1024*2; //canvas height
+    static const int CWIDTH = 768; //canvas width 1
 
     
     //ofscreen buffers

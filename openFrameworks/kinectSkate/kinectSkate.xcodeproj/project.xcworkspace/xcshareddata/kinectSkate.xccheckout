@@ -24,13 +24,13 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>37526DA425E5430474A14FBFA1BC4525160B5FC1</key>
-		<string>../../../../../../../Development/openFrameworks/addons/ofxCv</string>
+		<string>../../../../../Development/openFrameworks/addons/ofxCv</string>
 		<key>820D8ECECF908AEE9B246B025F1F606DC1E2C31E</key>
 		<string>../../../..</string>
 		<key>903165F9FDCB952EAE50578862E56DA722F43224</key>
-		<string>../../../../../../../Development/openFrameworks/addons/ofxBox2d</string>
+		<string>../../../../../Development/openFrameworks/addons/ofxBox2d</string>
 		<key>F4CCB893AFADB97238A965FD2F28717F1CAAE613</key>
-		<string>../../../../../../../Development/openFrameworks/addons/ofxSyphon</string>
+		<string>../../../../../Development/openFrameworks/addons/ofxSyphon</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>bitbucket.org:radames/kinectskate.git</string>
