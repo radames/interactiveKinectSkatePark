@@ -10,8 +10,8 @@ void ofApp::setup() {
     ofRectangle bounds = ofRectangle(0, 0, CWIDTH, CHEIGHT);
     
     screenSetup(); //screen and some OF setups
-    kinectSetup(0,"A00367813858042A"); //kinetic setup
-    kinectSetup(1,""); //kinetic setup
+    kinectSetup(1,"A00367813858042A"); //kinetic setup
+    kinectSetup(0,""); //kinetic setup
 
 
     guiSetup(); //GUI Setup
@@ -20,6 +20,26 @@ void ofApp::setup() {
 	box2d.setGravity(0, 0);
 	box2d.setFPS(30.0);
     box2d.createBounds(bounds);
+    
+}
+
+void ofApp::drawPositions() {
+    for(int i=0; i<boxes.size(); i++) {
+        ofVec2f pos_center = boxes[i].get()->getPosition();
+
+        for (int j = 0; j < boxes.size(); j++) {
+            if (i != j) {
+            ofFill();
+            ofSetHexColor(0xff0000);
+            ofVec2f pos_j = boxes[j].get()->getPosition();
+                cout << pos_j.squareDistance(pos_center) << endl;
+                if (pos_j.squareDistance(pos_center)/100 < 1200) {
+                    ofLine(pos_center.x, pos_center.y, pos_j.x, pos_j.y);
+                }
+            }
+        }
+	}
+    
     
 }
 
@@ -72,54 +92,27 @@ void ofApp::createObjects() {
             float h = 20;
             ofPoint center = toOf(contourFinder[j].getCenter(i));
             boxes.push_back(ofPtr<ofxBox2dRect>(new ofxBox2dRect));
-            ofxBox2dRect * rect = boxes.back().get();
+            ofxBox2dRect *rect = boxes.back().get();
             ofVec2f velocity = toOf(tracker.getVelocity(i));
             
-            cout << velocity << endl;
             rect->setVelocity(velocity.x, velocity.y);
             rect->setPhysics(3.0, 0.53, 0.1);
             rect->setup(box2d.getWorld(), center.x, center.y, w, h);
             addedObjs[label] = boxes.size() - 1;
+            
+           
         }
         
-        if(tracker.existsPrevious(label)) {
+        if(tracker.existsPrevious(label) && addedObjs[label] != -1) {
+            
             ofVec2f velocity = toOf(tracker.getVelocity(i));
             ofPtr<ofxBox2dRect> rect = boxes[addedObjs[label]];
-            if (velocity.x != 0 && velocity.y != 0)
+            if (velocity.x != 0 && velocity.y != 0) {
                 rect->setVelocity(-1*velocity.x, velocity.y);
+                addedObjs[label] == -1;
+            }
         }
-        
     }
-    /*
-    for(int i = 0; i < newLabels.size(); i++) {
-        int label = newLabels[i];
-        const cv::Rect& current = tracker.getCurrent(label);
-     
-        ofPoint center = ofPoint(current.x, current.y);
-        
-        cout << "BEG"<< endl;
-        for (int k = 0; k < contourFinder[j].size(); ++k) {
-            ofVec2f velocity = toOf(contourFinder[j].getVelocity(k));
-            cout << "V " << velocity << endl;
-        }
-        
-        ofVec2f velocity = toOf(tracker.getVelocity(label));
-        cout << velocity << endl;
-        
-        
-        
-        float w = ofRandom(4, 20);
-        float h = ofRandom(4, 20);
-        
-        boxes.push_back(ofPtr<ofxBox2dRect>(new ofxBox2dRect));
-        ofxBox2dRect * rect = boxes.back().get();
-        rect->setVelocity(velocity.x, velocity.y);
-        rect->setPhysics(3.0, 0.53, 0.1);
-        rect->setup(box2d.getWorld(), center.x, center.y, w, h);
-        
-    }*/
-  
-    
 }
 
 //--------------------------------------------------------------
@@ -208,22 +201,18 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+    ofClear(0, 0, 0, 0);
 
     if(bDebugMode){ debugMode(); }//draw debug mode
+    
 
-    // cleaning alls screens
-    screen1.begin();
-    ofClear(255,255,255, 0);
-    screen1.end();
-    
-    
-    screen1.draw(0,0);
-    
     for(int i=0; i<boxes.size(); i++) {
 		ofFill();
 		ofSetHexColor(0xe63b8b);
 		boxes[i].get()->draw();
 	}
+    
+    drawPositions();
     
     syphonServer.publishScreen(); //syphon screen
 

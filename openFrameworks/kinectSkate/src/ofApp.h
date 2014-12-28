@@ -35,6 +35,8 @@ public:
 
     void guiSetup();
     
+    void drawPositions();
+    
     //gui Change events
     void kinectUpdateAreaW(int& kinectWidth);
     void kinectUpdateAreaH(int& kinectHeight);
