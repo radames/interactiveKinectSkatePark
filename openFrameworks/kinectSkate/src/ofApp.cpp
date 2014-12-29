@@ -37,11 +37,19 @@ void ofApp::contactStart(ofxBox2dContactArgs &e) {
 		
 		// if we collide with the ground we do not
 		// want to play a sound. this is how you do that
-		if(e.a->GetType() == b2Shape::e_circle && e.b->GetType() == b2Shape::e_circle) {
+		if(e.a->GetType() == b2Shape::e_polygon && e.b->GetType() == b2Shape::e_polygon) {
 			
 			ObjectData * aData = (ObjectData*)e.a->GetBody()->GetUserData();
 			ObjectData * bData = (ObjectData*)e.b->GetBody()->GetUserData();
 			
+            
+            ContactData c;
+            c.x = e.a->GetBody()->GetPosition().x;
+            c.y = e.a->GetBody()->GetPosition().y;
+            c.r = 10;
+            
+            colCenters.push_back(c);
+
 			if(aData) {
 				aData->hit = true;
 				//sound[aData->soundID].play();
@@ -87,6 +95,13 @@ void ofApp::drawPositions() {
                 }
         }
 	}
+    
+    for (int i = 0; i < colCenters.size(); ++i) {
+        ContactData c = colCenters[i];
+        
+        ofCircle(c.x, c.y, 0, c.r*20);
+        cout << "POS " << c.x << " " << c.y << endl;
+    }
     
 }
 

@@ -11,6 +11,13 @@
 
 #include <tr1/unordered_map>
 
+class ContactData {
+public:
+    float x;
+    float y;
+    float r;
+};
+
 class ObjectData {
 public:
 	float w;
@@ -101,6 +108,7 @@ public:
     // Box2D
     ofxBox2d box2d;
 	vector <ofPtr<ofxBox2dRect> > boxes;
+    vector <ContactData> colCenters;
 
     ofBackEffects myBack;
 };
