@@ -7,6 +7,8 @@
 #include "ofxKinect.h"
 #include "ofxSyphon.h"
 #include "ofxGui.h"
+#include "ofBackEffects.h"
+
 #include <tr1/unordered_map>
 
 class ObjectData {
@@ -56,10 +58,7 @@ public:
     float applyOffsetX(float _x);
     float applyOffsetY(float _y);
 
-
-    
     ofxSyphonServer syphonServer;
-    
     
     //Kinects
     ofxKinect kinect[2];
@@ -69,8 +68,6 @@ public:
 	ofxCvGrayscaleImage grayThreshNear[2]; // the near thresholded image
 	ofxCvGrayscaleImage grayThreshFar[2]; // the far thresholded image
    
-
-    
     //GUI
     ofxPanel gui; //
 
@@ -105,4 +102,5 @@ public:
     ofxBox2d box2d;
 	vector <ofPtr<ofxBox2dRect> > boxes;
 
+    ofBackEffects myBack;
 };

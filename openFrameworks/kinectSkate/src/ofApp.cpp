@@ -25,6 +25,8 @@ void ofApp::setup() {
 	box2d.setGravity(0, 0);
 	box2d.setFPS(30.0);
     box2d.createBounds(bounds);
+
+    myBack.setup();
     
 }
 
@@ -184,6 +186,7 @@ void ofApp::update() {
     kinectUpdate();
 	box2d.update();
 
+    myBack.update();
     //varre os blobs, checa
 
     RectTracker& tracker = contourFinder[0].getTracker();
@@ -274,7 +277,7 @@ void ofApp::draw() {
 	}
     
     drawPositions();
-    
+    myBack.draw(); //draw background effects
     syphonServer.publishScreen(); //syphon screen
 
 }
@@ -352,8 +355,6 @@ void ofApp::debugMode(){
     ofDrawBitmapString(reportStream.str(), 20, 652);
     ofPopStyle();
     gui.draw();
-
-
 
 }
 

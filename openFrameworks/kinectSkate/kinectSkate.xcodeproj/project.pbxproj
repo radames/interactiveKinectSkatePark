@@ -42,6 +42,7 @@
 		5104D4B419D8D349002EB372 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D44619D8D349002EB372 /* Utilities.cpp */; };
 		5104D4B519D8D349002EB372 /* Wrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D44719D8D349002EB372 /* Wrappers.cpp */; };
 		5104D4B719D8D349002EB372 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 5104D44A19D8D349002EB372 /* readme.md */; };
+		513BD8F61A52018200C42626 /* ofBackEffects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 513BD8F41A52018200C42626 /* ofBackEffects.cpp */; };
 		517F7CFE1A49DBDE00F217DB /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 517F7C591A49DBDE00F217DB /* b2BroadPhase.cpp */; };
 		517F7CFF1A49DBDE00F217DB /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 517F7C5B1A49DBDE00F217DB /* b2CollideCircle.cpp */; };
 		517F7D001A49DBDE00F217DB /* b2CollideEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 517F7C5C1A49DBDE00F217DB /* b2CollideEdge.cpp */; };
@@ -96,6 +97,7 @@
 		517F7D321A49DBDE00F217DB /* ofxBox2dJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 517F7CCF1A49DBDE00F217DB /* ofxBox2dJoint.cpp */; };
 		517F7D331A49DBDE00F217DB /* ofxBox2dPolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 517F7CD11A49DBDE00F217DB /* ofxBox2dPolygon.cpp */; };
 		517F7D341A49DBDE00F217DB /* ofxBox2dRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 517F7CD41A49DBDE00F217DB /* ofxBox2dRect.cpp */; };
+		51BE2BD91A51F193008FC226 /* ofParticles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51BE2BD81A51F193008FC226 /* ofParticles.cpp */; };
 		63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6151136D101F857DAE12722 /* ofxCvImage.cpp */; };
 		686B0DF6249B52E1A85B39EC /* ofxKinect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED9FFC7D08DA194C2CE7D09 /* ofxKinect.cpp */; };
 		7ADB04AF67C568EAFAEBA546 /* ofxKinectExtras.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01438542609FC64F1EC60EEB /* ofxKinectExtras.cpp */; };
@@ -240,6 +242,8 @@
 		5104D44719D8D349002EB372 /* Wrappers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Wrappers.cpp; sourceTree = "<group>"; };
 		5104D44A19D8D349002EB372 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		5104D44C19D8D349002EB372 /* ofxCv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCv.h; sourceTree = "<group>"; };
+		513BD8F41A52018200C42626 /* ofBackEffects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofBackEffects.cpp; sourceTree = "<group>"; };
+		513BD8F51A52018200C42626 /* ofBackEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofBackEffects.h; sourceTree = "<group>"; };
 		516717F84C0146512C47A3EC /* ofxCvHaarFinder.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxCvHaarFinder.h; path = ../../../openFrameworks/addons/ofxOpenCv/src/ofxCvHaarFinder.h; sourceTree = SOURCE_ROOT; };
 		517F7C571A49DBDE00F217DB /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		517F7C591A49DBDE00F217DB /* b2BroadPhase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2BroadPhase.cpp; sourceTree = "<group>"; };
@@ -358,6 +362,8 @@
 		517F7CD51A49DBDE00F217DB /* ofxBox2dRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBox2dRect.h; sourceTree = "<group>"; };
 		517F7CD61A49DBDE00F217DB /* ofxBox2dRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBox2dRender.h; sourceTree = "<group>"; };
 		517F7CD71A49DBDE00F217DB /* ofxBox2dUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBox2dUtils.h; sourceTree = "<group>"; };
+		51BE2BD61A51F131008FC226 /* ofParticles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofParticles.h; sourceTree = "<group>"; };
+		51BE2BD81A51F193008FC226 /* ofParticles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofParticles.cpp; sourceTree = "<group>"; };
 		586A8EC141BDFA82B3B0518C /* config.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = config.h; path = ../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/flann/config.h; sourceTree = SOURCE_ROOT; };
 		59626D03C690200AD4E8B3A6 /* ml.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ml.hpp; path = ../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/ml/ml.hpp; sourceTree = SOURCE_ROOT; };
 		5A59183C98FC5E69FC90F138 /* contrib.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = contrib.hpp; path = ../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/contrib.hpp; sourceTree = SOURCE_ROOT; };
@@ -1325,6 +1331,10 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				51BE2BD61A51F131008FC226 /* ofParticles.h */,
+				51BE2BD81A51F193008FC226 /* ofParticles.cpp */,
+				513BD8F41A52018200C42626 /* ofBackEffects.cpp */,
+				513BD8F51A52018200C42626 /* ofBackEffects.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -1479,6 +1489,7 @@
 				517F7D231A49DBDE00F217DB /* b2MotorJoint.cpp in Sources */,
 				517F7D311A49DBDE00F217DB /* ofxBox2dEdge.cpp in Sources */,
 				517F7D0C1A49DBDE00F217DB /* b2Math.cpp in Sources */,
+				51BE2BD91A51F193008FC226 /* ofParticles.cpp in Sources */,
 				517F7D0B1A49DBDE00F217DB /* b2Draw.cpp in Sources */,
 				5104D4AE19D8D349002EB372 /* Flow.cpp in Sources */,
 				517F7D031A49DBDE00F217DB /* b2Distance.cpp in Sources */,
@@ -1572,6 +1583,7 @@
 				5104D17C19D8675A002EB372 /* ofxGuiGroup.cpp in Sources */,
 				5104D4AC19D8D349002EB372 /* ContourFinder.cpp in Sources */,
 				517F7D171A49DBDE00F217DB /* b2ChainAndPolygonContact.cpp in Sources */,
+				513BD8F61A52018200C42626 /* ofBackEffects.cpp in Sources */,
 				517F7D001A49DBDE00F217DB /* b2CollideEdge.cpp in Sources */,
 				5104D4B419D8D349002EB372 /* Utilities.cpp in Sources */,
 				517F7D1F1A49DBDE00F217DB /* b2DistanceJoint.cpp in Sources */,
