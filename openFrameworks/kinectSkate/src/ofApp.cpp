@@ -16,30 +16,75 @@ void ofApp::setup() {
 
     guiSetup(); //GUI Setup
 
+    // register the listener so that we get the events
+	ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
+	ofAddListener(box2d.contactEndEvents, this, &ofApp::contactEnd);
+    
     box2d.init();
+    box2d.enableEvents();
 	box2d.setGravity(0, 0);
 	box2d.setFPS(30.0);
     box2d.createBounds(bounds);
     
 }
 
+//--------------------------------------------------------------
+void ofApp::contactStart(ofxBox2dContactArgs &e) {
+    cout << "CONTATO" << endl;
+	if(e.a != NULL && e.b != NULL) {
+		
+		// if we collide with the ground we do not
+		// want to play a sound. this is how you do that
+		if(e.a->GetType() == b2Shape::e_circle && e.b->GetType() == b2Shape::e_circle) {
+			
+			ObjectData * aData = (ObjectData*)e.a->GetBody()->GetUserData();
+			ObjectData * bData = (ObjectData*)e.b->GetBody()->GetUserData();
+			
+			if(aData) {
+				aData->hit = true;
+				//sound[aData->soundID].play();
+			}
+			
+			if(bData) {
+				bData->hit = true;
+				//sound[bData->soundID].play();
+			}
+		}
+	}
+}
+
+//--------------------------------------------------------------
+void ofApp::contactEnd(ofxBox2dContactArgs &e) {
+	if(e.a != NULL && e.b != NULL) {
+		
+		ObjectData * aData = (ObjectData*)e.a->GetBody()->GetUserData();
+		ObjectData * bData = (ObjectData*)e.b->GetBody()->GetUserData();
+		
+		if(aData) {
+			aData->hit = false;
+		}
+		
+		if(bData) {
+			bData->hit = false;
+		}
+	}
+}
+
+
 void ofApp::drawPositions() {
     for(int i=0; i<boxes.size(); i++) {
         ofVec2f pos_center = boxes[i].get()->getPosition();
 
-        for (int j = 0; j < boxes.size(); j++) {
-            if (i != j) {
+        for (int j = i + 1; j < boxes.size(); j++) {
             ofFill();
             ofSetHexColor(0xff0000);
             ofVec2f pos_j = boxes[j].get()->getPosition();
-                cout << pos_j.squareDistance(pos_center) << endl;
+           //     cout << pos_j.squareDistance(pos_center) << endl;
                 if (pos_j.squareDistance(pos_center)/100 < 1200) {
                     ofLine(pos_center.x, pos_center.y, pos_j.x, pos_j.y);
                 }
-            }
         }
 	}
-    
     
 }
 
@@ -91,23 +136,39 @@ void ofApp::createObjects() {
             float w = 20;
             float h = 20;
             ofPoint center = toOf(contourFinder[j].getCenter(i));
-            boxes.push_back(ofPtr<ofxBox2dRect>(new ofxBox2dRect));
-            ofxBox2dRect *rect = boxes.back().get();
+            
+            ofPtr<ofxBox2dRect> box = ofPtr<ofxBox2dRect>(new ofxBox2dRect);
+            
+            boxes.push_back(box);
+            ofxBox2dRect *rect = box.get();
             ofVec2f velocity = toOf(tracker.getVelocity(i));
             
             rect->setVelocity(velocity.x, velocity.y);
             rect->setPhysics(3.0, 0.53, 0.1);
             rect->setup(box2d.getWorld(), center.x, center.y, w, h);
-            addedObjs[label] = boxes.size() - 1;
+
+            rect->setData(new ObjectData());
+            ObjectData *objData = (ObjectData *)rect->getData();
+            objData->w = velocity.x * w;
+            objData->h = velocity.y * h;
+            objData->hit = true;
             
-           
+            addedObjs[label] = boxes.size() - 1;
         }
         
         if(tracker.existsPrevious(label) && addedObjs[label] != -1) {
             
             ofVec2f velocity = toOf(tracker.getVelocity(i));
             ofPtr<ofxBox2dRect> rect = boxes[addedObjs[label]];
+            
             if (velocity.x != 0 && velocity.y != 0) {
+                
+                rect->setData(new ObjectData());
+                ObjectData *objData = (ObjectData *)rect->getData();
+                objData->w = velocity.x*20;
+                objData->h = velocity.y *20;
+                objData->hit = true;
+                
                 rect->setVelocity(-1*velocity.x, velocity.y);
                 addedObjs[label] == -1;
             }

@@ -9,6 +9,13 @@
 #include "ofxGui.h"
 #include <tr1/unordered_map>
 
+class ObjectData {
+public:
+	float w;
+    float h;
+	bool hit;
+};
+
 class ofApp : public ofBaseApp {
 public:
 	
@@ -32,7 +39,10 @@ public:
     void debugMode();
     
     void createObjects();
-
+	// this is the function for contacts
+	void contactStart(ofxBox2dContactArgs &e);
+	void contactEnd(ofxBox2dContactArgs &e);
+    
     void guiSetup();
     
     void drawPositions();
