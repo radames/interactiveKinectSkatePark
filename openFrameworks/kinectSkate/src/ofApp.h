@@ -97,9 +97,8 @@ public:
 	int nearThreshold;
 	
     float blobx,bloby;
-        
-    static const int CHEIGHT = 1024*2; //canvas height
-    static const int CWIDTH = 768; //canvas width 1
+    static const int CWIDTH = 1024*2; //canvas width 1    
+    static const int CHEIGHT = 768; //canvas height
 
     
     //ofscreen buffers

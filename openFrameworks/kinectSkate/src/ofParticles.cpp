@@ -29,7 +29,7 @@ void ofParticles::reset(){
     frc   = ofPoint(0,0,0);
     
     scale = ofRandom(0.5, 1.0);
-    
+
     drag  = ofRandom(0.95, 0.998);
     
 }
@@ -46,24 +46,54 @@ void ofParticles::update(){
         
         vel *= drag; //apply drag
         vel += frc * 0.6; //apply force
+        
+        
+        
     }
     else if( mode == PARTICLE_MODE_REPEL ){
-        ofPoint attractPt(ofGetMouseX(), ofGetMouseY());
-        frc = attractPt-pos;
+    
         
-        //let get the distance and only repel points close to the mouse
-        float dist = frc.length();
-        frc.normalize();
         
-        vel *= drag;
-        if( dist < 150 ){
-            vel += -frc * 0.6; //notice the frc is negative
-        }else{
-            //if the particles are not close to us, lets add a little bit of random movement using noise. this is where uniqueVal comes in handy.
-            frc.x = ofSignedNoise(uniqueVal, pos.y * 0.01, ofGetElapsedTimef()*0.2);
-            frc.y = ofSignedNoise(uniqueVal, pos.x * 0.01, ofGetElapsedTimef()*0.2);
-            vel += frc * 0.04;
+        if( attractPoints ){
+            
+            //1 - find closest attractPoint
+            ofPoint closestPt;
+            int closest = -1;
+            float closestDist = 9999999;
+            
+            for(unsigned int i = 0; i < attractPoints->size(); i++){
+                float lenSq = ( attractPoints->at(i)-pos ).lengthSquared();
+                if( lenSq < closestDist ){
+                    closestDist = lenSq;
+                    closest = i;
+                }
+            }
+            
+            float dist = frc.length();
+
+            if( closest != -1 ){
+                closestPt = attractPoints->at(closest);
+                float dist = sqrt(closestDist);
+                
+                //in this case we don't normalize as we want to have the force proportional to distance
+                frc = closestPt - pos;
+                
+                vel *= drag;
+                
+                //lets also limit our attraction to a certain distance and don't apply if 'f' key is pressed
+                if( dist < 300  && !ofGetKeyPressed('F')){
+                    vel += -frc * 0.003;
+                }else{
+                    //if the particles are not close to us, lets add a little bit of random movement using noise. this is where uniqueVal comes in handy.
+                    frc.x = ofSignedNoise(uniqueVal, pos.y * 0.01, ofGetElapsedTimef()*0.2);
+                    frc.y = ofSignedNoise(uniqueVal, pos.x * 0.01, ofGetElapsedTimef()*0.2);
+                    vel += frc * 0.4;
+                }
+                
+            }
+            
         }
+        
     }
     else if( mode == PARTICLE_MODE_NEAREST_POINTS ){
         

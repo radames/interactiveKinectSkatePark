@@ -6,7 +6,6 @@ using namespace ofxCv;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-
     ofRectangle bounds = ofRectangle(0, 0, CWIDTH, CHEIGHT);
     
     screenSetup(); //screen and some OF setups
@@ -380,7 +379,7 @@ void ofApp::screenSetup(){
 
     syphonServer.setName("kinectTracking");
 
-    ofSetWindowShape(CHEIGHT,CWIDTH); //set windowSize the same as the
+    ofSetWindowShape(CWIDTH,CHEIGHT); //set windowSize the same as the
 
 
     //starting FBO buffers for each screen
@@ -591,7 +590,10 @@ void ofApp::mouseDragged(int x, int y, int button)
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
-{}
+{
+
+
+}
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button)

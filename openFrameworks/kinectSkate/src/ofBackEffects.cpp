@@ -56,7 +56,7 @@ void ofBackEffects::resetParticles(){
     //these are the attraction points used in the forth demo
     attractPoints.clear();
     for(int i = 0; i < 4; i++){
-        attractPoints.push_back( ofPoint( ofMap(i, 0, 4, 100, ofGetWidth()-100) , ofRandom(100, ofGetHeight()-100) ) );
+       // attractPoints.push_back( ofPoint( ofMap(i, 0, 4, 100, ofGetWidth()-100) , ofRandom(100, ofGetHeight()-100) ) );
     }
     
     attractPointsWithMovement = attractPoints;
