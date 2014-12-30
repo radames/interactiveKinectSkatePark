@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include "ofxBox2d.h"
 #include "ofxSyphon.h"
 
 using namespace cv;
@@ -164,6 +165,10 @@ void ofApp::createObjects() {
             rect->setPhysics(3.0, 0.53, 0.1);
             rect->setup(box2d.getWorld(), center.x, center.y, w, h);
 
+            // Add attract points to background
+            cout << "ATT " << center.x << " " << center.y << endl;
+            myBack.addAttractPoints(ofPoint(center.x, center.y));
+            
             rect->setData(new ObjectData());
             ObjectData *objData = (ObjectData *)rect->getData();
             objData->w = velocity.x * w;
@@ -201,7 +206,7 @@ void ofApp::update() {
     kinectUpdate();
 	box2d.update();
 
-    myBack.update();
+    myBack.update(boxes);
     //varre os blobs, checa
 
     RectTracker& tracker = contourFinder[0].getTracker();
@@ -291,7 +296,7 @@ void ofApp::draw() {
 		boxes[i].get()->draw();
 	}
     
-    drawPositions();
+   // drawPositions();
     myBack.draw(); //draw background effects
     syphonServer.publishScreen(); //syphon screen
 
