@@ -16,13 +16,14 @@ public:
     void draw();
     void updateAttractPoints(vector <ofPtr<ofxBox2dRect> > boxes);
     void addAttractPoints(ofPoint pos);
+    void addParticles(int num, ofPoint origin);
     
 private:
     //background particles
     
     void resetParticles();
 
-    vector <ofParticles> p;
+    vector <ofParticles> particles;
     vector <ofPoint> attractPoints;
     vector <ofPoint> attractPointsWithMovement;
     

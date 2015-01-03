@@ -36,7 +36,6 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::contactStart(ofxBox2dContactArgs &e) {
-    cout << "CONTATO" << endl;
 	if(e.a != NULL && e.b != NULL) {
 		
 		// if we collide with the ground we do not
@@ -63,6 +62,8 @@ void ofApp::contactStart(ofxBox2dContactArgs &e) {
 				bData->hit = true;
 				//sound[bData->soundID].play();
 			}
+            
+            myBack.addParticles(100, ofPoint(OFX_BOX2D_SCALE*e.a->GetBody()->GetPosition().x,OFX_BOX2D_SCALE*e.a->GetBody()->GetPosition().y));
 		}
 	}
 }
@@ -302,6 +303,7 @@ void ofApp::draw() {
 		ofFill();
 		ofSetHexColor(0xe63b8b);
 		boxes[i].get()->draw();
+        cout << boxes[i].get()->getPosition() << endl;
 	}
     
    // drawPositions();
