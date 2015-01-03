@@ -56,11 +56,6 @@ public:
     
     void drawPositions();
     
-    //gui Change events
-    void kinectUpdateAreaW(int& kinectWidth);
-    void kinectUpdateAreaH(int& kinectHeight);
-    
-    
     // blob Offset detais
     float applyOffsetX(float _x);
     float applyOffsetY(float _y);
@@ -88,6 +83,9 @@ public:
     ofParameter<int> numMaxBlobs[2];
     ofParameter<int> minBlobSize[2];
     ofParameter<int> maxBlobSize[2];
+    
+    ofParameter<ofVec2f> sensorPos[2];
+    ofParameter<ofVec2f> sensorArea[2];
 
     tr1::unordered_map<int, int> addedObjs;
 
