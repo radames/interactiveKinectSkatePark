@@ -309,41 +309,6 @@ void ofApp::draw() {
    // drawPositions();
     myBack.draw(); //draw background effects
 
-    ofPushMatrix();
-    ofPushStyle();
-    ofRectMode(OF_RECTMODE_CENTER);
-        ofTranslate(sensorPos[1]->x,sensorPos[1]->y);
-        ofRotate(90);
-        kinect[1].drawDepth(0,0,sensorArea[1]->x,sensorArea[1]->y);
-    ofPopMatrix();
-    ofPopStyle();
-    
-    for(int j = 0; j < 2; j++){
-
-        RectTracker& tracker = contourFinder[j].getTracker();
-        
-        for(int i=0; i < contourFinder[j].size(); i++){
-            
-            unsigned int label = contourFinder[j].getLabel(i);
-            
-            if(tracker.existsPrevious(label)) {
-                
-                ofPoint center = toOf(contourFinder[j].getCenter(i));
-                ofPushStyle();
-                ofSetColor(0,0,255);
-                ofEllipse(kinect[i].width-center.x,center.y,100,100);
-
-                ofVec2f velocity = toOf(contourFinder[j].getVelocity(i));
-                ofPushMatrix();
-                    ofTranslate(kinect[i].width-center.x, center.y);
-                    ofScale(10, 10);
-                    ofLine(0, 0, velocity.x, velocity.y);
-                ofPopMatrix();
-                ofPopStyle();
-            }
-            
-        }
-    }
     
     
     
@@ -362,22 +327,23 @@ void ofApp::debugMode(){
     float w = 300;
     float h = 200;
     debugImage.draw(0,0);
+    
     for(int j = 0; j < 2; j++){
-            // draw from the live kinect
-        kinect[j].drawDepth(j * w, 0, w, h);
-        //contourFinder[j].draw();
+        //drawing two depth areas
         ofPushMatrix();
-
-            ofTranslate(j * w, h);
-            //scale grayImage and contourPositions to a small screen
-            ofScale(w/kinect[j].width,h/kinect[j].height);
-            grayImage[j].draw(0,0);
-            contourFinder[j].draw();
-        
+        ofPushStyle();
+        ofRectMode(OF_RECTMODE_CENTER);
+        ofTranslate(sensorPos[j]->x,sensorPos[j]->y);
+        ofRotate(90);
+        kinect[j].drawDepth(0,0,sensorArea[j]*kinect[j].width, sensorArea[j]*kinect[j].height);
+        ofScale(sensorArea[j],sensorArea[j]);
+        contourFinder[j].draw();
+        ofPopStyle();
         ofPopMatrix();
-
-        //loop through all blobs detected and draw the centroid and lables
-
+        
+        
+        
+        
         RectTracker& tracker = contourFinder[j].getTracker();
         
         for(int i=0; i < contourFinder[j].size(); i++){
@@ -385,30 +351,34 @@ void ofApp::debugMode(){
             unsigned int label = contourFinder[j].getLabel(i);
             
             if(tracker.existsPrevious(label)) {
-
+                
                 ofPoint center = toOf(contourFinder[j].getCenter(i));
                 ofPushStyle();
                 ofSetColor(255,0,0);
+                ofRectMode(OF_RECTMODE_CENTER);
                 ofFill();
                 ofPushMatrix();
-                    ofTranslate(j * w,h*2);
-                    ofScale(w/kinect[i].width,h/kinect[i].height);
-                    ofEllipse(center.x,center.y,10,10);
-                    string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
-                    ofDrawBitmapString(msg,center.x,center.y);
-                    ofVec2f velocity = toOf(contourFinder[j].getVelocity(i));
-                    ofPushMatrix();
-                        ofTranslate(center.x, center.y);
-                        ofScale(10, 10);
-                        ofLine(0, 0, velocity.x, velocity.y);
-                        ofPopMatrix();
-                    ofPopMatrix();
+                ofTranslate(sensorPos[j]->x, sensorPos[j]->y);
+                ofScale(sensorArea[j],sensorArea[j]);
+                ofRotate(90);
+                ofEllipse(center.x,center.y,10,10);
+                string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
+                ofDrawBitmapString(msg,center.x,center.y);
+                ofVec2f velocity = toOf(contourFinder[j].getVelocity(i));
+                ofPushMatrix();
+                ofTranslate(center.x, center.y);
+                ofScale(10, 10);
+                ofLine(0, 0, velocity.x, velocity.y);
+                ofPopMatrix();
                 ofPopMatrix();
                 ofPopStyle();
             }
-
+            
         }
+        
+        
     }
+ 
     // draw instructions
     ofPushStyle();
 
@@ -527,8 +497,7 @@ void ofApp::kinectSetup(int kinectNumber, string id){
 
 void ofApp::guiSetup(){
 
-    gui.setup("Settings", "settings.xml", 310,100);
-
+    gui.setup("Settings", "settings.xml");
     gui.add(enableMouse.set("Mouse DEBUG",true));
     
     for(int i = 0; i < 2; i++){
@@ -541,7 +510,7 @@ void ofApp::guiSetup(){
         parametersKinect[i].add(offsetX[i].set("Offset X", 0,-200, 200 ));
         parametersKinect[i].add(offsetY[i].set("Offset Y", 0,-200, 200 ));
         parametersKinect[i].add(sensorPos[i].set("Sensor Pos", ofVec2f(1,10.0),ofVec2f(0,0),ofVec2f(CWIDTH,CHEIGHT)));
-        parametersKinect[i].add(sensorArea[i].set("Sensor Area", ofVec2f(640/2,480/2),ofVec2f(0,0),ofVec2f(640,480)));
+        parametersKinect[i].add(sensorArea[i].set("Sensor Area", 0.5, 0.1,2));
 
         gui.add(parametersKinect[i]);
     }

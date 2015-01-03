@@ -85,7 +85,7 @@ public:
     ofParameter<int> maxBlobSize[2];
     
     ofParameter<ofVec2f> sensorPos[2];
-    ofParameter<ofVec2f> sensorArea[2];
+    ofParameter<float> sensorArea[2];
 
     tr1::unordered_map<int, int> addedObjs;
 
