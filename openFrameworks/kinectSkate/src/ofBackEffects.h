@@ -27,6 +27,7 @@ private:
     vector <ofPoint> attractPointsWithMovement;
     
     particleMode currentMode;
+    animationMode animMode;
     string currentModeStr;
     
 

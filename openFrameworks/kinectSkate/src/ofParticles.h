@@ -7,12 +7,18 @@ enum particleMode{
     PARTICLE_MODE_NEAREST_POINTS,
 };
 
+enum animationMode{
+    POINT = 0,
+    TRAIL,
+};
+
 class ofParticles{
     
 public:
     ofParticles();
     
     void setMode(particleMode newMode);
+    void setAnimationMode(animationMode newMode);
     void setAttractPoints( vector <ofPoint> * attract );
     
     void reset();
@@ -28,6 +34,7 @@ public:
     float scale;
     
     particleMode mode;
+    animationMode animMode;
     
     vector <ofPoint> * attractPoints; 
 };
