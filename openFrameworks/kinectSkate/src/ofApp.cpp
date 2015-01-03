@@ -110,94 +110,99 @@ void ofApp::drawPositions() {
 }
 
 void ofApp::createObjects() {
-    int j = 1;
     
-    RectTracker& tracker = contourFinder[j].getTracker();
-    const vector<unsigned int>& newLabels = tracker.getNewLabels();
-    const vector<unsigned int>& currentLabels = tracker.getCurrentLabels();
     
-    /*
-    for(int i = 0; i < currentLabels.size(); i++) {
-        int label = currentLabels[i];
-        const cv::Rect& current = tracker.getCurrent(label);
-        
-        ofVec2f velocity = toOf(tracker.getVelocity(label));
+    for(int j = 0; j < 2; j++){
+        //loop nas kinects
 
-        cout << label << " - " << velocity << endl;
+        RectTracker& tracker = contourFinder[j].getTracker();
+        const vector<unsigned int>& newLabels = tracker.getNewLabels();
+        const vector<unsigned int>& currentLabels = tracker.getCurrentLabels();
         
+        /*
+        for(int i = 0; i < currentLabels.size(); i++) {
+            int label = currentLabels[i];
+            const cv::Rect& current = tracker.getCurrent(label);
+            
+            ofVec2f velocity = toOf(tracker.getVelocity(label));
+
+            cout << label << " - " << velocity << endl;
+            
+                if (addedObjs.count(label) == 0) {
+                    float w = ofRandom(4, 20);
+                    float h = ofRandom(4, 20);
+                    ofPoint center = ofPoint(current.x, current.y);
+
+                    boxes.push_back(ofPtr<ofxBox2dRect>(new ofxBox2dRect));
+                    ofxBox2dRect * rect = boxes.back().get();
+                    ofVec2f velocity = toOf(tracker.getVelocity(label));
+
+                    cout << velocity << endl;
+                    rect->setVelocity(velocity.x, velocity.y);
+                    rect->setPhysics(3.0, 0.53, 0.1);
+                    rect->setup(box2d.getWorld(), center.x, center.y, w, h);
+                    addedObjs[label] = boxes.size() - 1;
+                    cout << "ANOTADO" << label << endl;
+                } else if (addedObjs[label] != -1) {
+                    ofVec2f velocity = toOf(tracker.getVelocity(i));
+                   //cout << "GIVE VEL " << velocity << endl;
+                    ofPtr<ofxBox2dRect> rect = boxes[addedObjs[label]];
+                    rect->setVelocity(velocity.x, velocity.y);
+                    addedObjs[label] = -1;
+                }
+        }*/
+        
+        for(int i=0; i < contourFinder[j].size(); i++){
+            
+            unsigned int label = contourFinder[j].getLabel(i);
+            
             if (addedObjs.count(label) == 0) {
-                float w = ofRandom(4, 20);
-                float h = ofRandom(4, 20);
-                ofPoint center = ofPoint(current.x, current.y);
-
-                boxes.push_back(ofPtr<ofxBox2dRect>(new ofxBox2dRect));
-                ofxBox2dRect * rect = boxes.back().get();
-                ofVec2f velocity = toOf(tracker.getVelocity(label));
-
-                cout << velocity << endl;
+                float w = 20;
+                float h = 20;
+                ofPoint center = toOf(contourFinder[j].getCenter(i));
+                
+                ofPtr<ofxBox2dRect> box = ofPtr<ofxBox2dRect>(new ofxBox2dRect);
+                
+                boxes.push_back(box);
+                ofxBox2dRect *rect = box.get();
+                ofVec2f velocity = toOf(tracker.getVelocity(i));
+                
                 rect->setVelocity(velocity.x, velocity.y);
                 rect->setPhysics(3.0, 0.53, 0.1);
                 rect->setup(box2d.getWorld(), center.x, center.y, w, h);
-                addedObjs[label] = boxes.size() - 1;
-                cout << "ANOTADO" << label << endl;
-            } else if (addedObjs[label] != -1) {
-                ofVec2f velocity = toOf(tracker.getVelocity(i));
-               //cout << "GIVE VEL " << velocity << endl;
-                ofPtr<ofxBox2dRect> rect = boxes[addedObjs[label]];
-                rect->setVelocity(velocity.x, velocity.y);
-                addedObjs[label] = -1;
-            }
-    }*/
-    
-    for(int i=0; i < contourFinder[j].size(); i++){
-        
-        unsigned int label = contourFinder[j].getLabel(i);
-        
-        if (addedObjs.count(label) == 0) {
-            float w = 20;
-            float h = 20;
-            ofPoint center = toOf(contourFinder[j].getCenter(i));
-            
-            ofPtr<ofxBox2dRect> box = ofPtr<ofxBox2dRect>(new ofxBox2dRect);
-            
-            boxes.push_back(box);
-            ofxBox2dRect *rect = box.get();
-            ofVec2f velocity = toOf(tracker.getVelocity(i));
-            
-            rect->setVelocity(velocity.x, velocity.y);
-            rect->setPhysics(3.0, 0.53, 0.1);
-            rect->setup(box2d.getWorld(), center.x, center.y, w, h);
 
-            // Add attract points to background
-            cout << "ATT " << center.x << " " << center.y << endl;
-            myBack.addAttractPoints(ofPoint(center.x, center.y));
-            
-            rect->setData(new ObjectData());
-            ObjectData *objData = (ObjectData *)rect->getData();
-            objData->w = velocity.x * w;
-            objData->h = velocity.y * h;
-            objData->hit = true;
-            
-            addedObjs[label] = boxes.size() - 1;
-        }
-        
-        if(tracker.existsPrevious(label) && addedObjs[label] != -1) {
-            
-            ofVec2f velocity = toOf(tracker.getVelocity(i));
-            ofPtr<ofxBox2dRect> rect = boxes[addedObjs[label]];
-            
-            if (velocity.x != 0 && velocity.y != 0) {
+                // Add attract points to background
+                cout << "ATT " << center.x << " " << center.y << endl;
+                myBack.addAttractPoints(ofPoint(center.x, center.y));
                 
                 rect->setData(new ObjectData());
                 ObjectData *objData = (ObjectData *)rect->getData();
-                objData->w = velocity.x*20;
-                objData->h = velocity.y *20;
+                objData->w = velocity.x * w;
+                objData->h = velocity.y * h;
                 objData->hit = true;
                 
-                rect->setVelocity(-1*velocity.x, velocity.y);
-                addedObjs[label] == -1;
+                addedObjs[label] = boxes.size() - 1;
+            }
+            
+            if(tracker.existsPrevious(label) && addedObjs[label] != -1) {
+                
+                ofVec2f velocity = toOf(tracker.getVelocity(i));
+                ofPtr<ofxBox2dRect> rect = boxes[addedObjs[label]];
+                
+                if (velocity.x != 0 && velocity.y != 0) {
+                    
+                    rect->setData(new ObjectData());
+                    ObjectData *objData = (ObjectData *)rect->getData();
+                    objData->w = velocity.x*20;
+                    objData->h = velocity.y *20;
+                    objData->hit = true;
+                    
+                    rect->setVelocity(-1*velocity.x, velocity.y);
+                    addedObjs[label] == -1;
+                }
             }
         }
+     //loop nas kinects
     }
 }
 
