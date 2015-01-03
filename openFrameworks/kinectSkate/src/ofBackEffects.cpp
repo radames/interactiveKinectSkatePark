@@ -16,18 +16,19 @@ void ofBackEffects::setup(){
 
 }
 
-void ofBackEffects::addParticles(int num, ofPoint origin) {
+void ofBackEffects::addParticles(int num, ofPoint origin, ofPoint velocity) {
     if (particles.size() < 3000) {
         for (int i = 0; i < num; ++i) {
             ofParticles p;
             
             p.uniqueVal = ofRandom(-10000, 10000);
-            cout << origin.x << " " << origin.y << endl;
             p.pos.x = origin.x;
             p.pos.y = origin.y;
             
-            p.vel.x = 5*cos((float(i)/num) * 2*pi);
-            p.vel.y = 5*sin((float(i)/num) * 2*pi);
+            p.vel.x = velocity.x*cos((float(i)/num) * 2*pi);
+            p.vel.y = velocity.y*sin((float(i)/num) * 2*pi);
+            
+            cout << "VELO " << velocity.x << "  " << velocity.y << endl;
             
             p.frc   = ofPoint(0,0,0);
             

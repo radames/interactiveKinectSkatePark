@@ -16,7 +16,7 @@ public:
     void draw();
     void updateAttractPoints(vector <ofPtr<ofxBox2dRect> > boxes);
     void addAttractPoints(ofPoint pos);
-    void addParticles(int num, ofPoint origin);
+    void addParticles(int num, ofPoint origin, ofPoint velocity);
     
 private:
     //background particles
