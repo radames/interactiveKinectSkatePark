@@ -11,6 +11,11 @@ void ofParticles::setMode(particleMode newMode){
 }
 
 //------------------------------------------------------------------
+void ofParticles::setAnimationMode(animationMode newMode){
+    animMode = newMode;
+}
+
+//------------------------------------------------------------------
 void ofParticles::setAttractPoints( vector <ofPoint> * attract ){
     attractPoints = attract;
 }
@@ -167,16 +172,32 @@ void ofParticles::update(){
 //------------------------------------------------------------------
 void ofParticles::draw(){
     
-    if( mode == PARTICLE_MODE_ATTRACT ){
-        ofSetColor(255, 63, 180);
+    switch (animMode) {
+        case POINT:
+            if( mode == PARTICLE_MODE_ATTRACT ){
+                ofSetColor(255, 63, 180);
+            }
+            else if( mode == PARTICLE_MODE_REPEL ){
+                ofSetColor(208, 255, 63);
+            }
+            else if( mode == PARTICLE_MODE_NEAREST_POINTS ){
+                ofSetColor(99, 63, 255);
+            }
+            
+            ofCircle(pos.x, pos.y, scale * 4.0);
+            
+            break;
+        
+        case TRAIL:
+            ofSetColor(255, 63, 180, vel.length()/12*255);
+            // colour, pow(r,0.1), 0.9*sqrt(1-r), Z[i].magnitude/100+abs(Z[i].z/depth)*0.05
+            //cout << vel.length() << endl;
+            //ofSetColor(ofColor::fromHsb(128, 255, 255, 1));
+            ofSetLineWidth(0.1*vel.length());
+            ofLine(pos.x, pos.y, -vel.length()/12*30, pos.x - 4*vel.x, pos.y - 4*vel.y, 0);
+            //ofCircle(pos.x, pos.y, scale * 4.0);
+            break;
     }
-    else if( mode == PARTICLE_MODE_REPEL ){
-        ofSetColor(208, 255, 63);
-    }
-    else if( mode == PARTICLE_MODE_NEAREST_POINTS ){
-        ofSetColor(99, 63, 255);
-    }
-    
-    ofCircle(pos.x, pos.y, scale * 4.0);
+
 }
 

@@ -10,8 +10,8 @@ void ofBackEffects::setup(){
 
     //particles background
     currentMode = PARTICLE_MODE_NEAREST_POINTS;
-
-    p.assign(100, ofParticles());
+    animMode = TRAIL;
+    p.assign(300, ofParticles());
     resetParticles();
 
 }
@@ -40,6 +40,7 @@ void ofBackEffects::update(vector <ofPtr<ofxBox2dRect> > boxes){
 
     for(unsigned int i = 0; i < p.size(); i++){
         p[i].setMode(currentMode);
+        p[i].setAnimationMode(animMode);
         p[i].update();
     }
 
