@@ -7,6 +7,8 @@
 		<min_Blob_Size>25</min_Blob_Size>
 		<Offset_X>0</Offset_X>
 		<Offset_Y>0</Offset_Y>
+	<Sensor_Pos>1, 10</Sensor_Pos>
+	<Sensor_Area>320, 240</Sensor_Area>
 	</Kinect_0>
 	<Kinect_1>
 		<Far_Threshold>223</Far_Threshold>
@@ -15,6 +17,8 @@
 		<min_Blob_Size>40</min_Blob_Size>
 		<Offset_X>0</Offset_X>
 		<Offset_Y>0</Offset_Y>
+	<Sensor_Pos>1205.68, 120.27</Sensor_Pos>
+	<Sensor_Area>320, 240</Sensor_Area>
 	</Kinect_1>
 <Settings/>
 </Settings>
