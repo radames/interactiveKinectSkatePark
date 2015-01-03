@@ -27,6 +27,8 @@ void ofApp::setup() {
     box2d.createBounds(bounds);
 
     myBack.setup();
+    ofSetVerticalSync(false);
+    ofSetFrameRate(60);
     
 }
 
@@ -370,7 +372,7 @@ void ofApp::debugMode(){
     ofSetColor(255, 255, 255);
     stringstream reportStream;
 
-
+    reportStream << ofGetFrameRate();
     ofDrawBitmapString(reportStream.str(), 20, 652);
     ofPopStyle();
     gui.draw();

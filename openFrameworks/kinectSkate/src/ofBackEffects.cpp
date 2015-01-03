@@ -11,7 +11,7 @@ void ofBackEffects::setup(){
     //particles background
     currentMode = PARTICLE_MODE_NEAREST_POINTS;
 
-    p.assign(1500, ofParticles());
+    p.assign(100, ofParticles());
     resetParticles();
 
 }
