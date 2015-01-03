@@ -63,8 +63,11 @@ void ofApp::contactStart(ofxBox2dContactArgs &e) {
 				//sound[bData->soundID].play();
 			}
             
-            myBack.addParticles(100, ofPoint(OFX_BOX2D_SCALE*e.a->GetBody()->GetPosition().x,OFX_BOX2D_SCALE*e.a->GetBody()->GetPosition().y));
-		}
+            myBack.addParticles(50, ofPoint(OFX_BOX2D_SCALE*e.a->GetBody()->GetPosition().x, OFX_BOX2D_SCALE*e.a->GetBody()->GetPosition().y),
+                                    ofPoint(e.a->GetBody()->GetLinearVelocity().x, e.a->GetBody()->GetLinearVelocity().y));
+            myBack.addParticles(50, ofPoint(OFX_BOX2D_SCALE*e.b->GetBody()->GetPosition().x, OFX_BOX2D_SCALE*e.b->GetBody()->GetPosition().y),
+                                ofPoint(e.b->GetBody()->GetLinearVelocity().x, e.b->GetBody()->GetLinearVelocity().y));
+        }
 	}
 }
 
