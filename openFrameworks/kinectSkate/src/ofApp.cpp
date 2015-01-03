@@ -30,6 +30,8 @@ void ofApp::setup() {
     ofSetVerticalSync(false);
     ofSetFrameRate(60);
     
+    debugImage.loadImage("skatepark.png");
+    debugImage.resize(1024*2, 768);
 }
 
 //--------------------------------------------------------------
@@ -108,7 +110,7 @@ void ofApp::drawPositions() {
 }
 
 void ofApp::createObjects() {
-    int j = 0;
+    int j = 1;
     
     RectTracker& tracker = contourFinder[j].getTracker();
     const vector<unsigned int>& newLabels = tracker.getNewLabels();
@@ -313,7 +315,7 @@ void ofApp::debugMode(){
     //width height debug screens
     float w = 300;
     float h = 200;
-    
+    debugImage.draw(0,0);
     for(int j = 0; j < 2; j++){
             // draw from the live kinect
         kinect[j].draw(j * w, h, w, h);
@@ -469,7 +471,7 @@ void ofApp::kinectSetup(int kinectNumber, string id){
     
     ofSetFrameRate(60);
     // zero the tilt on startup
-    kinect[kinectNumber].setCameraTiltAngle(0);
+    kinect[kinectNumber].setCameraTiltAngle(10);
 
     nearThreshold = 255;
     

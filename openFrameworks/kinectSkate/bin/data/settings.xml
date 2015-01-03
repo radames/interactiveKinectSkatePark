@@ -9,10 +9,10 @@
 		<Offset_Y>0</Offset_Y>
 	</Kinect_0>
 	<Kinect_1>
-		<Far_Threshold>182</Far_Threshold>
+		<Far_Threshold>223</Far_Threshold>
 		<Num_Max_Blos>10</Num_Max_Blos>
 		<max_Blob_Size>242</max_Blob_Size>
-		<min_Blob_Size>86</min_Blob_Size>
+		<min_Blob_Size>40</min_Blob_Size>
 		<Offset_X>0</Offset_X>
 		<Offset_Y>0</Offset_Y>
 	</Kinect_1>

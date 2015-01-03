@@ -110,4 +110,5 @@ public:
     vector <ContactData> colCenters;
 
     ofBackEffects myBack;
+    ofImage debugImage;
 };
