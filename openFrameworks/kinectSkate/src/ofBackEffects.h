@@ -18,6 +18,11 @@ public:
     void addAttractPoints(ofPoint pos);
     void addParticles(int num, ofPoint origin, ofPoint velocity);
     
+    ofParameterGroup particlesGUI;
+    //maxParticles for the cycling list of particles
+    ofParameter<int> maxParticles = 1500;
+
+
 private:
     //background particles
     
@@ -26,7 +31,8 @@ private:
     vector <ofParticles> particles;
     vector <ofPoint> attractPoints;
     vector <ofPoint> attractPointsWithMovement;
-    
+    int indexParticle = 0;
+
     particleMode currentMode;
     animationMode animMode;
     string currentModeStr;

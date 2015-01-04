@@ -53,7 +53,6 @@ void ofParticles::update(){
         
     }
     else if( mode == PARTICLE_MODE_REPEL ){
-    
         if( attractPoints ){
             
             //1 - find closest attractPoint

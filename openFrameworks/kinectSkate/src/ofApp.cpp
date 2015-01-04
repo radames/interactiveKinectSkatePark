@@ -15,7 +15,6 @@ void ofApp::setup() {
     kinectSetup(0,""); //kinetic setup
 
 
-    guiSetup(); //GUI Setup
 
     // register the listener so that we get the events
 	ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
@@ -38,7 +37,12 @@ void ofApp::setup() {
     debugImage.loadImage("skatepark.png");
     debugImage.resize(1024*2, 768);
     
-    //trail.assign(10, vector <ofPoint>());
+    //Osc communication
+    sender.setup(HOST, PORT);
+    receiver.setup(PORT);
+
+    guiSetup(); //GUI Setup
+
 }
 
 //--------------------------------------------------------------
@@ -212,7 +216,7 @@ void ofApp::update() {
 
     myBack.update(boxes);
     
-    
+    oscUpdate();
     //varre os blobs, checa
     RectTracker& tracker = contourFinder[0].getTracker();
     const vector<unsigned int>& currentLabels = tracker.getCurrentLabels();
@@ -436,7 +440,6 @@ void ofApp::kinectSetup(int kinectNumber, string id){
 void ofApp::guiSetup(){
 
     gui.setup("Settings", "settings.xml");
-    gui.add(enableMouse.set("Mouse DEBUG",true));
     
     for(int i = 0; i < 2; i++){
     
@@ -452,10 +455,10 @@ void ofApp::guiSetup(){
 
         gui.add(parametersKinect[i]);
     }
-    gui.minimizeAll();
     // events for change in paramenters on ofpp application
-
+    gui.add(myBack.particlesGUI);
     
+    gui.minimizeAll();
     gui.loadFromFile("settings.xml");
 
 }
@@ -474,7 +477,25 @@ ofPoint ofApp::toWorldCoord(ofPoint point, int kinectId){
 
 }
 
+void ofApp::oscUpdate(){
+    
+    while(receiver.hasWaitingMessages()){
+        // get the next message
+        ofxOscMessage m;
+        receiver.getNextMessage(&m);
+        
+        // check for mouse moved message
+        if(m.getAddress() == "/mouse/position"){
+            // both the arguments are int32's
+            mouseX = m.getArgAsInt32(0);
+            mouseY = m.getArgAsInt32(1);
+        }
+       
+        
+    }
+    
 
+}
 //--------------------------------------------------------------
 void ofApp::keyPressed (int key) {
 	switch (key) {
@@ -497,40 +518,43 @@ void ofApp::keyPressed (int key) {
             break;
             
 		case 'm':
-            enableMouse = !enableMouse;
 			break;
+
+		case OF_KEY_UP:
+			break;
+
+		case OF_KEY_DOWN:
+			break;
+
+        case OF_KEY_LEFT:
+            break;
+
+        case OF_KEY_RIGHT:
+            break;
+
+        case 'z':
+            break;
+        case 'x':
+
+            break;
 
 	}
 
 
-
-}
-void ofApp::mouseMoved(int x, int y){
-    if(enableMouse){
-        
-    }
-
 }
 
+
+void ofApp::mouseMoved(int x, int y){}
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button)
-{}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button)
-{
-
-
-}
+void ofApp::mouseDragged(int x, int y, int button){}
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button)
-{}
+void ofApp::mousePressed(int x, int y, int button){}
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h)
-{}
-
+void ofApp::mouseReleased(int x, int y, int button){}
+//--------------------------------------------------------------
+void ofApp::windowResized(int w, int h){}
 
 void ofApp::exit() {
     kinect[0].close();

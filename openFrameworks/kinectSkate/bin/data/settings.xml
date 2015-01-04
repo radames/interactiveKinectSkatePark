@@ -21,4 +21,7 @@
 	<Sensor_Area>0.507653</Sensor_Area>
 	</Kinect_1>
 <Settings/>
+<Particles>
+		<max_NumParticles>1500</max_NumParticles>
+	</Particles>
 </Settings>
