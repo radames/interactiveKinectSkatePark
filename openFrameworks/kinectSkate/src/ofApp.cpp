@@ -34,7 +34,6 @@ void ofApp::setup() {
     addedObjs.push_back(ao1);
     addedObjs.push_back(ao2);
     
-    
     debugImage.loadImage("skatepark.png");
     debugImage.resize(1024*2, 768);
 }
@@ -204,7 +203,7 @@ void ofApp::createObjects() {
                     objData->h = velocity.y *20;
                     objData->hit = true;
                     
-                    rect->setVelocity(velocity.y, velocity.x);
+                    rect->setVelocity(-velocity.y, velocity.x);
                     addedObjs[j][label] == -1;
                 }
             }
