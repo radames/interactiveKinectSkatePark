@@ -30,6 +30,11 @@ void ofApp::setup() {
     ofSetVerticalSync(false);
     ofSetFrameRate(60);
     
+    tr1::unordered_map<int,int> ao1, ao2;
+    addedObjs.push_back(ao1);
+    addedObjs.push_back(ao2);
+    
+    
     debugImage.loadImage("skatepark.png");
     debugImage.resize(1024*2, 768);
 }
