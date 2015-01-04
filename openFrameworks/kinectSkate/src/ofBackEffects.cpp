@@ -43,9 +43,8 @@ void ofBackEffects::addParticles(int num, ofPoint origin, ofPoint velocity) {
             p.setMode(currentMode);
             p.setAttractPoints(&attractPointsWithMovement);
      
-            particles[indexParticle % maxParticles] = p;
-            indexParticle++;
-            if(indexParticle > maxParticles) indexParticle;
+            particles[indexParticle] = p;
+            indexParticle = (indexParticle + 1) % maxParticles;
     }
 }
 
