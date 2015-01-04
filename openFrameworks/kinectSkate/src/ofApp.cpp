@@ -14,7 +14,6 @@ void ofApp::setup() {
     kinectSetup(0,""); //kinetic setup
 
 
-    guiSetup(); //GUI Setup
 
     // register the listener so that we get the events
 	ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
@@ -41,6 +40,8 @@ void ofApp::setup() {
     //Osc communication
     sender.setup(HOST, PORT);
     receiver.setup(PORT);
+
+    guiSetup(); //GUI Setup
 
 }
 
@@ -522,10 +523,10 @@ void ofApp::guiSetup(){
 
         gui.add(parametersKinect[i]);
     }
-    gui.minimizeAll();
     // events for change in paramenters on ofpp application
-
+    gui.add(myBack.particlesGUI);
     
+    gui.minimizeAll();
     gui.loadFromFile("settings.xml");
 
 }
