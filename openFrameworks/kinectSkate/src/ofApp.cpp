@@ -36,6 +36,12 @@ void ofApp::setup() {
     
     debugImage.loadImage("skatepark.png");
     debugImage.resize(1024*2, 768);
+    
+    
+    //Osc communication
+    sender.setup(HOST, PORT);
+    receiver.setup(PORT);
+
 }
 
 //--------------------------------------------------------------
@@ -221,6 +227,8 @@ void ofApp::update() {
 	box2d.update();
 
     myBack.update(boxes);
+    
+    oscUpdate();
     //varre os blobs, checa
 
     RectTracker& tracker = contourFinder[0].getTracker();
@@ -499,7 +507,6 @@ void ofApp::kinectSetup(int kinectNumber, string id){
 void ofApp::guiSetup(){
 
     gui.setup("Settings", "settings.xml");
-    gui.add(enableMouse.set("Mouse DEBUG",true));
     
     for(int i = 0; i < 2; i++){
     
@@ -537,7 +544,25 @@ ofPoint ofApp::toWorldCoord(ofPoint point, int kinectId){
 
 }
 
+void ofApp::oscUpdate(){
+    
+    while(receiver.hasWaitingMessages()){
+        // get the next message
+        ofxOscMessage m;
+        receiver.getNextMessage(&m);
+        
+        // check for mouse moved message
+        if(m.getAddress() == "/mouse/position"){
+            // both the arguments are int32's
+            mouseX = m.getArgAsInt32(0);
+            mouseY = m.getArgAsInt32(1);
+        }
+       
+        
+    }
+    
 
+}
 //--------------------------------------------------------------
 void ofApp::keyPressed (int key) {
 	switch (key) {
@@ -563,24 +588,18 @@ void ofApp::keyPressed (int key) {
             break;
             
 		case 'm':
-            enableMouse = !enableMouse;
 			break;
 
 		case OF_KEY_UP:
-            bloby-=10;
-
 			break;
 
 		case OF_KEY_DOWN:
-            bloby+=10;
 			break;
 
         case OF_KEY_LEFT:
-            blobx-=10;
             break;
 
         case OF_KEY_RIGHT:
-            blobx+=10;
             break;
 
         case 'z':
@@ -595,32 +614,19 @@ void ofApp::keyPressed (int key) {
 
 
 }
-void ofApp::mouseMoved(int x, int y){
-    if(enableMouse){
-        
-    }
 
-}
+
+void ofApp::mouseMoved(int x, int y){}
+//--------------------------------------------------------------
+void ofApp::mouseDragged(int x, int y, int button){}
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button)
-{}
+void ofApp::mousePressed(int x, int y, int button){}
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button)
-{
-
-
-}
-
+void ofApp::mouseReleased(int x, int y, int button){}
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button)
-{}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h)
-{}
-
+void ofApp::windowResized(int w, int h){}
 
 void ofApp::exit() {
     kinect[0].close();

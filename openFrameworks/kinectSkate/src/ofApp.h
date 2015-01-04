@@ -8,8 +8,13 @@
 #include "ofxSyphon.h"
 #include "ofxGui.h"
 #include "ofBackEffects.h"
+#include "ofxOsc.h"
+
 
 #include <tr1/unordered_map>
+
+#define HOST "localhost"
+#define PORT 12345
 
 class ContactData {
 public:
@@ -51,10 +56,10 @@ public:
 	// this is the function for contacts
 	void contactStart(ofxBox2dContactArgs &e);
 	void contactEnd(ofxBox2dContactArgs &e);
-    
     void guiSetup();
-    
     void drawPositions();
+    
+    void oscUpdate();
     
     // convert blob position to world
     ofPoint toWorldCoord(ofPoint point, int kinectId);
@@ -71,8 +76,6 @@ public:
    
     //GUI
     ofxPanel gui; //
-
-    ofParameter<bool> enableMouse;
 
     ofParameterGroup parametersKinect[2];
 
@@ -93,8 +96,7 @@ public:
     bool bDebugMode = true;
 	int nearThreshold;
 	
-    float blobx,bloby;
-    static const int CWIDTH = 1024*2; //canvas width 1    
+    static const int CWIDTH = 1024*2; //canvas width 1
     static const int CHEIGHT = 768; //canvas height
 
     
@@ -105,7 +107,12 @@ public:
     ofxBox2d box2d;
 	vector <ofPtr<ofxBox2dRect> > boxes;
     vector <ContactData> colCenters;
-
+    
     ofBackEffects myBack;
     ofImage debugImage;
+    
+    //oscMessage Sender
+    ofxOscSender sender;
+    ofxOscReceiver receiver;
+
 };
