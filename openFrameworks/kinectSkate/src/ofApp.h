@@ -86,7 +86,7 @@ public:
     ofParameter<ofVec2f> sensorPos[2];
     ofParameter<float> sensorArea[2];
 
-    tr1::unordered_map<int, int> addedObjs;
+    vector <tr1::unordered_map<int, int> > addedObjs;
 
     
     //options variables

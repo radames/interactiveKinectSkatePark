@@ -108,7 +108,6 @@ void ofApp::drawPositions() {
         ContactData c = colCenters[i];
         
         ofCircle(c.x, c.y, 0, c.r*20);
-        cout << "POS " << c.x << " " << c.y << endl;
     }
     
 }
@@ -160,7 +159,7 @@ void ofApp::createObjects() {
 
             unsigned int label = contourFinder[j].getLabel(i);
             
-            if (addedObjs.count(label) == 0) {
+            if (addedObjs[j].count(label) == 0) {
                 float w = 20;
                 float h = 20;
                 ofPoint center = toWorldCoord(toOf(contourFinder[j].getCenter(i)), j);
@@ -176,7 +175,6 @@ void ofApp::createObjects() {
                 rect->setup(box2d.getWorld(), center.x, center.y, w, h);
 
                 // Add attract points to background
-                cout << "ATT " << center.x << " " << center.y << endl;
                 myBack.addAttractPoints(ofPoint(center.x, center.y));
                 
                 rect->setData(new ObjectData());
@@ -185,13 +183,13 @@ void ofApp::createObjects() {
                 objData->h = velocity.y * h;
                 objData->hit = true;
                 
-                addedObjs[label] = boxes.size() - 1;
+                addedObjs[j][label] = boxes.size() - 1;
             }
             
-            if(tracker.existsPrevious(label) && addedObjs[label] != -1) {
+            if(tracker.existsPrevious(label) && addedObjs[j][label] != -1) {
                 
                 ofVec2f velocity = toOf(tracker.getVelocity(i));
-                ofPtr<ofxBox2dRect> rect = boxes[addedObjs[label]];
+                ofPtr<ofxBox2dRect> rect = boxes[addedObjs[j][label]];
                 
                 if (velocity.x != 0 && velocity.y != 0) {
                     
@@ -202,7 +200,7 @@ void ofApp::createObjects() {
                     objData->hit = true;
                     
                     rect->setVelocity(velocity.y, velocity.x);
-                    addedObjs[label] == -1;
+                    addedObjs[j][label] == -1;
                 }
             }
         }
