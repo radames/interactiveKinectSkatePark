@@ -157,13 +157,13 @@ void ofApp::createObjects() {
         }*/
         
         for(int i=0; i < contourFinder[j].size(); i++){
-            
+
             unsigned int label = contourFinder[j].getLabel(i);
             
             if (addedObjs.count(label) == 0) {
                 float w = 20;
                 float h = 20;
-                ofPoint center = toOf(contourFinder[j].getCenter(i));
+                ofPoint center = toWorldCoord(toOf(contourFinder[j].getCenter(i)), j);
                 
                 ofPtr<ofxBox2dRect> box = ofPtr<ofxBox2dRect>(new ofxBox2dRect);
                 
@@ -201,7 +201,7 @@ void ofApp::createObjects() {
                     objData->h = velocity.y *20;
                     objData->hit = true;
                     
-                    rect->setVelocity(-1*velocity.x, velocity.y);
+                    rect->setVelocity(velocity.y, velocity.x);
                     addedObjs[label] == -1;
                 }
             }
@@ -311,10 +311,6 @@ void ofApp::draw() {
     
    // drawPositions();
     myBack.draw(); //draw background effects
-
-    
-    
-    
     syphonServer.publishScreen(); //syphon screen
 
 }
@@ -334,14 +330,14 @@ void ofApp::debugMode(){
     for(int j = 0; j < 2; j++){
         //drawing two depth areas
         ofPushMatrix();
-        ofPushStyle();
-        ofRectMode(OF_RECTMODE_CENTER);
-        ofTranslate(sensorPos[j]->x,sensorPos[j]->y);
-        ofRotate(90);
-        kinect[j].drawDepth(0,0,sensorArea[j]*kinect[j].width, sensorArea[j]*kinect[j].height);
-        ofScale(sensorArea[j],sensorArea[j]);
-        contourFinder[j].draw();
-        ofPopStyle();
+            ofPushStyle();
+            ofRectMode(OF_RECTMODE_CENTER);
+            ofTranslate(sensorPos[j]->x,sensorPos[j]->y);
+            ofRotate(90);
+            kinect[j].drawDepth(0,0,sensorArea[j]*kinect[j].width, sensorArea[j]*kinect[j].height);
+            ofScale(sensorArea[j],sensorArea[j]);
+            contourFinder[j].draw();
+            ofPopStyle();
         ofPopMatrix();
         
         
@@ -361,18 +357,18 @@ void ofApp::debugMode(){
                 ofRectMode(OF_RECTMODE_CENTER);
                 ofFill();
                 ofPushMatrix();
-                ofTranslate(sensorPos[j]->x, sensorPos[j]->y);
-                ofScale(sensorArea[j],sensorArea[j]);
-                ofRotate(90);
-                ofEllipse(center.x,center.y,10,10);
-                string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
-                ofDrawBitmapString(msg,center.x,center.y);
-                ofVec2f velocity = toOf(contourFinder[j].getVelocity(i));
-                ofPushMatrix();
-                ofTranslate(center.x, center.y);
-                ofScale(10, 10);
-                ofLine(0, 0, velocity.x, velocity.y);
-                ofPopMatrix();
+                    ofTranslate(sensorPos[j]->x, sensorPos[j]->y);
+                    ofScale(sensorArea[j],sensorArea[j]);
+                    ofRotate(90);
+                    ofEllipse(center.x,center.y,10,10);
+                    string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
+                    ofDrawBitmapString(msg,center.x,center.y);
+                    ofVec2f velocity = toOf(contourFinder[j].getVelocity(i));
+                    ofPushMatrix();
+                        ofTranslate(center.x, center.y);
+                        ofScale(10, 10);
+                        ofLine(0, 0, velocity.x, velocity.y);
+                    ofPopMatrix();
                 ofPopMatrix();
                 ofPopStyle();
             }
@@ -527,16 +523,17 @@ void ofApp::guiSetup(){
 //Gui events for kinect Area
 
 
-float ofApp::applyOffsetX(float _x){
-    return;
-    //return _x + offsetX;
+ofPoint ofApp::toWorldCoord(ofPoint point, int kinectId){
+
+    //mapping position to a new area
+    float x = ofMap(point.x, 0, kinect[kinectId].width, 0, kinect[kinectId].width * sensorArea[kinectId]);
+    float y = ofMap(point.y, 0, kinect[kinectId].height, kinect[kinectId].height * sensorArea[kinectId], 0);
+    
+    
+    
+    return ofPoint(y + sensorPos[kinectId]-> x -  kinect[kinectId].height/2 ,x + sensorPos[kinectId]->y);
 
 }
-float ofApp::applyOffsetY(float _y){
-    return;
-    //return _y + offsetY;
-}
-
 
 
 //--------------------------------------------------------------
@@ -545,7 +542,7 @@ void ofApp::keyPressed (int key) {
 
         case 'i':
             break;
-            
+     
         case 's':
             gui.saveToFile("settings.xml");
 

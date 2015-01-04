@@ -56,9 +56,8 @@ public:
     
     void drawPositions();
     
-    // blob Offset detais
-    float applyOffsetX(float _x);
-    float applyOffsetY(float _y);
+    // convert blob position to world
+    ofPoint toWorldCoord(ofPoint point, int kinectId);
 
     ofxSyphonServer syphonServer;
     
