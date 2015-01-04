@@ -48,17 +48,12 @@ void ofParticles::update(){
         ofPoint attractPt(ofGetMouseX(), ofGetMouseY());
         frc = attractPt-pos; // we get the attraction force/vector by looking at the mouse pos relative to our pos
         frc.normalize(); //by normalizing we disregard how close the particle is to the attraction point
-        
         vel *= drag; //apply drag
         vel += frc * 0.6; //apply force
-        
-        
         
     }
     else if( mode == PARTICLE_MODE_REPEL ){
     
-        
-        
         if( attractPoints ){
             
             //1 - find closest attractPoint

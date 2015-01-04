@@ -9,7 +9,7 @@ ofBackEffects::~ofBackEffects(){}
 void ofBackEffects::setup(){
 
     //particles background
-    currentMode = PARTICLE_MODE_NEAREST_POINTS;
+    currentMode = PARTICLE_MODE_REPEL;
     animMode = TRAIL;
     particles.assign(0, ofParticles());
     resetParticles();
@@ -28,7 +28,7 @@ void ofBackEffects::addParticles(int num, ofPoint origin, ofPoint velocity) {
             p.vel.x = velocity.x*cos((float(i)/num) * 2*pi);
             p.vel.y = velocity.y*sin((float(i)/num) * 2*pi);
             
-            cout << "VELO " << velocity.x << "  " << velocity.y << endl;
+            // cout << "VELO " << velocity.x << "  " << velocity.y << endl;
             
             p.frc   = ofPoint(0,0,0);
             

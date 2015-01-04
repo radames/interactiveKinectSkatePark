@@ -31,6 +31,7 @@ public:
 	void setup();
 	void update();
 	void draw();
+    void drawTrail();
 	void exit();
 	
 	void drawPointCloud();
@@ -47,6 +48,7 @@ public:
     void kinectUpdate();
     void debugMode();
     
+    void updateTrail();
     void createObjects();
 	// this is the function for contacts
 	void contactStart(ofxBox2dContactArgs &e);
@@ -104,6 +106,8 @@ public:
     // Box2D
     ofxBox2d box2d;
 	vector <ofPtr<ofxBox2dRect> > boxes;
+    vector <vector <ofPoint> > trail;
+    vector <int> trail_i;
     vector <ContactData> colCenters;
 
     ofBackEffects myBack;

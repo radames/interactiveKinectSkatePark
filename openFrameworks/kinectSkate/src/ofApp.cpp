@@ -7,6 +7,7 @@ using namespace ofxCv;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+    trail_i.assign(3000, 0);
     ofRectangle bounds = ofRectangle(0, 0, CWIDTH, CHEIGHT);
     
     screenSetup(); //screen and some OF setups
@@ -36,6 +37,8 @@ void ofApp::setup() {
     
     debugImage.loadImage("skatepark.png");
     debugImage.resize(1024*2, 768);
+    
+    //trail.assign(10, vector <ofPoint>());
 }
 
 //--------------------------------------------------------------
@@ -116,8 +119,20 @@ void ofApp::drawPositions() {
     
 }
 
+void ofApp::updateTrail() {
+    for(int i=0; i < boxes.size(); i++) {
+        ofPoint newPosition = boxes[i].get()->getPosition();
+        int old_trail = (trail_i[i] > 0)?trail_i[i] - 1:2;
+        
+        if ((newPosition - trail[i][old_trail]).length() > 100) {
+            trail[i][trail_i[i]] = newPosition;
+            trail_i[i] = (trail_i[i] + 1) % 3;
+            cout << "NEW POS " << newPosition << endl;
+        }
+    }
+}
+
 void ofApp::createObjects() {
-    
     
     for(int j = 0; j < 2; j++){
         //loop nas kinects
@@ -125,39 +140,6 @@ void ofApp::createObjects() {
         RectTracker& tracker = contourFinder[j].getTracker();
         const vector<unsigned int>& newLabels = tracker.getNewLabels();
         const vector<unsigned int>& currentLabels = tracker.getCurrentLabels();
-        
-        /*
-        for(int i = 0; i < currentLabels.size(); i++) {
-            int label = currentLabels[i];
-            const cv::Rect& current = tracker.getCurrent(label);
-            
-            ofVec2f velocity = toOf(tracker.getVelocity(label));
-
-            cout << label << " - " << velocity << endl;
-            
-                if (addedObjs.count(label) == 0) {
-                    float w = ofRandom(4, 20);
-                    float h = ofRandom(4, 20);
-                    ofPoint center = ofPoint(current.x, current.y);
-
-                    boxes.push_back(ofPtr<ofxBox2dRect>(new ofxBox2dRect));
-                    ofxBox2dRect * rect = boxes.back().get();
-                    ofVec2f velocity = toOf(tracker.getVelocity(label));
-
-                    cout << velocity << endl;
-                    rect->setVelocity(velocity.x, velocity.y);
-                    rect->setPhysics(3.0, 0.53, 0.1);
-                    rect->setup(box2d.getWorld(), center.x, center.y, w, h);
-                    addedObjs[label] = boxes.size() - 1;
-                    cout << "ANOTADO" << label << endl;
-                } else if (addedObjs[label] != -1) {
-                    ofVec2f velocity = toOf(tracker.getVelocity(i));
-                   //cout << "GIVE VEL " << velocity << endl;
-                    ofPtr<ofxBox2dRect> rect = boxes[addedObjs[label]];
-                    rect->setVelocity(velocity.x, velocity.y);
-                    addedObjs[label] = -1;
-                }
-        }*/
         
         for(int i=0; i < contourFinder[j].size(); i++){
 
@@ -171,6 +153,13 @@ void ofApp::createObjects() {
                 ofPtr<ofxBox2dRect> box = ofPtr<ofxBox2dRect>(new ofxBox2dRect);
                 
                 boxes.push_back(box);
+                
+                // Add trail to the new object
+                vector <ofPoint> box_trail;
+                box_trail.assign(3, ofPoint());
+                box_trail[0] = center;
+                trail.push_back(box_trail);
+                
                 ofxBox2dRect *rect = box.get();
                 ofVec2f velocity = toOf(tracker.getVelocity(i));
                 
@@ -187,10 +176,11 @@ void ofApp::createObjects() {
                 objData->h = velocity.y * h;
                 objData->hit = true;
                 
+                
                 addedObjs[j][label] = boxes.size() - 1;
             }
             
-            if(tracker.existsPrevious(label) && addedObjs[j][label] != -1) {
+            if (tracker.existsPrevious(label) && addedObjs[j][label] != -1) {
                 
                 ofVec2f velocity = toOf(tracker.getVelocity(i));
                 ofPtr<ofxBox2dRect> rect = boxes[addedObjs[j][label]];
@@ -221,80 +211,17 @@ void ofApp::update() {
 	box2d.update();
 
     myBack.update(boxes);
+    
+    
     //varre os blobs, checa
-
     RectTracker& tracker = contourFinder[0].getTracker();
-//    for(int i = 0; i < contourFinder.size(); i++) {
-//        unsigned int label = contourFinder.getLabel(i);
-//
-//           if(tracker.existsPrevious(label)) {
-//               //caso o tracker j‡ existe checa qual o novo ID
-//
-//               const cv::Rect& previous = tracker.getPrevious(label);
-//               const cv::Rect& current = tracker.getCurrent(label);
-//               //tracker.getPre
-//               //atualiza o hash com a posicao dos morphs
-//
-//               morphRender.morphs[label].updatePosition(current.x, current.y);
-//
-//           }
-//
-//    }
-
     const vector<unsigned int>& currentLabels = tracker.getCurrentLabels();
     const vector<unsigned int>& previousLabels = tracker.getPreviousLabels();
     const vector<unsigned int>& deadLabels = tracker.getDeadLabels();
 
     createObjects();
 
-    //varrer deadLabels e procurar morphs e KILL them
-    /*
-
-    for(int i = 0; i < contourFinder.size(); i++) {
-        unsigned int label = contourFinder.getLabel(i);
-
-       // int label = currentLabels[i];
-        const cv::Rect& current = tracker.getCurrent(label);
-
-
-        if(tracker.existsPrevious(label)) {
-           // update position Morph
-            if (morphRender.morphs.count(label) > 0) {
-                morphRender.morphs[label].updatePosition(current.x, current.y);
-            }
-        } 
-    }*/
-
-   /*
-    //delete objetcs for deadlabels if they exist
-    for(int i = 0; i < deadLabels.size(); i++) {
-        if (morphRender.morphs.count(deadLabels[i]) > 0) {
-            morphRender.deleteMorph(deadLabels[i]);
-        }
-    }
-
-    for(int i = 0; i < currentLabels.size(); i++) {
-        int label = currentLabels[i];
-        const cv::Rect& current = tracker.getCurrent(label);
-
-        if(tracker.existsPrevious(label)) {
-            if (morphRender.morphs.count(label) > 0) {
-                morphRender.morphs[label].updatePosition(applyOffsetX(current.x), applyOffsetY(current.y));
-            } else {
-                morphRender.addMorph(applyOffsetX(current.x), applyOffsetY(current.y), label);
-            }
-        }
-    }
-    */
-    
-    
-    /*
-    for(int i = 0; i < newLabels.size(); i++) {
-        int label = newLabels[i];
-        const cv::Rect& current = tracker.getCurrent(label);
-        morphRender.addMorph(applyOffsetX(current.x), applyOffsetY(current.y), label);
-    }*/
-
+    updateTrail();
 }
 
 //--------------------------------------------------------------
@@ -308,15 +235,29 @@ void ofApp::draw() {
 		ofFill();
 		ofSetHexColor(0xe63b8b);
 		boxes[i].get()->draw();
-        cout << boxes[i].get()->getPosition() << endl;
+       // cout << boxes[i].get()->getPosition() << endl;
 	}
     
-   // drawPositions();
+    // drawPositions();
     myBack.draw(); //draw background effects
     syphonServer.publishScreen(); //syphon screen
 
+    // draw objects trail
+    drawTrail();
+    
 }
 
+void ofApp::drawTrail() {
+    for (int i = 0; i < boxes.size(); ++i) {
+        for (int j = 0; j < trail[i].size() - 1; ++j) {
+            ofPushStyle();
+            ofPoint p = trail[i][j];
+            ofSetColor(255, 0, 0);
+            ofCircle(p.x, p.y, 5);
+            ofPopStyle();
+        }
+    }
+}
 
 ///DEBUG-MODE
 
@@ -455,16 +396,12 @@ void ofApp::kinectSetup(int kinectNumber, string id){
 
     kinect[kinectNumber].init(false,false);
     
-  //  kinect[kinectNumber].
+   //  kinect[kinectNumber].
     if(id.empty()){
         kinect[kinectNumber].open();
     }else{
         kinect[kinectNumber].open(id);
     }
-
-    //kinect.init(true); // shows infrared instead of RGB video image
-    //kinect.init(false, false); // disable video image (faster fps)
-
 
     // print the intrinsic IR sensor values
     if(kinect[kinectNumber].isConnected()) {
@@ -541,9 +478,6 @@ ofPoint ofApp::toWorldCoord(ofPoint point, int kinectId){
 //--------------------------------------------------------------
 void ofApp::keyPressed (int key) {
 	switch (key) {
-
-        case 'i':
-            break;
      
         case 's':
             gui.saveToFile("settings.xml");
@@ -565,30 +499,6 @@ void ofApp::keyPressed (int key) {
 		case 'm':
             enableMouse = !enableMouse;
 			break;
-
-		case OF_KEY_UP:
-            bloby-=10;
-
-			break;
-
-		case OF_KEY_DOWN:
-            bloby+=10;
-			break;
-
-        case OF_KEY_LEFT:
-            blobx-=10;
-            break;
-
-        case OF_KEY_RIGHT:
-            blobx+=10;
-            break;
-
-        case 'z':
-            break;
-        case 'x':
-
-            break;
-
 
 	}
 
