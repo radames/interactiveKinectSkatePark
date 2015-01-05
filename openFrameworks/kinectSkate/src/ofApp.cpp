@@ -42,6 +42,7 @@ void ofApp::setup() {
 
     guiSetup(); //GUI Setup
 
+
 }
 
 //--------------------------------------------------------------
@@ -284,6 +285,7 @@ void ofApp::update() {
         cout << "UP WAVE" << endl;
         waves[i]->update();
     }
+
 
 }
 

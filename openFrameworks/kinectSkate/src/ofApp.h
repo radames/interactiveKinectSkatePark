@@ -10,6 +10,8 @@
 #include "ofBackEffects.h"
 #include "ofxOsc.h"
 #include "ofWave.h"
+#include "ofxTwistedRibbon.h"
+
 #include <tr1/unordered_map>
 
 #define HOST "localhost"
