@@ -14,8 +14,6 @@ void ofApp::setup() {
     kinectSetup(1,"A00367813858042A"); //kinetic setup
     kinectSetup(0,""); //kinetic setup
 
-
-
     // register the listener so that we get the events
 	ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
 	ofAddListener(box2d.contactEndEvents, this, &ofApp::contactEnd);
@@ -30,6 +28,7 @@ void ofApp::setup() {
     ofSetVerticalSync(false);
     ofSetFrameRate(60);
     
+    // dictionaries to control already added objects based on tracker labels
     tr1::unordered_map<int,int> ao1, ao2;
     addedObjs.push_back(ao1);
     addedObjs.push_back(ao2);
@@ -48,9 +47,6 @@ void ofApp::setup() {
 //--------------------------------------------------------------
 void ofApp::contactStart(ofxBox2dContactArgs &e) {
 	if(e.a != NULL && e.b != NULL) {
-		
-		// if we collide with the ground we do not
-		// want to play a sound. this is how you do that
 		if(e.a->GetType() == b2Shape::e_polygon && e.b->GetType() == b2Shape::e_polygon) {
 			
 			ObjectData * aData = (ObjectData*)e.a->GetBody()->GetUserData();
@@ -66,12 +62,10 @@ void ofApp::contactStart(ofxBox2dContactArgs &e) {
 
 			if(aData) {
 				aData->hit = true;
-				//sound[aData->soundID].play();
 			}
 			
 			if(bData) {
 				bData->hit = true;
-				//sound[bData->soundID].play();
 			}
             
             myBack.addParticles(50, ofPoint(OFX_BOX2D_SCALE*e.a->GetBody()->GetPosition().x, OFX_BOX2D_SCALE*e.a->GetBody()->GetPosition().y),
@@ -106,8 +100,20 @@ void ofApp::drawWave() {
     
     if (waveTime != -1) {
         ofPushStyle();
-        ofNoFill();
-        ofCircle(startWave.x, startWave.y, 10 + dt*0.1);
+        //ofNoFill();
+        ofSetLineWidth(10);
+        //ofSetCircleResolution(100);
+        //setStrokeColor(255,0,0);
+        ofPath circle;
+        circle.setCircleResolution(500);
+        circle.arc(startWave, dt*0.1, dt*0.1, 0, 360);
+        circle.close();
+        circle.arc(startWave, dt*0.1 + 40, dt*0.1 + 40, 0, 360);
+        //circle.setStrokeColor(ofColor(255,0,0));
+        //circle.setStrokeWidth(100);
+        circle.draw();
+        
+        //ofCircle(startWave.x, startWave.y, 10 + dt*0.1);
         ofPopStyle();
         
         if (dt > 5000) {
@@ -171,8 +177,10 @@ void ofApp::createObjects() {
                 float h = 20;
                 ofPoint center = toWorldCoord(toOf(contourFinder[j].getCenter(i)), j);
                 
-                startWave = center;
-                waveTime = ofGetElapsedTimeMillis();
+                // Create new wave
+                ofPtr<ofWave> newWave = ofPtr<ofWave>(new ofWave);
+                waves.push_back(newWave);
+                newWave->setup(center, ofGetElapsedTimeMillis(), 10, 400);
                 
                 ofPtr<ofxBox2dRect> box = ofPtr<ofxBox2dRect>(new ofxBox2dRect);
                 
@@ -181,7 +189,9 @@ void ofApp::createObjects() {
                 // Add trail to the new object
                 vector <ofPoint> box_trail;
                 box_trail.assign(30, ofPoint());
-                box_trail[0] = center;
+                for (int ti = 0; ti < 30; ++ti) {
+                    box_trail[ti] = center;
+                }
                 trail.push_back(box_trail);
                 
                 ofxBox2dRect *rect = box.get();
@@ -252,6 +262,12 @@ void ofApp::update() {
         box2d.setGravity(ofRandom(-100, 100), ofRandom(-100, 100));
     }
     
+    // Update waves
+    for (int i = 0; i < waves.size(); ++i) {
+        cout << "UP WAVE" << endl;
+        waves[i]->update();
+    }
+    
     lastTime = ofGetElapsedTimeMillis();
 }
 
@@ -276,8 +292,12 @@ void ofApp::draw() {
     // draw objects trail
     drawTrail();
  
-    // draw wave
-    drawWave();
+    // draw waves
+    for (int i = 0; i < waves.size(); ++i) {
+        cout << "DRAW "<<endl;
+        waves[i]->draw();
+    }
+
 }
 
 void ofApp::drawTrail() {
@@ -288,7 +308,7 @@ void ofApp::drawTrail() {
             ofPoint p1 = trail[i][(trail_i[i] + j) % 30];
             ofPoint p2 = trail[i][(trail_i[i] + j + 1) % 30];
             ofSetColor(255, 0, 0);
-            ofSetLineWidth(j*2);
+          //  ofSetLineWidth(j*2);
             ofLine(p1.x, p1.y, p2.x, p2.y);
             ofPopStyle();
         }
@@ -348,10 +368,7 @@ void ofApp::debugMode(){
                 ofPopMatrix();
                 ofPopStyle();
             }
-            
         }
-        
-        
     }
  
     // draw instructions
@@ -418,8 +435,8 @@ void ofApp::kinectUpdate(){
             contourFinder[i].findContours(grayImage[i]);
         }
     }
-
 }
+
 void ofApp::kinectSetup(int kinectNumber, string id){
     
     //A00367813858042A
@@ -499,9 +516,7 @@ ofPoint ofApp::toWorldCoord(ofPoint point, int kinectId){
     //mapping position to a new area
     float x = ofMap(point.x, 0, kinect[kinectId].width, 0, kinect[kinectId].width * sensorArea[kinectId]);
     float y = ofMap(point.y, 0, kinect[kinectId].height, kinect[kinectId].height * sensorArea[kinectId], 0);
-    
-    
-    
+
     return ofPoint(y + sensorPos[kinectId]-> x -  kinect[kinectId].height/2 ,x + sensorPos[kinectId]->y);
 
 }
