@@ -20,6 +20,8 @@ public:
     ofColor color;
     int numberWaveFronts;
     float velocity;
+    float accel;
+    float linearVelocity;
     //float thickness;
     long startTime;
     long dt;

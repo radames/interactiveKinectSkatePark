@@ -180,7 +180,7 @@ void ofApp::createObjects() {
                 // Create new wave
                 ofPtr<ofWave> newWave = ofPtr<ofWave>(new ofWave);
                 waves.push_back(newWave);
-                newWave->setup(center, ofGetElapsedTimeMillis(), 10, 400);
+                newWave->setup(center, ofGetElapsedTimeMillis(), 10, 50);
 
                 ofPtr<ofxBox2dRect> box = ofPtr<ofxBox2dRect>(new ofxBox2dRect);
 
@@ -276,6 +276,7 @@ void ofApp::update() {
 
     if (now - lastTime > 100) {
         box2d.setGravity(ofRandom(-100, 100), ofRandom(-100, 100));
+        lastTime = now;
     }
 
     // Update waves
@@ -284,7 +285,6 @@ void ofApp::update() {
         waves[i]->update();
     }
 
-    lastTime = ofGetElapsedTimeMillis();
 }
 
 //--------------------------------------------------------------

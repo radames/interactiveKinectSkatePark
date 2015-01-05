@@ -13,6 +13,9 @@ void ofWave::setup(ofPoint _center, long _startTime, int _numberWaveFronts, floa
     startTime = _startTime;
     numberWaveFronts =  _numberWaveFronts;
     velocity = _velocity;
+    accel = 0.2;
+    linearVelocity = 0.5;
+    
 }
 
 void ofWave::update() {
@@ -25,9 +28,9 @@ void ofWave::draw() {
         ofPushStyle();
         ofPath circle;
         circle.setCircleResolution(500);
-        circle.arc(center, i*5*dt*dt + i*5*dt, i*5*dt*dt + i*5*dt, 0, 360);
+        circle.arc(center, i*accel*dt*dt + i*linearVelocity*dt, i*accel*dt*dt + i*linearVelocity*dt, 0, 360);
         circle.close();
-        circle.arc(center, i*5*dt*dt + i*5*dt + 10*i*dt*dt/20, i*5*dt*dt + i*5*dt + 10*i*dt*dt/20, 0, 360);
+        circle.arc(center, i*accel*dt*dt + i*linearVelocity*dt + 0.6*i*dt*dt/20, i*accel*dt*dt + i*linearVelocity*dt + 0.6*i*dt*dt/20, 0, 360);
         circle.setColor(ofColor(255*floor(i)/10 + 100.255*floor(i)/10  + 30,0, 0, 205*floor(i)/10.0 + 50));
         circle.draw();
         ofPopStyle();
