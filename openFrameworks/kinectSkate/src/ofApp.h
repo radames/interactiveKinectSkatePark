@@ -9,8 +9,7 @@
 #include "ofxGui.h"
 #include "ofBackEffects.h"
 #include "ofxOsc.h"
-
-
+#include "ofWave.h"
 #include <tr1/unordered_map>
 
 #define HOST "localhost"
@@ -37,6 +36,8 @@ public:
 	void update();
 	void draw();
     void drawTrail();
+    void updateWave();
+    void drawWave();
 	void exit();
 	
 	void drawPointCloud();
@@ -110,13 +111,21 @@ public:
 	vector <ofPtr<ofxBox2dRect> > boxes;
     vector <vector <ofPoint> > trail;
     vector <int> trail_i;
+    vector <int> addedTrailSegments;
     vector <ContactData> colCenters;
     
     ofBackEffects myBack;
     ofImage debugImage;
     
+    // Waves
+    vector <ofPtr<ofWave> > waves;
+    
     //oscMessage Sender
     ofxOscSender sender;
     ofxOscReceiver receiver;
 
+    long lastTime;
+    
+    ofPoint startWave;
+    long waveTime;
 };
