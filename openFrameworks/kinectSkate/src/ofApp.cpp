@@ -131,7 +131,7 @@ void ofApp::updateTrail() {
         if ((newPosition - trail[i][old_trail]).length() > 100) {
             trail[i][trail_i[i]] = newPosition;
             trail_i[i] = (trail_i[i] + 1) % 3;
-            cout << "NEW POS " << newPosition << endl;
+            //cout << "NEW POS " << newPosition << endl;
         }
     }
 }
@@ -182,6 +182,23 @@ void ofApp::createObjects() {
                 
                 
                 addedObjs[j][label] = boxes.size() - 1;
+                
+                //Osc Message for new Objects on the screen based on the sensorPositions[j] j = kinectic number
+                ofxOscMessage m;
+                
+                if(center.x  < sensorPos[j]-> x -  kinect[j].height/2  ){ //if this then he've appeared first on th left
+                    m.setAddress("/skatista/ED");
+                }else{
+                    m.setAddress("/skatista/DE");
+                }
+                m.addIntArg(j); // which sensor plus velocity
+                m.addFloatArg(velocity.x);
+                m.addFloatArg(velocity.y);
+                sender.sendMessage(m);
+                
+   
+
+
             }
             
             if (tracker.existsPrevious(label) && addedObjs[j][label] != -1) {
@@ -208,9 +225,10 @@ void ofApp::createObjects() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
-
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ofEnableAlphaBlending();
-	ofBackground(255, 255, 255);
+    
     kinectUpdate();
 	box2d.update();
 
@@ -230,7 +248,6 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-    ofClear(0, 0, 0, 0);
 
     if(bDebugMode){ debugMode(); }//draw debug mode
     
@@ -244,10 +261,12 @@ void ofApp::draw() {
     
     // drawPositions();
     myBack.draw(); //draw background effects
-    syphonServer.publishScreen(); //syphon screen
 
     // draw objects trail
     drawTrail();
+    
+    syphonServer.publishScreen(); //syphon screen
+
     
 }
 
@@ -335,6 +354,10 @@ void ofApp::debugMode(){
     ofDrawBitmapString(reportStream.str(), 20, 652);
     ofPopStyle();
     gui.draw();
+
+    ofNoFill();
+    ofCircle(sensorPos[1]-> x,sensorPos[1]-> y,10,10);
+    ofCircle(sensorPos[0]-> x,sensorPos[0]-> y,10,10);
 
 }
 
