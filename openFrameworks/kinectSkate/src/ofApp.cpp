@@ -274,8 +274,8 @@ void ofApp::update() {
 
     long now = ofGetElapsedTimeMillis();
 
-    if (now - lastTime > 100) {
-        box2d.setGravity(ofRandom(-100, 100), ofRandom(-100, 100));
+    if (now - lastTime > 500) {
+        box2d.setGravity(ofRandom(-10, 10), ofRandom(-10, 10));
         lastTime = now;
     }
 
@@ -347,14 +347,18 @@ void ofApp::debugMode(){
 
     for(int j = 0; j < 2; j++){
         //drawing two depth areas
+        
         ofPushMatrix();
+    
             ofPushStyle();
-            ofRectMode(OF_RECTMODE_CENTER);
-            ofTranslate(sensorPos[j]->x,sensorPos[j]->y);
+            ofTranslate(sensorPos[j]->x, sensorPos[j]->y);
+            ofSetRectMode(OF_RECTMODE_CENTER);
             ofRotate(90);
             kinect[j].drawDepth(0,0,sensorArea[j]*kinect[j].width, sensorArea[j]*kinect[j].height);
             ofScale(sensorArea[j],sensorArea[j]);
             contourFinder[j].draw();
+            ofRect(0,0,100,100);
+
             ofPopStyle();
         ofPopMatrix();
 
@@ -369,12 +373,12 @@ void ofApp::debugMode(){
                 ofPoint center = toOf(contourFinder[j].getCenter(i));
                 ofPushStyle();
                 ofSetColor(255,0,0);
-                ofRectMode(OF_RECTMODE_CENTER);
+                ofSetRectMode(OF_RECTMODE_CENTER);
                 ofFill();
                 ofPushMatrix();
                     ofTranslate(sensorPos[j]->x, sensorPos[j]->y);
-                    ofScale(sensorArea[j],sensorArea[j]);
                     ofRotate(90);
+                    ofScale(sensorArea[j],sensorArea[j]);
                     ofEllipse(center.x,center.y,10,10);
                     string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
                     ofDrawBitmapString(msg,center.x,center.y);
@@ -392,7 +396,6 @@ void ofApp::debugMode(){
 
     // draw instructions
     ofPushStyle();
-
     ofSetColor(255, 255, 255);
     stringstream reportStream;
 
@@ -400,11 +403,9 @@ void ofApp::debugMode(){
     ofDrawBitmapString(reportStream.str(), 20, 652);
     ofPopStyle();
     gui.draw();
+    
 
-    ofNoFill();
-    ofCircle(sensorPos[1]-> x,sensorPos[1]-> y,10,10);
-    ofCircle(sensorPos[0]-> x,sensorPos[0]-> y,10,10);
-
+    
 }
 
 
