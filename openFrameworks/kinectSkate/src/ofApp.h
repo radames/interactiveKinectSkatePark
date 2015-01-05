@@ -37,6 +37,8 @@ public:
 	void update();
 	void draw();
     void drawTrail();
+    void updateWave();
+    void drawWave();
 	void exit();
 	
 	void drawPointCloud();
@@ -119,4 +121,8 @@ public:
     ofxOscSender sender;
     ofxOscReceiver receiver;
 
+    long lastTime;
+    
+    ofPoint startWave;
+    long waveTime;
 };

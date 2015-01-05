@@ -99,6 +99,23 @@ void ofApp::contactEnd(ofxBox2dContactArgs &e) {
 	}
 }
 
+void ofApp::drawWave() {
+    
+    long now = ofGetElapsedTimeMillis();
+    long dt = now - waveTime;
+    
+    if (waveTime != -1) {
+        ofPushStyle();
+        ofNoFill();
+        ofCircle(startWave.x, startWave.y, 10 + dt*0.1);
+        ofPopStyle();
+        
+        if (dt > 5000) {
+            waveTime = -1;
+        }
+    }
+    
+}
 
 void ofApp::drawPositions() {
     for(int i=0; i<boxes.size(); i++) {
@@ -126,12 +143,12 @@ void ofApp::drawPositions() {
 void ofApp::updateTrail() {
     for(int i=0; i < boxes.size(); i++) {
         ofPoint newPosition = boxes[i].get()->getPosition();
-        int old_trail = (trail_i[i] > 0)?trail_i[i] - 1:2;
+        int old_trail = (trail_i[i] > 0)?trail_i[i] - 1:30;
         
-        if ((newPosition - trail[i][old_trail]).length() > 100) {
+        if ((newPosition - trail[i][old_trail]).length() > 10) {
             trail[i][trail_i[i]] = newPosition;
-            trail_i[i] = (trail_i[i] + 1) % 3;
-            cout << "NEW POS " << newPosition << endl;
+            trail_i[i] = (trail_i[i] + 1) % 30;
+           // cout << "NEW POS " << newPosition << endl;
         }
     }
 }
@@ -154,13 +171,16 @@ void ofApp::createObjects() {
                 float h = 20;
                 ofPoint center = toWorldCoord(toOf(contourFinder[j].getCenter(i)), j);
                 
+                startWave = center;
+                waveTime = ofGetElapsedTimeMillis();
+                
                 ofPtr<ofxBox2dRect> box = ofPtr<ofxBox2dRect>(new ofxBox2dRect);
                 
                 boxes.push_back(box);
                 
                 // Add trail to the new object
                 vector <ofPoint> box_trail;
-                box_trail.assign(3, ofPoint());
+                box_trail.assign(30, ofPoint());
                 box_trail[0] = center;
                 trail.push_back(box_trail);
                 
@@ -216,7 +236,7 @@ void ofApp::update() {
 
     myBack.update(boxes);
     
-    oscUpdate();
+    //oscUpdate();
     //varre os blobs, checa
     RectTracker& tracker = contourFinder[0].getTracker();
     const vector<unsigned int>& currentLabels = tracker.getCurrentLabels();
@@ -224,8 +244,15 @@ void ofApp::update() {
     const vector<unsigned int>& deadLabels = tracker.getDeadLabels();
 
     createObjects();
-
     updateTrail();
+    
+    long now = ofGetElapsedTimeMillis();
+    
+    if (now - lastTime > 100) {
+        box2d.setGravity(ofRandom(-100, 100), ofRandom(-100, 100));
+    }
+    
+    lastTime = ofGetElapsedTimeMillis();
 }
 
 //--------------------------------------------------------------
@@ -248,16 +275,21 @@ void ofApp::draw() {
 
     // draw objects trail
     drawTrail();
-    
+ 
+    // draw wave
+    drawWave();
 }
 
 void ofApp::drawTrail() {
+    
     for (int i = 0; i < boxes.size(); ++i) {
-        for (int j = 0; j < trail[i].size() - 1; ++j) {
+        for (int j = 0; j < trail[i].size() - 1; j++) {
             ofPushStyle();
-            ofPoint p = trail[i][j];
+            ofPoint p1 = trail[i][(trail_i[i] + j) % 30];
+            ofPoint p2 = trail[i][(trail_i[i] + j + 1) % 30];
             ofSetColor(255, 0, 0);
-            ofCircle(p.x, p.y, 5);
+            ofSetLineWidth(j*2);
+            ofLine(p1.x, p1.y, p2.x, p2.y);
             ofPopStyle();
         }
     }
@@ -286,9 +318,6 @@ void ofApp::debugMode(){
             contourFinder[j].draw();
             ofPopStyle();
         ofPopMatrix();
-        
-        
-        
         
         RectTracker& tracker = contourFinder[j].getTracker();
         

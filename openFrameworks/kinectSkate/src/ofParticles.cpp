@@ -165,7 +165,7 @@ void ofParticles::update(){
 
 //------------------------------------------------------------------
 void ofParticles::draw(){
-    
+    ofPushStyle();
     switch (animMode) {
         case POINT:
             if( mode == PARTICLE_MODE_ATTRACT ){
@@ -192,6 +192,6 @@ void ofParticles::draw(){
             //ofCircle(pos.x, pos.y, scale * 4.0);
             break;
     }
-
+    ofPopStyle();
 }
 
