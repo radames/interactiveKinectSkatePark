@@ -255,9 +255,7 @@ void ofApp::createObjects() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    ofEnableAlphaBlending();
+
 
     kinectUpdate();
 	box2d.update();
@@ -291,7 +289,11 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    ofEnableAlphaBlending();
+    
+    
     if(bDebugMode){ debugMode(); }//draw debug mode
 
 
