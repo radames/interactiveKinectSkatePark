@@ -23,4 +23,6 @@ public:
     int kinectNumber;
     int label;
     ofPtr<ofxTwistedRibbon> ribbon;
+    ofColor ribbonColor;
+    float ang;
 };

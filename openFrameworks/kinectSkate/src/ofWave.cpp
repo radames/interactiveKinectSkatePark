@@ -20,7 +20,7 @@ void ofWave::setup(ofPoint _center, int _numberWaveFronts, float _velocity , int
     accel = 0.2;
     linearVelocity = 0.5;
     hue = _hue;
-    dTime = 1000;
+    dTime = 3000;
 }
 
 void ofWave::update() {

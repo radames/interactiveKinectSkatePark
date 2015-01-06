@@ -24,9 +24,12 @@ void ofPhysicalObject::setup(ofxBox2d *_box2d, ofVec2f velocity, ofPoint positio
     ribPos.y  = position.y;
     ofColor color;
     int hue = ofRandom(0, 255);
+    ribbonColor.setHsb(hue, 120, 255);
     
     ribbon = ofPtr<ofxTwistedRibbon>(new ofxTwistedRibbon);
     ribbon->update(position, color);
+    ribbon->length  = ofRandom(50, 200);
+    ang = ofRandom(5, 30);
 }
 
 void ofPhysicalObject::updateVelocity(ofVec2f _velocity) {
@@ -42,8 +45,8 @@ void ofPhysicalObject::update() {
     newPosition.x  = newRectPosition.x;
     newPosition.y  = newRectPosition.y;
     ofColor color;
-    int hue = int(ofGetElapsedTimef() * 10) % 255;
-    color.setHsb(hue, 120, 255);
+    int sat = int(ofGetElapsedTimef() * 10) % 255;
+    color.setHsb(ribbonColor.getHue(), 120, sat);
     ribbon->update(newPosition, color);
 }
 
@@ -52,6 +55,9 @@ void ofPhysicalObject::draw() {
     ofFill();
     ofSetHexColor(0xe63b8b);
     rectBody.get()->draw();
+    ofPushMatrix();
+    ofRotate(ofGetElapsedTimef() * ang, 1, 1, 0);
     ribbon->draw();
+    ofPopMatrix();
     ofPopStyle();
 }
