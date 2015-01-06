@@ -20,7 +20,7 @@ void ofWave::setup(ofPoint _center, int _numberWaveFronts, float _velocity , int
     accel = 0.2;
     linearVelocity = 0.5;
     hue = _hue;
-    dTime = 1000;
+    dTime = 3000;
 }
 
 void ofWave::update() {
@@ -39,7 +39,7 @@ void ofWave::draw() {
         circle.close();
         circle.arc(center, i*accel*dt*dt + i*linearVelocity*dt + 0.6*i*dt*dt/20, i*accel*dt*dt + i*linearVelocity*dt + 0.6*i*dt*dt/20, 0, 360);
         ofColor c;
-        c.setHsb(hue,100 * floor(i)/10 + 155, 255, 255-time* 255/dTime);
+        c.setHsb(hue,100 * floor(i)/10 + 155, 255, 255-MIN(1, float(time)/dTime)* 255);
         circle.setColor(c);
         circle.draw();
         ofPopStyle();
