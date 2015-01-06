@@ -1479,7 +1479,7 @@
 				D7F34E291A5B4F3A0024AF1E /* src */,
 			);
 			name = ofxTwistedRibbon;
-			path = ../../../Development/openFrameworks/addons/ofxTwistedRibbon;
+			path = ../../../openFrameworks/addons/ofxTwistedRibbon;
 			sourceTree = "<group>";
 		};
 		D7F34E291A5B4F3A0024AF1E /* src */ = {
