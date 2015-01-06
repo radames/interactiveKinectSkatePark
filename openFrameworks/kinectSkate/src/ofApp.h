@@ -10,6 +10,8 @@
 #include "ofBackEffects.h"
 #include "ofxOsc.h"
 #include "ofWave.h"
+#include "ofPhysicalObject.h"
+#include "ofxTwistedRibbon.h"
 #include <tr1/unordered_map>
 
 #define HOST "localhost"
@@ -109,6 +111,8 @@ public:
     // Box2D
     ofxBox2d box2d;
 	vector <ofPtr<ofxBox2dRect> > boxes;
+    vector <ofPtr<ofPhysicalObject> > physObjects;
+    
     vector <vector <ofPoint> > trail;
     vector <int> trail_i;
     vector <int> addedTrailSegments;
@@ -128,4 +132,7 @@ public:
     
     ofPoint startWave;
     long waveTime;
+    
+    vector <tr1::unordered_map<int, ofPtr<ofxTwistedRibbon> > > ribbons;
+    //float ribbonZ;
 };

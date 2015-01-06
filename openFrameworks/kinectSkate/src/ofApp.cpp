@@ -40,6 +40,8 @@ void ofApp::setup() {
     sender.setup(HOST, PORT);
     receiver.setup(PORT);
 
+    //ribbon = new ofxTwistedRibbon();
+    
     guiSetup(); //GUI Setup
 
 }
@@ -161,32 +163,48 @@ void ofApp::updateTrail() {
 
 void ofApp::createObjects() {
 
-    for(int j = 0; j < 2; j++){
+    for(int kinectNumber = 0; kinectNumber < 2; kinectNumber++){
         //loop nas kinects
 
-        RectTracker& tracker = contourFinder[j].getTracker();
+        RectTracker& tracker = contourFinder[kinectNumber].getTracker();
         const vector<unsigned int>& newLabels = tracker.getNewLabels();
         const vector<unsigned int>& currentLabels = tracker.getCurrentLabels();
 
-        for(int i=0; i < contourFinder[j].size(); i++){
+        for(int i=0; i < contourFinder[kinectNumber].size(); i++){
 
-            unsigned int label = contourFinder[j].getLabel(i);
+            unsigned int label = contourFinder[kinectNumber].getLabel(i);
 
-            if (addedObjs[j].count(label) == 0) {
+            if (addedObjs[kinectNumber].count(label) == 0) {
                 float w = 20;
                 float h = 20;
-                ofPoint center = toWorldCoord(toOf(contourFinder[j].getCenter(i)), j);
+                ofPoint center = toWorldCoord(toOf(contourFinder[kinectNumber].getCenter(i)), kinectNumber);
 
+                /*
+                ofVec3f position;
+                position.z = 0;
+                position.x  = center.x;
+                position.y  = center.y;
+                ofColor color;
+                int hue = int(ofGetElapsedTimef() * 10) % 255;
+                ofPtr<ofxTwistedRibbon> newRibbon;
+                ribbons[j][label] = newRibbon;
+                newRibbon->update(position, color); */
+                
                 // Create new wave
                 ofPtr<ofWave> newWave = ofPtr<ofWave>(new ofWave);
                 waves.push_back(newWave);
                 newWave->setup(center, ofGetElapsedTimeMillis(), 10, 50);
 
-                ofPtr<ofxBox2dRect> box = ofPtr<ofxBox2dRect>(new ofxBox2dRect);
-
-                boxes.push_back(box);
+                // Add Physical Object
+                ofVec2f velocity = toOf(tracker.getVelocity(i));
+                ofPtr<ofPhysicalObject> ptrPhysicalObject = ofPtr<ofPhysicalObject>(new ofPhysicalObject);
+                ofPhysicalObject *physicalObject = ptrPhysicalObject.get();
+                physicalObject->setup(&box2d, velocity, center, kinectNumber, label, w, h);
+                physObjects.push_back(ptrPhysicalObject);
 
                 // Add trail to the new object
+
+                /*
                 vector <ofPoint> box_trail;
                 box_trail.assign(30, ofPoint());
                 for (int ti = 0; ti < 30; ++ti) {
@@ -200,41 +218,38 @@ void ofApp::createObjects() {
                 rect->setVelocity(velocity.x, velocity.y);
                 rect->setPhysics(3.0, 0.53, 0.1);
                 rect->setup(box2d.getWorld(), center.x, center.y, w, h);
-
+*/
                 // Add attract points to background
-                myBack.addAttractPoints(ofPoint(center.x, center.y));
+                myBack.addAttractPoints(center);
 
+                /*
                 rect->setData(new ObjectData());
                 ObjectData *objData = (ObjectData *)rect->getData();
                 objData->w = velocity.x * w;
                 objData->h = velocity.y * h;
-                objData->hit = true;
+                objData->hit = true;*/
 
-
-                addedObjs[j][label] = boxes.size() - 1;
+                addedObjs[kinectNumber][label] = boxes.size() - 1;
 
                 //Osc Message for new Objects on the screen based on the sensorPositions[j] j = kinectic number
                 ofxOscMessage m;
 
-                if(center.x  < sensorPos[j]-> x -  kinect[j].height/2  ){ //if this then he've appeared first on th left
+                if(center.x  < sensorPos[kinectNumber]-> x -  kinect[kinectNumber].height/2  ){ //if this then he've appeared first on th left
                     m.setAddress("/skatista/ED");
                 }else{
                     m.setAddress("/skatista/DE");
                 }
-                m.addIntArg(j); // which sensor plus velocity
+                m.addIntArg(kinectNumber); // which sensor plus velocity
                 m.addFloatArg(velocity.x);
                 m.addFloatArg(velocity.y);
                 sender.sendMessage(m);
 
-
-
-
             }
 
-            if (tracker.existsPrevious(label) && addedObjs[j][label] != -1) {
+            if (tracker.existsPrevious(label) && addedObjs[kinectNumber][label] != -1) {
 
                 ofVec2f velocity = toOf(tracker.getVelocity(i));
-                ofPtr<ofxBox2dRect> rect = boxes[addedObjs[j][label]];
+                ofPtr<ofxBox2dRect> rect = boxes[addedObjs[kinectNumber][label]];
 
                 if (velocity.x != 0 && velocity.y != 0) {
 
@@ -245,7 +260,7 @@ void ofApp::createObjects() {
                     objData->hit = true;
 
                     rect->setVelocity(-velocity.y, velocity.x);
-                    addedObjs[j][label] == -1;
+                    addedObjs[kinectNumber][label] == -1;
                 }
             }
         }
@@ -255,8 +270,6 @@ void ofApp::createObjects() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
-
-
     kinectUpdate();
 	box2d.update();
 
@@ -279,9 +292,24 @@ void ofApp::update() {
         lastTime = now;
     }
 
+    /*
+    if (boxes.size() > 0) {
+        ofVec3f position;
+        ofPoint newPosition = boxes[0].get()->getPosition();
+        
+        float radius = sin(ofGetElapsedTimef()) * 50 + 200;
+        position.z = sin(ofGetElapsedTimef() * 0.3) * radius;
+        //ribbonZ = position.z;
+        position.x  = newPosition.x;
+        position.y  = newPosition.y;
+        ofColor color;
+        int hue = int(ofGetElapsedTimef() * 10) % 255;
+        color.setHsb(255, 120, hue);
+        ribbon->update(position, color);
+    }*/
+    
     // Update waves
     for (int i = 0; i < waves.size(); ++i) {
-        cout << "UP WAVE" << endl;
         waves[i]->update();
     }
 
@@ -293,16 +321,30 @@ void ofApp::draw() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ofEnableAlphaBlending();
     
+    /*
+    if (boxes.size() > 0) {
+        ofPoint newPosition = boxes[0].get()->getPosition();
+
+        ofPushMatrix();
+        //ofTranslate(newPosition.x, newPosition.y, ribbonZ);
+        //ofRotate(ofGetElapsedTimef() * 10, 1, 0, 0);
+        ribbon->draw();
+        ofPopMatrix();
+    }*/
     
     if(bDebugMode){ debugMode(); }//draw debug mode
 
-
+    for (int i = 0; i < physObjects.size(); ++i) {
+        physObjects[i].get()->draw();
+    }
+    
+    /*
     for(int i=0; i<boxes.size(); i++) {
 		ofFill();
 		ofSetHexColor(0xe63b8b);
 		boxes[i].get()->draw();
        // cout << boxes[i].get()->getPosition() << endl;
-	}
+	}*/
 
     // drawPositions();
     myBack.draw(); //draw background effects
@@ -314,7 +356,7 @@ void ofApp::draw() {
         cout << "DRAW "<<endl;
         waves[i]->draw();
     }
-
+    
     syphonServer.publishScreen(); //syphon screen
 
 }
