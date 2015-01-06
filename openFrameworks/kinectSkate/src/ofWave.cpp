@@ -29,8 +29,7 @@ void ofWave::update() {
 }
 
 void ofWave::draw() {
-    long time = (ofGetElapsedTimeMillis() - startTime);
-    
+    float time = (ofGetElapsedTimeMillis() - startTime);
     for (int i = 0; i < numberWaveFronts; ++i) {
         ofPushStyle();
         ofPath circle;
@@ -39,7 +38,7 @@ void ofWave::draw() {
         circle.close();
         circle.arc(center, i*accel*dt*dt + i*linearVelocity*dt + 0.6*i*dt*dt/20, i*accel*dt*dt + i*linearVelocity*dt + 0.6*i*dt*dt/20, 0, 360);
         ofColor c;
-        c.setHsb(hue,100 * floor(i)/10 + 155, 255, 255-time* 255/dTime);
+        c.setHsb(hue,100 * floor(i)/10 + 155, 255, 255 - MIN(1,float(time)/dTime)*255);
         circle.setColor(c);
         circle.draw();
         ofPopStyle();

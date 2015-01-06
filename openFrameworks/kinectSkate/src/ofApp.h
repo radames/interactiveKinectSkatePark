@@ -37,9 +37,8 @@ public:
 	void setup();
 	void update();
 	void draw();
-    	void drawTrail();
-    	void updateWave();
-    	void drawWave();
+    void drawTrail();
+
 	void exit();
 	void drawPointCloud();
 	void keyPressed(int key);
@@ -126,6 +125,4 @@ public:
 
 	long lastTime;
 
-	ofPoint startWave;
-	long waveTime;
 };
