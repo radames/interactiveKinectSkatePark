@@ -13,7 +13,7 @@ void ofBackEffects::setup(){
     animMode = TRAIL;
     particles.assign(maxParticles, ofParticles());
     indexParticle = 0;
-   // resetParticles();
+    resetParticles();
     
     particlesGUI.setName("Particles");
     particlesGUI.add(maxParticles.set("max NumParticles", 100, 10, 3000));
@@ -70,17 +70,19 @@ void ofBackEffects::draw(){
 
 void ofBackEffects::update(vector <ofPtr<ofxBox2dRect> > boxes){
 
-    for(unsigned int i = 0; i < particles.size(); i++){
-        particles[i].setMode(currentMode);
-        particles[i].setAnimationMode(animMode);
-        particles[i].update();
 
+    for(vector<ofParticles>::iterator it = particles.begin(); it != particles.end(); ){
+        it->setMode(currentMode);
+        it->setAnimationMode(animMode);
+        it->update();
+        
+        if(it->isReadyToDie()){
+           it = particles.erase(it);
+        }else{
+            ++it;
+        }
     }
-//    for(unsigned int i = 0; i < particles.size(); i++){
-//        if(particles[i].isReadyToDie()){
-//            particles[i].pop_back()
-//        }
-//    }
+    
     //lets add a bit of movement to the attract points
     for(unsigned int i = 0; i < attractPointsWithMovement.size(); i++){
         attractPointsWithMovement[i].x = attractPoints[i].x + ofSignedNoise(i * 10, ofGetElapsedTimef() * 0.7) * 12.0;
@@ -112,10 +114,12 @@ void ofBackEffects::resetParticles(){
 
     attractPointsWithMovement = attractPoints;
 
-    for(unsigned int i = 0; i < particles.size(); i++){
-        particles[i].setMode(currentMode);
-        particles[i].setAttractPoints(&attractPointsWithMovement);
-        particles[i].reset();
-    }
+//    for(unsigned int i = 0; i < particles.size(); i++){
+//        ofParticles p;
+//        p.setMode(currentMode);
+//        p.setAttractPoints(&attractPointsWithMovement);
+//        p.reset();
+//        particles[i] = p;
+//    }
 
 }

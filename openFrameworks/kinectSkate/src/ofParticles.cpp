@@ -4,7 +4,7 @@
 ofParticles::ofParticles(){
     attractPoints = NULL;
     firstTime = ofGetElapsedTimef();
-    decayTime = ofRandom(20, 60);
+    decayTime = ofRandom(1,10);
 }
 
 //------------------------------------------------------------------
@@ -198,7 +198,7 @@ void ofParticles::draw(){
 }
 
 bool ofParticles::isReadyToDie(){
-    if(firstTime > decayTime){
+    if((ofGetElapsedTimef() - firstTime) > decayTime){
         return true;
     }else{
         return false;
