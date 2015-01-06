@@ -11,8 +11,8 @@ void ofApp::setup() {
 	ofRectangle bounds = ofRectangle(0, 0, CWIDTH, CHEIGHT);
 
 	screenSetup(); //screen and some OF setups
-	kinectSetup(1,"A00367813858042A"); //kinetic setup
-	kinectSetup(0,""); //kinetic setup
+	kinectSetup(0,"A00367813858042A"); //kinetic setup
+	kinectSetup(1,""); //kinetic setup
 
 	// register the listener so that we get the events
 	ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
@@ -96,35 +96,6 @@ void ofApp::contactEnd(ofxBox2dContactArgs &e) {
 	}
 }
 
-void ofApp::drawWave() {
-
-	long now = ofGetElapsedTimeMillis();
-	long dt = now - waveTime;
-
-	if (waveTime != -1) {
-		ofPushStyle();
-		//ofNoFill();
-		ofSetLineWidth(10);
-		//ofSetCircleResolution(100);
-		//setStrokeColor(255,0,0);
-		ofPath circle;
-		circle.setCircleResolution(500);
-		circle.arc(startWave, dt*0.1, dt*0.1, 0, 360);
-		circle.close();
-		circle.arc(startWave, dt*0.1 + 40, dt*0.1 + 40, 0, 360);
-		//circle.setStrokeColor(ofColor(255,0,0));
-		//circle.setStrokeWidth(100);
-		circle.draw();
-
-		//ofCircle(startWave.x, startWave.y, 10 + dt*0.1);
-		ofPopStyle();
-
-		if (dt > 5000) {
-			waveTime = -1;
-		}
-	}
-
-}
 
 void ofApp::drawPositions() {
 	for(int i=0; i<boxes.size(); i++) {
