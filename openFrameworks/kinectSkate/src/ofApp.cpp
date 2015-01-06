@@ -178,17 +178,6 @@ void ofApp::createObjects() {
 				float h = 20;
 				ofPoint center = toWorldCoord(toOf(contourFinder[kinectNumber].getCenter(i)), kinectNumber);
 
-				/*
-				   ofVec3f position;
-				   position.z = 0;
-				   position.x  = center.x;
-				   position.y  = center.y;
-				   ofColor color;
-				   int hue = int(ofGetElapsedTimef() * 10) % 255;
-				   ofPtr<ofxTwistedRibbon> newRibbon;
-				   ribbons[j][label] = newRibbon;
-				   newRibbon->update(position, color); */
-
 				// Create new wave
 				ofPtr<ofWave> newWave = ofPtr<ofWave>(new ofWave);
 				waves.push_back(newWave);
@@ -285,10 +274,15 @@ color.setHsb(255, 120, hue);
 ribbon->update(position, color);
 }*/
 
-// Update waves
-for (int i = 0; i < waves.size(); ++i) {
-	waves[i]->update();
-}
+    // Update waves
+    for (int i = 0; i < waves.size(); ++i) {
+        waves[i]->update();
+    }
+    
+    // Update Physical Objects
+    for (int i = 0; i < physObjects.size(); ++i) {
+        physObjects[i]->update();
+    }
 
 }
 
@@ -322,18 +316,17 @@ void ofApp::draw() {
 // cout << boxes[i].get()->getPosition() << endl;
 }*/
 
-// drawPositions();
-myBack.draw(); //draw background effects
+    // drawPositions();
+    myBack.draw(); //draw background effects
 
-// draw objects trail
-drawTrail();
-// draw waves
-for (int i = 0; i < waves.size(); ++i) {
-	cout << "DRAW "<<endl;
-	waves[i]->draw();
-}
+    // draw objects trail
+    drawTrail();
+    // draw waves
+    for (int i = 0; i < waves.size(); ++i) {
+        waves[i]->draw();
+    }
 
-syphonServer.publishScreen(); //syphon screen
+    syphonServer.publishScreen(); //syphon screen
 
 }
 

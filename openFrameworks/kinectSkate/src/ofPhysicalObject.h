@@ -12,8 +12,7 @@
 
 class ofPhysicalObject {
     
-public:
-    
+public:    
     void setup(ofxBox2d *_box2d, ofVec2f velocity, ofPoint position, int _kinectNumber, int _label, int _width, int _height);
     void update();
     void updateVelocity(ofVec2f _velocity);
@@ -23,5 +22,5 @@ public:
     ofxBox2d *box2d;
     int kinectNumber;
     int label;
-    ofxTwistedRibbon ribbon;
+    ofPtr<ofxTwistedRibbon> ribbon;
 };
