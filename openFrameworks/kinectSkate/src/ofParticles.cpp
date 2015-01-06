@@ -3,6 +3,8 @@
 //------------------------------------------------------------------
 ofParticles::ofParticles(){
     attractPoints = NULL;
+    firstTime = ofGetElapsedTimef();
+    decayTime = ofRandom(20, 60);
 }
 
 //------------------------------------------------------------------
@@ -193,5 +195,13 @@ void ofParticles::draw(){
             break;
     }
     ofPopStyle();
+}
+
+bool ofParticles::isReadyToDie(){
+    if(firstTime > decayTime){
+        return true;
+    }else{
+        return false;
+    }
 }
 

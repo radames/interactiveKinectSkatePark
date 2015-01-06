@@ -74,8 +74,13 @@ void ofBackEffects::update(vector <ofPtr<ofxBox2dRect> > boxes){
         particles[i].setMode(currentMode);
         particles[i].setAnimationMode(animMode);
         particles[i].update();
-    }
 
+    }
+//    for(unsigned int i = 0; i < particles.size(); i++){
+//        if(particles[i].isReadyToDie()){
+//            particles[i].pop_back()
+//        }
+//    }
     //lets add a bit of movement to the attract points
     for(unsigned int i = 0; i < attractPointsWithMovement.size(); i++){
         attractPointsWithMovement[i].x = attractPoints[i].x + ofSignedNoise(i * 10, ofGetElapsedTimef() * 0.7) * 12.0;

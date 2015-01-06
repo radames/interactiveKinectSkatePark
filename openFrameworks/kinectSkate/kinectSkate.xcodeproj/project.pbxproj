@@ -112,7 +112,6 @@
 		51F49BDA1A59C776004C7FD0 /* ofxOscParameterSync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51F49BC91A59C776004C7FD0 /* ofxOscParameterSync.cpp */; };
 		51F49BDB1A59C776004C7FD0 /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51F49BCB1A59C776004C7FD0 /* ofxOscReceiver.cpp */; };
 		51F49BDC1A59C776004C7FD0 /* ofxOscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51F49BCD1A59C776004C7FD0 /* ofxOscSender.cpp */; };
-		51F49C2A1A5B5AB5004C7FD0 /* ofxTwistedRibbon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51F49C211A5B5AB5004C7FD0 /* ofxTwistedRibbon.cpp */; };
 		63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6151136D101F857DAE12722 /* ofxCvImage.cpp */; };
 		686B0DF6249B52E1A85B39EC /* ofxKinect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED9FFC7D08DA194C2CE7D09 /* ofxKinect.cpp */; };
 		7ADB04AF67C568EAFAEBA546 /* ofxKinectExtras.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01438542609FC64F1EC60EEB /* ofxKinectExtras.cpp */; };
@@ -416,8 +415,6 @@
 		51F49BCC1A59C776004C7FD0 /* ofxOscReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOscReceiver.h; sourceTree = "<group>"; };
 		51F49BCD1A59C776004C7FD0 /* ofxOscSender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOscSender.cpp; sourceTree = "<group>"; };
 		51F49BCE1A59C776004C7FD0 /* ofxOscSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOscSender.h; sourceTree = "<group>"; };
-		51F49C211A5B5AB5004C7FD0 /* ofxTwistedRibbon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTwistedRibbon.cpp; sourceTree = "<group>"; };
-		51F49C221A5B5AB5004C7FD0 /* ofxTwistedRibbon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTwistedRibbon.h; sourceTree = "<group>"; };
 		586A8EC141BDFA82B3B0518C /* config.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = config.h; path = ../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/flann/config.h; sourceTree = SOURCE_ROOT; };
 		59626D03C690200AD4E8B3A6 /* ml.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ml.hpp; path = ../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/ml/ml.hpp; sourceTree = SOURCE_ROOT; };
 		5A59183C98FC5E69FC90F138 /* contrib.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = contrib.hpp; path = ../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/contrib.hpp; sourceTree = SOURCE_ROOT; };
@@ -1242,24 +1239,6 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		51F49BF81A5B5AB5004C7FD0 /* ofxTwistedRibbon */ = {
-			isa = PBXGroup;
-			children = (
-				51F49C201A5B5AB5004C7FD0 /* src */,
-			);
-			name = ofxTwistedRibbon;
-			path = ../../../openFrameworks/addons/ofxTwistedRibbon;
-			sourceTree = "<group>";
-		};
-		51F49C201A5B5AB5004C7FD0 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				51F49C211A5B5AB5004C7FD0 /* ofxTwistedRibbon.cpp */,
-				51F49C221A5B5AB5004C7FD0 /* ofxTwistedRibbon.h */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
 		5236346776DB8ECC4B121CA3 /* gpu */ = {
 			isa = PBXGroup;
 			children = (
@@ -1535,11 +1514,11 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
-				51BE2BD61A51F131008FC226 /* ofParticles.h */,
 				D7F34E3B1A5C443A0024AF1E /* ofPhysicalObject.h */,
 				D7F34E3C1A5C460E0024AF1E /* ofPhysicalObject.cpp */,
 				D7AE41311A5AF85B00B49FA5 /* ofWave.h */,
 				D7AE41341A5AFD6300B49FA5 /* ofWave.cpp */,
+				51BE2BD61A51F131008FC226 /* ofParticles.h */,
 				51BE2BD81A51F193008FC226 /* ofParticles.cpp */,
 				513BD8F41A52018200C42626 /* ofBackEffects.cpp */,
 				513BD8F51A52018200C42626 /* ofBackEffects.h */,

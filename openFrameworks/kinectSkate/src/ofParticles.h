@@ -20,6 +20,7 @@ public:
     void setMode(particleMode newMode);
     void setAnimationMode(animationMode newMode);
     void setAttractPoints( vector <ofPoint> * attract );
+    bool isReadyToDie();
     
     void reset();
     void update();
@@ -33,8 +34,12 @@ public:
     float uniqueVal;
     float scale;
     
+    float firstTime;
+    float decayTime;
+
     particleMode mode;
     animationMode animMode;
+    
     
     vector <ofPoint> * attractPoints; 
 };

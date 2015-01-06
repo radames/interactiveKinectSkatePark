@@ -194,7 +194,7 @@ void ofApp::createObjects() {
 				// Create new wave
 				ofPtr<ofWave> newWave = ofPtr<ofWave>(new ofWave);
 				waves.push_back(newWave);
-				newWave->setup(center, ofGetElapsedTimeMillis(), 10, 50, (j==0?123:255));
+				newWave->setup(center, ofGetElapsedTimeMillis(), 10, 50, (kinectNumber==0?123:255));
 
 				// Add Physical Object
 				ofVec2f velocity = toOf(tracker.getVelocity(i));
