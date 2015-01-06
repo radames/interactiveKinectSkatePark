@@ -17,7 +17,7 @@
 		<min_Blob_Size>40</min_Blob_Size>
 		<Offset_X>0</Offset_X>
 		<Offset_Y>0</Offset_Y>
-	<Sensor_Pos>1259, 276.205</Sensor_Pos>
+	<Sensor_Pos>1131.05, 276.205</Sensor_Pos>
 	<Sensor_Area>0.507653</Sensor_Area>
 	</Kinect_1>
 <Settings/>

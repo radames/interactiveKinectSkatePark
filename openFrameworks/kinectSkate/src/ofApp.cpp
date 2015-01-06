@@ -7,7 +7,7 @@ using namespace ofxCv;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-    trail_i.assign(3000, 0);
+    trail_i.assign(100, 0);
     ofRectangle bounds = ofRectangle(0, 0, CWIDTH, CHEIGHT);
 
     screenSetup(); //screen and some OF setups
@@ -181,7 +181,7 @@ void ofApp::createObjects() {
                 // Create new wave
                 ofPtr<ofWave> newWave = ofPtr<ofWave>(new ofWave);
                 waves.push_back(newWave);
-                newWave->setup(center, ofGetElapsedTimeMillis(), 10, 50);
+                newWave->setup(center, ofGetElapsedTimeMillis(), 10, 50, (j==0?123:255));
 
                 ofPtr<ofxBox2dRect> box = ofPtr<ofxBox2dRect>(new ofxBox2dRect);
 
@@ -217,7 +217,7 @@ void ofApp::createObjects() {
                 //Osc Message for new Objects on the screen based on the sensorPositions[j] j = kinectic number
                 ofxOscMessage m;
 
-                if(center.x  < sensorPos[j]-> x -  kinect[j].height/2  ){ //if this then he've appeared first on th left
+                if(center.x  < sensorPos[j]-> x ){ //if this then he've appeared first on th left
                     m.setAddress("/skatista/ED");
                 }else{
                     m.setAddress("/skatista/DE");
@@ -282,7 +282,7 @@ void ofApp::update() {
 
     // Update waves
     for (int i = 0; i < waves.size(); ++i) {
-        cout << "UP WAVE" << endl;
+        //cout << "UP WAVE" << endl;
         waves[i]->update();
     }
 
@@ -353,17 +353,22 @@ void ofApp::debugMode(){
         ofPushMatrix();
     
             ofPushStyle();
-            ofTranslate(sensorPos[j]->x, sensorPos[j]->y);
             ofSetRectMode(OF_RECTMODE_CENTER);
-            ofRotate(90);
-            kinect[j].drawDepth(0,0,sensorArea[j]*kinect[j].width, sensorArea[j]*kinect[j].height);
-            ofScale(sensorArea[j],sensorArea[j]);
-            contourFinder[j].draw();
-            ofRect(0,0,100,100);
-
+        
+                ofTranslate(sensorPos[j]->x, sensorPos[j]->y);
+                ofScale(sensorArea[j],sensorArea[j]);
+                ofRotate(90);
+                kinect[j].drawDepth(0,0,kinect[j].width, kinect[j].height);
+                ofPushMatrix();
+                    ofTranslate(-kinect[j].width/2,-kinect[j].height/2);
+                    ofSetRectMode(OF_RECTMODE_CORNER);
+                    contourFinder[j].draw();
+                ofPopMatrix();
             ofPopStyle();
         ofPopMatrix();
-
+        
+   
+        
         RectTracker& tracker = contourFinder[j].getTracker();
 
         for(int i=0; i < contourFinder[j].size(); i++){
@@ -372,24 +377,26 @@ void ofApp::debugMode(){
 
             if(tracker.existsPrevious(label)) {
 
-                ofPoint center = toOf(contourFinder[j].getCenter(i));
+                ofPoint center = toWorldCoord( toOf(contourFinder[j].getCenter(i)),j);
                 ofPushStyle();
                 ofSetColor(255,0,0);
                 ofSetRectMode(OF_RECTMODE_CENTER);
                 ofFill();
                 ofPushMatrix();
-                    ofTranslate(sensorPos[j]->x, sensorPos[j]->y);
-                    ofRotate(90);
-                    ofScale(sensorArea[j],sensorArea[j]);
+                    //ofTranslate(center.x , center.y);
+                
                     ofEllipse(center.x,center.y,10,10);
                     string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
                     ofDrawBitmapString(msg,center.x,center.y);
                     ofVec2f velocity = toOf(contourFinder[j].getVelocity(i));
+                
                     ofPushMatrix();
                         ofTranslate(center.x, center.y);
                         ofScale(10, 10);
                         ofLine(0, 0, velocity.x, velocity.y);
                     ofPopMatrix();
+                    ofScale(sensorArea[j],sensorArea[j]);
+
                 ofPopMatrix();
                 ofPopStyle();
             }
@@ -540,10 +547,10 @@ void ofApp::guiSetup(){
 ofPoint ofApp::toWorldCoord(ofPoint point, int kinectId){
 
     //mapping position to a new area
-    float x = ofMap(point.x, 0, kinect[kinectId].width, 0, kinect[kinectId].width * sensorArea[kinectId]);
-    float y = ofMap(point.y, 0, kinect[kinectId].height, kinect[kinectId].height * sensorArea[kinectId], 0);
+    float x = ofMap(point.x, 0, kinect[kinectId].width, 0, kinect[kinectId].width * sensorArea[kinectId]) -  kinect[kinectId].width * sensorArea[kinectId]*0.5;
+    float y = ofMap(point.y, 0, kinect[kinectId].height,kinect[kinectId].height * sensorArea[kinectId],0) -  kinect[kinectId].height * sensorArea[kinectId]*0.5;
 
-    return ofPoint(y + sensorPos[kinectId]-> x -  kinect[kinectId].height/2 ,x + sensorPos[kinectId]->y);
+    return ofPoint(y + sensorPos[kinectId]->x, x + sensorPos[kinectId]->y );
 
 }
 

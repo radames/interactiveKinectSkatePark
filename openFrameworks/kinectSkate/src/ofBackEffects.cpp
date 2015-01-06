@@ -9,7 +9,7 @@ ofBackEffects::~ofBackEffects(){}
 void ofBackEffects::setup(){
 
     //particles background
-    currentMode = PARTICLE_MODE_REPEL;
+    currentMode = PARTICLE_MODE_NEAREST_POINTS;
     animMode = TRAIL;
     particles.assign(maxParticles, ofParticles());
     indexParticle = 0;

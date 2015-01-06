@@ -12,12 +12,12 @@
 class ofWave {
     
 public:    
-    void setup(ofPoint center, long startTime, int numberWaveFronts, float velocity);
+    void setup(ofPoint center, long startTime, int numberWaveFronts, float velocity, int _hue);
     void update();
     void draw();
     
     ofPoint center;
-    ofColor color;
+    int hue;
     int numberWaveFronts;
     float velocity;
     float accel;
