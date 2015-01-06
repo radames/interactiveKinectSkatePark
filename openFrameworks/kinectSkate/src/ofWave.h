@@ -11,10 +11,14 @@
 
 class ofWave {
     
-public:    
-    void setup(ofPoint center, long startTime, int numberWaveFronts, float velocity, int _hue);
+public:
+    ofWave();
+    ~ofWave();
+
+    void setup(ofPoint center, int numberWaveFronts, float velocity, int _hue);
     void update();
     void draw();
+    bool isReadyToDie();
     
     ofPoint center;
     int hue;
@@ -26,4 +30,5 @@ public:
     long startTime;
     long dt;
     long lastTime;
+    long dTime; //duration time
 };

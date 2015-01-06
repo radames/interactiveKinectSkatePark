@@ -118,7 +118,7 @@ public:
 	ofImage debugImage;
 
 	// Waves
-	vector <ofPtr<ofWave> > waves;
+	vector <ofWave> waves;
 
 	//oscMessage Sender
 	ofxOscSender sender;
