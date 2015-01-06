@@ -11,8 +11,8 @@ void ofBackEffects::setup(){
     //particles background
     currentMode = PARTICLE_MODE_NEAREST_POINTS;
     animMode = TRAIL;
-    particles.assign(maxParticles, ofParticles());
-    indexParticle = 0;
+   // particles.assign(0, ofParticles());
+
     resetParticles();
     
     particlesGUI.setName("Particles");
@@ -43,8 +43,11 @@ void ofBackEffects::addParticles(int num, ofPoint origin, ofPoint velocity) {
             p.setMode(currentMode);
             p.setAttractPoints(&attractPointsWithMovement);
      
-            particles[indexParticle] = p;
-            indexParticle = (indexParticle + 1) % maxParticles;
+            if(particles.size() < maxParticles){
+                particles.push_back(p);
+            }else{
+                return;
+            }
     }
 }
 

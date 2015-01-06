@@ -31,7 +31,6 @@ private:
     vector <ofParticles> particles;
     vector <ofPoint> attractPoints;
     vector <ofPoint> attractPointsWithMovement;
-    int indexParticle = 0;
 
     particleMode currentMode;
     animationMode animMode;
