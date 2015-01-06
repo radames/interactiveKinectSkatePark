@@ -134,7 +134,6 @@ void ofApp::drawPositions() {
 			ofFill();
 			ofSetHexColor(0xff0000);
 			ofVec2f pos_j = boxes[j].get()->getPosition();
-			//     cout << pos_j.squareDistance(pos_center) << endl;
 			if (pos_j.squareDistance(pos_center)/100 < 1200) {
 				ofLine(pos_center.x, pos_center.y, pos_j.x, pos_j.y);
 			}
@@ -157,7 +156,6 @@ void ofApp::updateTrail() {
 		if ((newPosition - trail[i][old_trail]).length() > 10) {
 			trail[i][trail_i[i]] = newPosition;
 			trail_i[i] = (trail_i[i] + 1) % 30;
-			// cout << "NEW POS " << newPosition << endl;
 		}
 	}
 }
@@ -194,7 +192,7 @@ void ofApp::createObjects() {
 				// Create new wave
 				ofPtr<ofWave> newWave = ofPtr<ofWave>(new ofWave);
 				waves.push_back(newWave);
-				newWave->setup(center, ofGetElapsedTimeMillis(), 10, 50, (j==0?123:255));
+				newWave->setup(center, ofGetElapsedTimeMillis(), 10, 50, (kinectNumber==0?123:255));
 
 				// Add Physical Object
 				ofVec2f velocity = toOf(tracker.getVelocity(i));
@@ -203,34 +201,22 @@ void ofApp::createObjects() {
 				physicalObject->setup(&box2d, velocity, center, kinectNumber, label, w, h);
 				physObjects.push_back(ptrPhysicalObject);
 
+                // Keep track of object index
+                addedObjs[kinectNumber][label] = physObjects.size() - 1;
+                
 				// Add trail to the new object
 
 				/*
 				   vector <ofPoint> box_trail;
 				   box_trail.assign(30, ofPoint());
 				   for (int ti = 0; ti < 30; ++ti) {
-				   box_trail[ti] = center;
+                        box_trail[ti] = center;
 				   }
 				   trail.push_back(box_trail);
-
-				   ofxBox2dRect *rect = box.get();
-				   ofVec2f velocity = toOf(tracker.getVelocity(i));
-
-				   rect->setVelocity(velocity.x, velocity.y);
-				   rect->setPhysics(3.0, 0.53, 0.1);
-				   rect->setup(box2d.getWorld(), center.x, center.y, w, h);
-				 */
+                */
+                 
 				// Add attract points to background
 				myBack.addAttractPoints(center);
-
-				/*
-				   rect->setData(new ObjectData());
-				   ObjectData *objData = (ObjectData *)rect->getData();
-				   objData->w = velocity.x * w;
-				   objData->h = velocity.y * h;
-				   objData->hit = true;*/
-
-				addedObjs[kinectNumber][label] = boxes.size() - 1;
 
 				//Osc Message for new Objects on the screen based on the sensorPositions[j] j = kinectic number
 				ofxOscMessage m;
@@ -248,24 +234,14 @@ void ofApp::createObjects() {
 			}
 
 			if (tracker.existsPrevious(label) && addedObjs[kinectNumber][label] != -1) {
-
 				ofVec2f velocity = toOf(tracker.getVelocity(i));
-				ofPtr<ofxBox2dRect> rect = boxes[addedObjs[kinectNumber][label]];
-
 				if (velocity.x != 0 && velocity.y != 0) {
-
-					rect->setData(new ObjectData());
-					ObjectData *objData = (ObjectData *)rect->getData();
-					objData->w = velocity.x*20;
-					objData->h = velocity.y *20;
-					objData->hit = true;
-
-					rect->setVelocity(-velocity.y, velocity.x);
+                    ofPhysicalObject *physObject = physObjects[addedObjs[kinectNumber][label]].get();
+                    physObject->updateVelocity(velocity);
 					addedObjs[kinectNumber][label] == -1;
 				}
 			}
 		}
-		//loop nas kinects
 	}
 }
 

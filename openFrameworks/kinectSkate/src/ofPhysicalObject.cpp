@@ -19,6 +19,10 @@ void ofPhysicalObject::setup(ofxBox2d *_box2d, ofVec2f velocity, ofPoint positio
     rect->setup(box2d->getWorld(), position.x, position.y, _width, _height);
 }
 
+void ofPhysicalObject::updateVelocity(ofVec2f _velocity) {
+    rectBody->setVelocity(-_velocity.y, _velocity.x);
+}
+
 void ofPhysicalObject::draw() {
     ofPushStyle();
     ofFill();
