@@ -27,7 +27,7 @@ public:
 class ObjectData {
 public:
 	float w;
-    float h;
+	float h;
 	bool hit;
 };
 
@@ -37,102 +37,95 @@ public:
 	void setup();
 	void update();
 	void draw();
-    void drawTrail();
-    void updateWave();
-    void drawWave();
+    	void drawTrail();
+    	void updateWave();
+    	void drawWave();
 	void exit();
-	
 	void drawPointCloud();
-	
 	void keyPressed(int key);
 	void mouseDragged(int x, int y, int button);
 	void mousePressed(int x, int y, int button);
 	void mouseReleased(int x, int y, int button);
 	void windowResized(int w, int h);
 	void mouseMoved(int x, int y);
-    
-    void screenSetup();
-    void kinectSetup(int kinectNumber, string id);
-    void kinectUpdate();
-    void debugMode();
-    
-    void updateTrail();
-    void createObjects();
+
+	void screenSetup();
+	void kinectSetup(int kinectNumber, string id);
+	void kinectUpdate();
+	void debugMode();
+
+	void updateTrail();
+	void createObjects();
 	// this is the function for contacts
 	void contactStart(ofxBox2dContactArgs &e);
 	void contactEnd(ofxBox2dContactArgs &e);
-    void guiSetup();
-    void drawPositions();
-    
-    void oscUpdate();
-    
-    // convert blob position to world
-    ofPoint toWorldCoord(ofPoint point, int kinectId);
+	void guiSetup();
+	void drawPositions();
 
-    ofxSyphonServer syphonServer;
-    
-    //Kinects
-    ofxKinect kinect[2];
-    ofxCv::ContourFinder contourFinder[2];
+	void oscUpdate();
+
+	// convert blob position to world
+	ofPoint toWorldCoord(ofPoint point, int kinectId);
+
+	ofxSyphonServer syphonServer;
+
+	//Kinects
+	ofxKinect kinect[2];
+	ofxCv::ContourFinder contourFinder[2];
 	ofxCvColorImage colorImg[2];
 	ofxCvGrayscaleImage grayImage[2]; // grayscale depth image
 	ofxCvGrayscaleImage grayThreshNear[2]; // the near thresholded image
 	ofxCvGrayscaleImage grayThreshFar[2]; // the far thresholded image
-   
-    //GUI
-    ofxPanel gui; //
 
-    ofParameterGroup parametersKinect[2];
+	//GUI
+	ofxPanel gui; //
 
-    ofParameter<int> farThreshold[2];
-    ofParameter<float> offsetX[2];
-    ofParameter<float> offsetY[2];
-    ofParameter<int> numMaxBlobs[2];
-    ofParameter<int> minBlobSize[2];
-    ofParameter<int> maxBlobSize[2];
-    
-    ofParameter<ofVec2f> sensorPos[2];
-    ofParameter<float> sensorArea[2];
+	ofParameterGroup parametersKinect[2];
 
-    vector <tr1::unordered_map<int, int> > addedObjs;
+	ofParameter<int> farThreshold[2];
+	ofParameter<float> offsetX[2];
+	ofParameter<float> offsetY[2];
+	ofParameter<int> numMaxBlobs[2];
+	ofParameter<int> minBlobSize[2];
+	ofParameter<int> maxBlobSize[2];
 
-    
-    //options variables
-    bool bDebugMode = true;
+	ofParameter<ofVec2f> sensorPos[2];
+	ofParameter<float> sensorArea[2];
+
+	vector <tr1::unordered_map<int, int> > addedObjs;
+
+	//options variables
+	bool bDebugMode = true;
 	int nearThreshold;
-	
-    static const int CWIDTH = 1024*2; //canvas width 1
-    static const int CHEIGHT = 768; //canvas height
 
-    
-    //ofscreen buffers
-    ofFbo screen1;
-    
-    // Box2D
-    ofxBox2d box2d;
+	static const int CWIDTH = 1024*2; //canvas width 1
+	static const int CHEIGHT = 768; //canvas height
+
+	//ofscreen buffers
+	ofFbo screen1;
+
+	// Box2D
+	ofxBox2d box2d;
 	vector <ofPtr<ofxBox2dRect> > boxes;
-    vector <ofPtr<ofPhysicalObject> > physObjects;
-    
-    vector <vector <ofPoint> > trail;
-    vector <int> trail_i;
-    vector <int> addedTrailSegments;
-    vector <ContactData> colCenters;
-    
-    ofBackEffects myBack;
-    ofImage debugImage;
-    
-    // Waves
-    vector <ofPtr<ofWave> > waves;
-    
-    //oscMessage Sender
-    ofxOscSender sender;
-    ofxOscReceiver receiver;
+	vector <ofPtr<ofPhysicalObject> > physObjects;
 
-    long lastTime;
-    
-    ofPoint startWave;
-    long waveTime;
-    
-    vector <tr1::unordered_map<int, ofPtr<ofxTwistedRibbon> > > ribbons;
-    //float ribbonZ;
+	vector <vector <ofPoint> > trail;
+	vector <int> trail_i;
+	vector <int> addedTrailSegments;
+	vector <ContactData> colCenters;
+
+	ofBackEffects myBack;
+	ofImage debugImage;
+
+	// Waves
+	vector <ofPtr<ofWave> > waves;
+
+	//oscMessage Sender
+	ofxOscSender sender;
+	ofxOscReceiver receiver;
+
+	long lastTime;
+
+	ofPoint startWave;
+	long waveTime;
 };

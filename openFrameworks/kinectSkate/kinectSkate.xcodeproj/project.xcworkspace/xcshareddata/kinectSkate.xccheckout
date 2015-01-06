@@ -10,6 +10,8 @@
 	<string>kinectSkate</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>219FF19B371D53B0F60B3932A86F1D8E8E316723</key>
+		<string>https://github.com/tado/ofxTwistedRibbon.git</string>
 		<key>37526DA425E5430474A14FBFA1BC4525160B5FC1</key>
 		<string>https://github.com/kylemcdonald/ofxCv.git</string>
 		<key>820D8ECECF908AEE9B246B025F1F606DC1E2C31E</key>
@@ -23,6 +25,8 @@
 	<string>openFrameworks/kinectSkate/kinectSkate.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>219FF19B371D53B0F60B3932A86F1D8E8E316723</key>
+		<string>../../../../../Development/openFrameworks/addons/ofxTwistedRibbon</string>
 		<key>37526DA425E5430474A14FBFA1BC4525160B5FC1</key>
 		<string>../../../../../Development/openFrameworks/addons/ofxCv</string>
 		<key>820D8ECECF908AEE9B246B025F1F606DC1E2C31E</key>
@@ -71,6 +75,14 @@
 			<string>F4CCB893AFADB97238A965FD2F28717F1CAAE613</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ofxSyphon</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>219FF19B371D53B0F60B3932A86F1D8E8E316723</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ofxTwistedRibbon</string>
 		</dict>
 	</array>
 </dict>

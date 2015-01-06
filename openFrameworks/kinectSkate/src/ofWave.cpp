@@ -8,13 +8,14 @@
 
 #include "ofWave.h"
 
-void ofWave::setup(ofPoint _center, long _startTime, int _numberWaveFronts, float _velocity) {
+void ofWave::setup(ofPoint _center, long _startTime, int _numberWaveFronts, float _velocity , int _hue) {
     center = _center;
     startTime = _startTime;
     numberWaveFronts =  _numberWaveFronts;
     velocity = _velocity;
     accel = 0.2;
     linearVelocity = 0.5;
+    hue = _hue;
     
 }
 
@@ -31,7 +32,9 @@ void ofWave::draw() {
         circle.arc(center, i*accel*dt*dt + i*linearVelocity*dt, i*accel*dt*dt + i*linearVelocity*dt, 0, 360);
         circle.close();
         circle.arc(center, i*accel*dt*dt + i*linearVelocity*dt + 0.6*i*dt*dt/20, i*accel*dt*dt + i*linearVelocity*dt + 0.6*i*dt*dt/20, 0, 360);
-        circle.setColor(ofColor(255*floor(i)/10 + 100.255*floor(i)/10  + 30,0, 0, 205*floor(i)/10.0 + 50));
+        ofColor c;
+        c.setHsb(hue,100 * floor(i)/10 + 155, 255, 200 * floor(i)/10 + 55);
+        circle.setColor(c);
         circle.draw();
         ofPopStyle();
     }
