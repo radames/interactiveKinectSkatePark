@@ -179,9 +179,9 @@ void ofApp::createObjects() {
 				ofPoint center = toWorldCoord(toOf(contourFinder[kinectNumber].getCenter(i)), kinectNumber);
 
 				// Create new wave
-				ofPtr<ofWave> newWave = ofPtr<ofWave>(new ofWave);
+                ofWave newWave;
+                newWave.setup(center, 10, 50, (kinectNumber==0?123:255));
 				waves.push_back(newWave);
-				newWave->setup(center, ofGetElapsedTimeMillis(), 10, 50, (kinectNumber==0?123:255));
 
 				// Add Physical Object
 				ofVec2f velocity = toOf(tracker.getVelocity(i));
@@ -258,32 +258,21 @@ void ofApp::update() {
 		lastTime = now;
 	}
 
-	/*
-	   if (boxes.size() > 0) {
-	   ofVec3f position;
-	   ofPoint newPosition = boxes[0].get()->getPosition();
-
-	   float radius = sin(ofGetElapsedTimef()) * 50 + 200;
-	   position.z = sin(ofGetElapsedTimef() * 0.3) * radius;
-//ribbonZ = position.z;
-position.x  = newPosition.x;
-position.y  = newPosition.y;
-ofColor color;
-int hue = int(ofGetElapsedTimef() * 10) % 255;
-color.setHsb(255, 120, hue);
-ribbon->update(position, color);
-}*/
-
     // Update waves
-    for (int i = 0; i < waves.size(); ++i) {
-        waves[i]->update();
-    }
     
+    for(vector<ofWave>::iterator it = waves.begin(); it != waves.end(); ){
+        it->update();
+        if(it->isReadyToDie()){
+            it = waves.erase(it);
+        }else{
+            ++it;
+        }
+    }
+
     // Update Physical Objects
     for (int i = 0; i < physObjects.size(); ++i) {
         physObjects[i]->update();
     }
-
 }
 
 //--------------------------------------------------------------
@@ -292,29 +281,11 @@ void ofApp::draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	ofEnableAlphaBlending();
 
-	/*
-	   if (boxes.size() > 0) {
-	   ofPoint newPosition = boxes[0].get()->getPosition();
-	   ofPushMatrix();
-	//ofTranslate(newPosition.x, newPosition.y, ribbonZ);
-	//ofRotate(ofGetElapsedTimef() * 10, 1, 0, 0);
-	ribbon->draw();
-	ofPopMatrix();
-	}*/
-
 	if(bDebugMode){ debugMode(); }//draw debug mode
 
 	for (int i = 0; i < physObjects.size(); ++i) {
 		physObjects[i].get()->draw();
 	}
-
-	/*
-	   for(int i=0; i<boxes.size(); i++) {
-	   ofFill();
-	   ofSetHexColor(0xe63b8b);
-	   boxes[i].get()->draw();
-// cout << boxes[i].get()->getPosition() << endl;
-}*/
 
     // drawPositions();
     myBack.draw(); //draw background effects
@@ -323,7 +294,7 @@ void ofApp::draw() {
     drawTrail();
     // draw waves
     for (int i = 0; i < waves.size(); ++i) {
-        waves[i]->draw();
+        waves[i].draw();
     }
 
     syphonServer.publishScreen(); //syphon screen
