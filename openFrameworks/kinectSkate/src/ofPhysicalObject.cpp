@@ -54,10 +54,7 @@ void ofPhysicalObject::update() {
 }
 
 void ofPhysicalObject::draw() {
-
-    cout << appConfig->runningMode << endl;
     if (appConfig->runningMode == TRAILS) {
-
         ofPushStyle();
         //ofFill();
         //ofSetHexColor(0xe63b8b);
@@ -67,11 +64,12 @@ void ofPhysicalObject::draw() {
         ribbon->draw();
         ofPopMatrix();
         ofPopStyle();
-        
     }
     
-    ofPushStyle();
-    ofPoint pos = rectBody->getPosition();
-    objectImage.draw(pos.x, pos.y);
-    ofPopStyle();
+    if (appConfig->runningMode == SHAPES) {
+        ofPushStyle();
+        ofPoint pos = rectBody->getPosition();
+        objectImage.draw(pos.x, pos.y);
+        ofPopStyle();
+    }
 }
