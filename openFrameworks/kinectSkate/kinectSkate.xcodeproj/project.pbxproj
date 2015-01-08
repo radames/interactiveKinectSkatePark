@@ -1532,7 +1532,7 @@
 				D7EE62511A5E4814005895BE /* src */,
 			);
 			name = ofxPostProcessing;
-			path = ../../../Development/openFrameworks/addons/ofxPostProcessing;
+			path = ../../../openFrameworks/addons/ofxPostProcessing;
 			sourceTree = "<group>";
 		};
 		D7EE62511A5E4814005895BE /* src */ = {
