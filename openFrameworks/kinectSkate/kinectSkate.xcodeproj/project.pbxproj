@@ -120,7 +120,7 @@
 		D31F5C1B140C59B2AF1533A8 /* registration.c in Sources */ = {isa = PBXBuildFile; fileRef = 71958293AC5292DE4B7C619D /* registration.c */; };
 		D3301F6A0B43BB293ED97C1D /* ofxCvShortImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A4DD23693DFAB8EC05FAA5D /* ofxCvShortImage.cpp */; };
 		D7AE41351A5AFD6300B49FA5 /* ofWave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7AE41341A5AFD6300B49FA5 /* ofWave.cpp */; };
-		D7F34E331A5B4F3A0024AF1E /* ofxTwistedRibbon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7F34E2A1A5B4F3A0024AF1E /* ofxTwistedRibbon.cpp */; };
+		D7EE623D1A5E4109005895BE /* ofxTwistedRibbon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7EE623B1A5E4109005895BE /* ofxTwistedRibbon.cpp */; };
 		D7F34E3D1A5C460E0024AF1E /* ofPhysicalObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7F34E3C1A5C460E0024AF1E /* ofPhysicalObject.cpp */; };
 		E212C821D1064B92DD953A42 /* ofxCvHaarFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9A16CBF2E8CFE43AF54FE6F5 /* ofxCvHaarFinder.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
@@ -490,8 +490,8 @@
 		D7AE41311A5AF85B00B49FA5 /* ofWave.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofWave.h; sourceTree = "<group>"; };
 		D7AE41341A5AFD6300B49FA5 /* ofWave.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofWave.cpp; sourceTree = "<group>"; };
 		D7EE62351A5E34DB005895BE /* ofAppConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofAppConfig.h; sourceTree = "<group>"; };
-		D7F34E2A1A5B4F3A0024AF1E /* ofxTwistedRibbon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTwistedRibbon.cpp; sourceTree = "<group>"; };
-		D7F34E2B1A5B4F3A0024AF1E /* ofxTwistedRibbon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTwistedRibbon.h; sourceTree = "<group>"; };
+		D7EE623B1A5E4109005895BE /* ofxTwistedRibbon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxTwistedRibbon.cpp; path = src/ofxTwistedRibbon.cpp; sourceTree = SOURCE_ROOT; };
+		D7EE623C1A5E4109005895BE /* ofxTwistedRibbon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxTwistedRibbon.h; path = src/ofxTwistedRibbon.h; sourceTree = SOURCE_ROOT; };
 		D7F34E3B1A5C443A0024AF1E /* ofPhysicalObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofPhysicalObject.h; sourceTree = "<group>"; };
 		D7F34E3C1A5C460E0024AF1E /* ofPhysicalObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofPhysicalObject.cpp; sourceTree = "<group>"; };
 		D847EBE484F4F500F9CF2549 /* ofxCvImage.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxCvImage.h; path = ../../../openFrameworks/addons/ofxOpenCv/src/ofxCvImage.h; sourceTree = SOURCE_ROOT; };
@@ -1370,7 +1370,6 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				D7F34E011A5B4F390024AF1E /* ofxTwistedRibbon */,
 				51F49BA41A59C775004C7FD0 /* ofxOsc */,
 				517F7B161A49DBDA00F217DB /* ofxBox2d */,
 				5104D19119D8D341002EB372 /* ofxCv */,
@@ -1453,24 +1452,6 @@
 			name = objdetect;
 			sourceTree = "<group>";
 		};
-		D7F34E011A5B4F390024AF1E /* ofxTwistedRibbon */ = {
-			isa = PBXGroup;
-			children = (
-				D7F34E291A5B4F3A0024AF1E /* src */,
-			);
-			name = ofxTwistedRibbon;
-			path = ../../../openFrameworks/addons/ofxTwistedRibbon;
-			sourceTree = "<group>";
-		};
-		D7F34E291A5B4F3A0024AF1E /* src */ = {
-			isa = PBXGroup;
-			children = (
-				D7F34E2A1A5B4F3A0024AF1E /* ofxTwistedRibbon.cpp */,
-				D7F34E2B1A5B4F3A0024AF1E /* ofxTwistedRibbon.h */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
 		DCC60D6724B56635AE867535 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1512,6 +1493,8 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				D7EE623B1A5E4109005895BE /* ofxTwistedRibbon.cpp */,
+				D7EE623C1A5E4109005895BE /* ofxTwistedRibbon.h */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				D7EE62351A5E34DB005895BE /* ofAppConfig.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
@@ -1706,7 +1689,6 @@
 				E55DEEF784A10419E444669E /* flags.c in Sources */,
 				51F49BCF1A59C776004C7FD0 /* IpEndpointName.cpp in Sources */,
 				517F7D101A49DBDE00F217DB /* b2Body.cpp in Sources */,
-				D7F34E331A5B4F3A0024AF1E /* ofxTwistedRibbon.cpp in Sources */,
 				FCC16AB16073FF0581F50ED7 /* loader.c in Sources */,
 				517F7D291A49DBDE00F217DB /* b2WeldJoint.cpp in Sources */,
 				51F49BD71A59C776004C7FD0 /* OscTypes.cpp in Sources */,
@@ -1784,6 +1766,7 @@
 				5104D4AB19D8D349002EB372 /* Calibration.cpp in Sources */,
 				517F7D121A49DBDE00F217DB /* b2Fixture.cpp in Sources */,
 				517F7D2E1A49DBDE00F217DB /* ofxBox2d.cpp in Sources */,
+				D7EE623D1A5E4109005895BE /* ofxTwistedRibbon.cpp in Sources */,
 				E212C821D1064B92DD953A42 /* ofxCvHaarFinder.cpp in Sources */,
 				5104D17C19D8675A002EB372 /* ofxGuiGroup.cpp in Sources */,
 				51F49BDC1A59C776004C7FD0 /* ofxOscSender.cpp in Sources */,
