@@ -163,10 +163,9 @@ void ofApp::createObjects() {
 
 				// Add Physical Object
 				ofVec2f velocity = toOf(tracker.getVelocity(i));
-				ofPtr<ofPhysicalObject> ptrPhysicalObject = ofPtr<ofPhysicalObject>(new ofPhysicalObject);
-				ofPhysicalObject *physicalObject = ptrPhysicalObject.get();
-				physicalObject->setup(&appConfig, &box2d, velocity, center, kinectNumber, label, w, h);
-				physObjects.push_back(ptrPhysicalObject);
+                ofPhysicalObject physicalObject;
+				physicalObject.setup(&appConfig, &box2d, velocity, center, kinectNumber, label, w, h);
+				physObjects.push_back(physicalObject);
 
                 // Keep track of object index
                 addedObjs[kinectNumber][label] = physObjects.size() - 1;
@@ -203,8 +202,8 @@ void ofApp::createObjects() {
 			if (tracker.existsPrevious(label) && addedObjs[kinectNumber][label] != -1) {
 				ofVec2f velocity = toOf(tracker.getVelocity(i));
 				if (velocity.x != 0 && velocity.y != 0) {
-                    ofPhysicalObject *physObject = physObjects[addedObjs[kinectNumber][label]].get();
-                    physObject->updateVelocity(velocity);
+                    ofPhysicalObject physObject = physObjects[addedObjs[kinectNumber][label]];
+                    physObject.updateVelocity(velocity);
 					addedObjs[kinectNumber][label] == -1;
 				}
 			}
@@ -237,7 +236,6 @@ void ofApp::update() {
 	}
 
     // Update waves
-    
     for(vector<ofWave>::iterator it = waves.begin(); it != waves.end(); ){
         it->update();
         if(it->isReadyToDie()){
@@ -248,8 +246,13 @@ void ofApp::update() {
     }
 
     // Update Physical Objects
-    for (int i = 0; i < physObjects.size(); ++i) {
-        physObjects[i]->update();
+    for(vector<ofPhysicalObject>::iterator it = physObjects.begin(); it != physObjects.end(); ){
+        it->update();
+        if(it->isReadyToDie()){
+            it = physObjects.erase(it);
+        }else{
+            ++it;
+        }
     }
 }
 
@@ -264,15 +267,14 @@ void ofApp::draw() {
 	if(bDebugMode){ debugMode(); }//draw debug mode
 
 	for (int i = 0; i < physObjects.size(); ++i) {
-		physObjects[i].get()->draw();
+		physObjects[i].draw();
 	}
     
     if (appConfig.runningMode == GRAPH) {
         for (int i = 0; i < physObjects.size(); ++i) {
             for (int j = i + 1; j < physObjects.size(); ++j) {
-                ofPoint p1 = physObjects[i].get()->rectBody.get()->getPosition();
-                ofPoint p2 = physObjects[j].get()->rectBody.get()->getPosition();
-
+                ofPoint p1 = physObjects[i].rectBody->getPosition();
+                ofPoint p2 = physObjects[j].rectBody->getPosition();
                 ofLine(p1.x, p1.y, p2.x, p2.y);
             }
         }
