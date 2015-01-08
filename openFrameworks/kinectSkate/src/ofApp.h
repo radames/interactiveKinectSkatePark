@@ -128,5 +128,5 @@ public:
 	long lastTime;
     ofImage objectImage;
 
-    AppConfig *appConfig;
+    AppConfig appConfig;
 };

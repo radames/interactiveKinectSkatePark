@@ -55,6 +55,7 @@ void ofPhysicalObject::update() {
 
 void ofPhysicalObject::draw() {
 
+    cout << appConfig->runningMode << endl;
     if (appConfig->runningMode == TRAILS) {
 
         ofPushStyle();

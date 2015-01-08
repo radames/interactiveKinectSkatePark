@@ -7,9 +7,7 @@ using namespace ofxCv;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-    AppConfig _config;
-    appConfig = &_config;
-    appConfig->runningMode = TRAILS;
+    appConfig.runningMode = TRAILS;
     
 	trail_i.assign(100, 0);
 	ofRectangle bounds = ofRectangle(0, 0, CWIDTH, CHEIGHT);
@@ -163,7 +161,7 @@ void ofApp::createObjects() {
 				ofVec2f velocity = toOf(tracker.getVelocity(i));
 				ofPtr<ofPhysicalObject> ptrPhysicalObject = ofPtr<ofPhysicalObject>(new ofPhysicalObject);
 				ofPhysicalObject *physicalObject = ptrPhysicalObject.get();
-				physicalObject->setup(appConfig, &box2d, velocity, center, kinectNumber, label, w, h);
+				physicalObject->setup(&appConfig, &box2d, velocity, center, kinectNumber, label, w, h);
 				physObjects.push_back(ptrPhysicalObject);
 
                 // Keep track of object index
@@ -253,6 +251,7 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+    cout << "CONFG " << TRAILS << " " << appConfig.runningMode << endl;
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	ofEnableAlphaBlending();
@@ -511,7 +510,7 @@ ofPoint ofApp::toWorldCoord(ofPoint point, int kinectId){
 }
 
 void ofApp::setRunningMode(canvasMode _newRunningMode) {
-    appConfig->runningMode = _newRunningMode;
+    appConfig.runningMode = _newRunningMode;
 }
 
 void ofApp::oscUpdate(){
