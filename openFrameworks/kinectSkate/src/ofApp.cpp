@@ -265,7 +265,7 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() {
     
-	glClearColor(0.0, 0.0, 0.0, 255.0);
+	glClearColor(0.0, 0.0, 0.0, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //ofClear(0,0,0,255);
 	ofEnableAlphaBlending();
