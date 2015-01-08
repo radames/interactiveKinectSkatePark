@@ -7,11 +7,17 @@ using namespace ofxCv;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-    effect = false;
     
     post.init(CWIDTH, CHEIGHT);
-    post.createPass<BloomPass>()->setEnabled(effect);
-    
+    post.createPass<BloomPass>()->setEnabled(false);
+    post.createPass<DofPass>()->setEnabled(false);
+    post.createPass<KaleidoscopePass>()->setEnabled(false);
+    post.createPass<NoiseWarpPass>()->setEnabled(false);
+    post.createPass<PixelatePass>()->setEnabled(false);
+    post.createPass<GodRaysPass>()->setEnabled(false);
+    post.createPass<EdgePass>()->setEnabled(false);
+    post.createPass<FxaaPass>()->setEnabled(false);
+
     appConfig.runningMode = TRAILS;
     
 	trail_i.assign(100, 0);
@@ -264,6 +270,7 @@ void ofApp::draw() {
     
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    ofClear(0,0,0,255);
 	ofEnableAlphaBlending();
 
 	if(bDebugMode){ debugMode(); }//draw debug mode
@@ -598,10 +605,29 @@ void ofApp::keyPressed (int key) {
             appConfig.runningMode = SHAPES;
             break;
         case '1':
-            effect = !effect;
-            post[0]->setEnabled(effect);
+            post[0]->setEnabled(!post[0]->getEnabled());
             break;
-
+        case '2':
+            post[1]->setEnabled(!post[1]->getEnabled());
+            break;
+        case '3':
+            post[2]->setEnabled(!post[2]->getEnabled());
+            break;
+        case '4':
+            post[3]->setEnabled(!post[3]->getEnabled());
+            break;
+        case '5':
+            post[4]->setEnabled(!post[4]->getEnabled());
+            break;
+        case '6':
+            post[5]->setEnabled(!post[5]->getEnabled());
+            break;
+        case '7':
+            post[6]->setEnabled(!post[6]->getEnabled());
+            break;
+        case '8':
+            post[7]->setEnabled(!post[7]->getEnabled());
+            break;
             
 	}
 
