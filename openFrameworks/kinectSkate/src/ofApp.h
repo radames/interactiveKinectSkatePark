@@ -12,6 +12,7 @@
 #include "ofWave.h"
 #include "ofPhysicalObject.h"
 #include "ofxTwistedRibbon.h"
+#include "ofAppConfig.h"
 #include <tr1/unordered_map>
 
 #define HOST "localhost"
@@ -60,7 +61,8 @@ public:
 	void contactEnd(ofxBox2dContactArgs &e);
 	void guiSetup();
 	void drawPositions();
-
+    void setRunningMode(canvasMode _newRunningMode);
+    
 	void oscUpdate();
 
 	// convert blob position to world
@@ -118,11 +120,13 @@ public:
 
 	// Waves
 	vector <ofWave> waves;
-
+    
 	//oscMessage Sender
 	ofxOscSender sender;
 	ofxOscReceiver receiver;
 
 	long lastTime;
+    ofImage objectImage;
 
+    AppConfig *appConfig;
 };

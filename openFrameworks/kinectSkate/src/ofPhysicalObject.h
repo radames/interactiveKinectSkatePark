@@ -8,12 +8,13 @@
 
 #include "ofMain.h"
 #include "ofxBox2d.h"
+#include "ofAppConfig.h"
 #include "ofxTwistedRibbon.h"
 
 class ofPhysicalObject {
     
 public:    
-    void setup(ofxBox2d *_box2d, ofVec2f velocity, ofPoint position, int _kinectNumber, int _label, int _width, int _height);
+    void setup(AppConfig *_appConfig, ofxBox2d *_box2d, ofVec2f velocity, ofPoint position, int _kinectNumber, int _label, int _width, int _height);
     void update();
     void updateVelocity(ofVec2f _velocity);
     void draw();
@@ -25,4 +26,7 @@ public:
     ofPtr<ofxTwistedRibbon> ribbon;
     ofColor ribbonColor;
     float ang;
+    ofImage objectImage;
+    
+    AppConfig *appConfig;
 };

@@ -7,6 +7,10 @@ using namespace ofxCv;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+    AppConfig _config;
+    appConfig = &_config;
+    appConfig->runningMode = TRAILS;
+    
 	trail_i.assign(100, 0);
 	ofRectangle bounds = ofRectangle(0, 0, CWIDTH, CHEIGHT);
 
@@ -43,7 +47,8 @@ void ofApp::setup() {
 	//ribbon = new ofxTwistedRibbon();
 
 	guiSetup(); //GUI Setup
-
+    
+    objectImage.loadImage("data/circle.png");
 
 }
 
@@ -158,7 +163,7 @@ void ofApp::createObjects() {
 				ofVec2f velocity = toOf(tracker.getVelocity(i));
 				ofPtr<ofPhysicalObject> ptrPhysicalObject = ofPtr<ofPhysicalObject>(new ofPhysicalObject);
 				ofPhysicalObject *physicalObject = ptrPhysicalObject.get();
-				physicalObject->setup(&box2d, velocity, center, kinectNumber, label, w, h);
+				physicalObject->setup(appConfig, &box2d, velocity, center, kinectNumber, label, w, h);
 				physObjects.push_back(ptrPhysicalObject);
 
                 // Keep track of object index
@@ -503,6 +508,10 @@ ofPoint ofApp::toWorldCoord(ofPoint point, int kinectId){
 
 	return ofPoint(y + sensorPos[kinectId]->x, x + sensorPos[kinectId]->y );
 
+}
+
+void ofApp::setRunningMode(canvasMode _newRunningMode) {
+    appConfig->runningMode = _newRunningMode;
 }
 
 void ofApp::oscUpdate(){
