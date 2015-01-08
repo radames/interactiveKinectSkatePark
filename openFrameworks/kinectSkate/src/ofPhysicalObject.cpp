@@ -8,6 +8,10 @@
 
 #include "ofPhysicalObject.h"
 
+ofPhysicalObject::ofPhysicalObject(){};
+ofPhysicalObject::~ofPhysicalObject(){};
+
+
 void ofPhysicalObject::setup(AppConfig *_appConfig, ofxBox2d *_box2d, ofVec2f velocity, ofPoint position, int _kinectNumber, int _label, int _width, int _height) {
     appConfig = _appConfig;
     label = _label;
@@ -33,6 +37,10 @@ void ofPhysicalObject::setup(AppConfig *_appConfig, ofxBox2d *_box2d, ofVec2f ve
     ang = ofRandom(5, 30);
     
     objectImage.loadImage("circle.png");
+    
+    firstTime = ofGetElapsedTimef();
+    decayTime = ofRandom(10,20);
+
 }
 
 void ofPhysicalObject::updateVelocity(ofVec2f _velocity) {
@@ -74,4 +82,12 @@ void ofPhysicalObject::draw() {
     ofPoint pos = rectBody->getPosition();
     objectImage.draw(pos.x, pos.y);
     ofPopStyle();
+}
+
+bool ofPhysicalObject::isReadyToDie(){
+    if((ofGetElapsedTimef() - firstTime) > decayTime){
+        return true;
+    }else{
+        return false;
+    }
 }

@@ -108,7 +108,7 @@ public:
 	// Box2D
 	ofxBox2d box2d;
 	vector <ofPtr<ofxBox2dRect> > boxes;
-	vector <ofPtr<ofPhysicalObject> > physObjects;
+	vector <ofPhysicalObject> physObjects;
 
 	vector <vector <ofPoint> > trail;
 	vector <int> trail_i;
