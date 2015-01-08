@@ -1493,12 +1493,10 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				D7EE623B1A5E4109005895BE /* ofxTwistedRibbon.cpp */,
-				D7EE623C1A5E4109005895BE /* ofxTwistedRibbon.h */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
-				D7EE62351A5E34DB005895BE /* ofAppConfig.h */,
-				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
+				D7EE62351A5E34DB005895BE /* ofAppConfig.h */,
 				D7F34E3B1A5C443A0024AF1E /* ofPhysicalObject.h */,
 				D7F34E3C1A5C460E0024AF1E /* ofPhysicalObject.cpp */,
 				D7AE41311A5AF85B00B49FA5 /* ofWave.h */,
@@ -1507,6 +1505,8 @@
 				51BE2BD81A51F193008FC226 /* ofParticles.cpp */,
 				513BD8F41A52018200C42626 /* ofBackEffects.cpp */,
 				513BD8F51A52018200C42626 /* ofBackEffects.h */,
+				D7EE623B1A5E4109005895BE /* ofxTwistedRibbon.cpp */,
+				D7EE623C1A5E4109005895BE /* ofxTwistedRibbon.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
