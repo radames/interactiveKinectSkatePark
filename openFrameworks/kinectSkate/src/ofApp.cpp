@@ -8,7 +8,7 @@ using namespace ofxCv;
 //--------------------------------------------------------------
 void ofApp::setup() {
     
-    post.init(ofGetWidth(), ofGetHeight());
+    post.init(CWIDTH, CHEIGHT);
     post.createPass<BloomPass>();
     
     appConfig.runningMode = TRAILS;
@@ -249,7 +249,8 @@ void ofApp::update() {
     for(vector<ofPhysicalObject>::iterator it = physObjects.begin(); it != physObjects.end(); ){
         it->update();
         if(it->isReadyToDie()){
-            it = physObjects.erase(it);
+            addedObjs[it->kinectNumber].erase(it->label); //delete from the dictionary of labels
+            it = physObjects.erase(it); //delete from the vector list
         }else{
             ++it;
         }
