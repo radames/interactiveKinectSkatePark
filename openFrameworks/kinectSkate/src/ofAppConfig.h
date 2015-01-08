@@ -11,6 +11,8 @@
 enum canvasMode {
     TRAILS = 0,
     CREATE_OBJECTS,
+    GRAPH,
+    SHAPES
 };
 
 class AppConfig {

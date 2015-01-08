@@ -254,7 +254,6 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-    cout << "CONFG " << TRAILS << " " << appConfig.runningMode << endl;
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	ofEnableAlphaBlending();
@@ -264,7 +263,18 @@ void ofApp::draw() {
 	for (int i = 0; i < physObjects.size(); ++i) {
 		physObjects[i].draw();
 	}
-
+    
+    if (appConfig.runningMode == GRAPH) {
+        for (int i = 0; i < physObjects.size(); ++i) {
+            for (int j = i + 1; j < physObjects.size(); ++j) {
+                ofPoint p1 = physObjects[i].rectBody->getPosition();
+                ofPoint p2 = physObjects[j].rectBody->getPosition();
+                ofLine(p1.x, p1.y, p2.x, p2.y);
+            }
+        }
+    }
+    
+    
     // drawPositions();
     myBack.draw(); //draw background effects
 
@@ -324,8 +334,6 @@ void ofApp::debugMode(){
 		ofPopMatrix();
 		ofPopStyle();
 		ofPopMatrix();
-
-
 
 		RectTracker& tracker = contourFinder[j].getTracker();
 
@@ -572,10 +580,14 @@ void ofApp::keyPressed (int key) {
 			break;
 
 		case 'z':
+            appConfig.runningMode = TRAILS;
 			break;
 		case 'x':
-
+            appConfig.runningMode = GRAPH;
 			break;
+        case 'c':
+            appConfig.runningMode = SHAPES;
+            break;
 
 	}
 
