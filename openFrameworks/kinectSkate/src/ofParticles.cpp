@@ -189,7 +189,7 @@ void ofParticles::draw(){
             // colour, pow(r,0.1), 0.9*sqrt(1-r), Z[i].magnitude/100+abs(Z[i].z/depth)*0.05
             //cout << vel.length() << endl;
             //ofSetColor(ofColor::fromHsb(128, 255, 255, 1));
-            ofSetLineWidth(0.1*vel.length());
+            ofSetLineWidth(20);
             ofLine(pos.x, pos.y, -vel.length()/12*30, pos.x - 4*vel.x, pos.y - 4*vel.y, 0);
             //ofCircle(pos.x, pos.y, scale * 4.0);
             break;

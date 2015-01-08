@@ -126,6 +126,7 @@ public:
 	ofxOscSender sender;
 	ofxOscReceiver receiver;
 
+    bool effect;
 	long lastTime;
     ofImage objectImage;
 

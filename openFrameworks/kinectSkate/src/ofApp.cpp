@@ -7,9 +7,10 @@ using namespace ofxCv;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+    effect = false;
     
     post.init(CWIDTH, CHEIGHT);
-    post.createPass<BloomPass>();
+    post.createPass<BloomPass>()->setEnabled(effect);
     
     appConfig.runningMode = TRAILS;
     
@@ -276,6 +277,7 @@ void ofApp::draw() {
             for (int j = i + 1; j < physObjects.size(); ++j) {
                 ofPoint p1 = physObjects[i].rectBody->getPosition();
                 ofPoint p2 = physObjects[j].rectBody->getPosition();
+                ofSetLineWidth(20);
                 ofLine(p1.x, p1.y, p2.x, p2.y);
             }
         }
@@ -595,7 +597,12 @@ void ofApp::keyPressed (int key) {
         case 'c':
             appConfig.runningMode = SHAPES;
             break;
+        case '1':
+            effect = !effect;
+            post[0]->setEnabled(effect);
+            break;
 
+            
 	}
 
 

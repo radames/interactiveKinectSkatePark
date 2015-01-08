@@ -19,7 +19,7 @@
 		<key>903165F9FDCB952EAE50578862E56DA722F43224</key>
 		<string>git://github.com/vanderlin/ofxBox2d.git</string>
 		<key>95F70890EFD46183734FEDFE52CF53391DE6937E</key>
-		<string>https://github.com/neilmendoza/ofxPostProcessing.git</string>
+		<string>https://github.com/neilmendoza/ofxPostProcessing</string>
 		<key>F4CCB893AFADB97238A965FD2F28717F1CAAE613</key>
 		<string>https://github.com/astellato/ofxSyphon.git</string>
 	</dict>
@@ -36,7 +36,7 @@
 		<key>903165F9FDCB952EAE50578862E56DA722F43224</key>
 		<string>../../../../../Development/openFrameworks/addons/ofxBox2d</string>
 		<key>95F70890EFD46183734FEDFE52CF53391DE6937E</key>
-		<string>../../../../../../../Development/openFrameworks/addons/ofxPostProcessing</string>
+		<string>../../../../../Development/openFrameworks/addons/ofxPostProcessing</string>
 		<key>F4CCB893AFADB97238A965FD2F28717F1CAAE613</key>
 		<string>../../../../../Development/openFrameworks/addons/ofxSyphon</string>
 	</dict>
