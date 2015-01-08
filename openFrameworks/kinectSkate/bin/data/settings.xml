@@ -9,6 +9,7 @@
 		<Offset_Y>0</Offset_Y>
 	<Sensor_Pos>395.355, 260.212</Sensor_Pos>
 	<Sensor_Area>0.507653</Sensor_Area>
+	<waveColor>21, 0, 255, 255</waveColor>
 	</Kinect_0>
 	<Kinect_1>
 		<Far_Threshold>223</Far_Threshold>
@@ -19,9 +20,11 @@
 		<Offset_Y>0</Offset_Y>
 	<Sensor_Pos>1131.05, 276.205</Sensor_Pos>
 	<Sensor_Area>0.507653</Sensor_Area>
+	<waveColor>5, 233, 0, 184</waveColor>
 	</Kinect_1>
 <Settings/>
 <Particles>
-		<max_NumParticles>1500</max_NumParticles>
+		<max_NumParticles>1062</max_NumParticles>
+	<particle_Color>243, 255, 39, 255</particle_Color>
 	</Particles>
 </Settings>

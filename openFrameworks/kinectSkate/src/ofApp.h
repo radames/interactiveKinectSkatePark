@@ -93,6 +93,7 @@ public:
 
 	ofParameter<ofVec2f> sensorPos[2];
 	ofParameter<float> sensorArea[2];
+    ofParameter<ofColor> waveColor[2];
 
 	vector <tr1::unordered_map<int, int> > addedObjs;
 

@@ -21,8 +21,8 @@ public:
     ofParameterGroup particlesGUI;
     //maxParticles for the cycling list of particles
     ofParameter<int> maxParticles = 1500;
-
-
+    ofParameter<ofColor>  particleColor;
+    
 private:
     //background particles
     

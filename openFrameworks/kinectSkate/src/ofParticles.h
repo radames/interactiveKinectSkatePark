@@ -20,6 +20,7 @@ public:
     void setMode(particleMode newMode);
     void setAnimationMode(animationMode newMode);
     void setAttractPoints( vector <ofPoint> * attract );
+    void setColor(ofColor c);
     bool isReadyToDie();
     
     void reset();
@@ -40,6 +41,7 @@ public:
     particleMode mode;
     animationMode animMode;
     
+    ofColor pColor;
     
     vector <ofPoint> * attractPoints; 
 };

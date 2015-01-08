@@ -5,6 +5,7 @@ ofParticles::ofParticles(){
     attractPoints = NULL;
     firstTime = ofGetElapsedTimef();
     decayTime = ofRandom(1,10);
+    pColor = ofColor(ofRandom(255),ofRandom(255),ofRandom(255));
 }
 
 //------------------------------------------------------------------
@@ -170,22 +171,13 @@ void ofParticles::draw(){
     ofPushStyle();
     switch (animMode) {
         case POINT:
-            if( mode == PARTICLE_MODE_ATTRACT ){
-                ofSetColor(255, 63, 180);
-            }
-            else if( mode == PARTICLE_MODE_REPEL ){
-                ofSetColor(208, 255, 63);
-            }
-            else if( mode == PARTICLE_MODE_NEAREST_POINTS ){
-                ofSetColor(99, 63, 255);
-            }
-            
+            ofSetColor(pColor);
             ofCircle(pos.x, pos.y, scale * 4.0);
             
             break;
         
         case TRAIL:
-            ofSetColor(255, 63, 180, vel.length()/12*255);
+            ofSetColor(pColor, vel.length()/12*255);
             // colour, pow(r,0.1), 0.9*sqrt(1-r), Z[i].magnitude/100+abs(Z[i].z/depth)*0.05
             //cout << vel.length() << endl;
             //ofSetColor(ofColor::fromHsb(128, 255, 255, 1));
@@ -203,5 +195,9 @@ bool ofParticles::isReadyToDie(){
     }else{
         return false;
     }
+}
+
+void ofParticles::setColor(ofColor c){
+    pColor = c;
 }
 

@@ -15,13 +15,13 @@ public:
     ofWave();
     ~ofWave();
 
-    void setup(ofPoint center, int numberWaveFronts, float velocity, int _hue);
+    void setup(ofPoint center, int numberWaveFronts, float velocity, ofColor _c);
     void update();
     void draw();
     bool isReadyToDie();
     
     ofPoint center;
-    int hue;
+    ofColor wColor;
     int numberWaveFronts;
     float velocity;
     float accel;

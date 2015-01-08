@@ -165,7 +165,7 @@ void ofApp::createObjects() {
 
 				// Create new wave
                 ofWave newWave;
-                newWave.setup(center, 10, 50, (kinectNumber==0?123:255));
+                newWave.setup(center, 10, 50, waveColor[kinectNumber]);
 				waves.push_back(newWave);
 
 				// Add Physical Object
@@ -336,7 +336,7 @@ void ofApp::debugMode(){
 	float h = 200;
 	debugImage.draw(0,0);
 
-	for(int j = 0; j < 2; j++){
+    for(int kinectNumber = 0; kinectNumber < 2; kinectNumber++){
 		//drawing two depth areas
 
 		ofPushMatrix();
@@ -344,27 +344,27 @@ void ofApp::debugMode(){
 		ofPushStyle();
 		ofSetRectMode(OF_RECTMODE_CENTER);
 
-		ofTranslate(sensorPos[j]->x, sensorPos[j]->y);
-		ofScale(sensorArea[j],sensorArea[j]);
+		ofTranslate(sensorPos[kinectNumber]->x, sensorPos[kinectNumber]->y);
+		ofScale(sensorArea[kinectNumber],sensorArea[kinectNumber]);
 		ofRotate(90);
-		kinect[j].drawDepth(0,0,kinect[j].width, kinect[j].height);
+		kinect[kinectNumber].drawDepth(0,0,kinect[kinectNumber].width, kinect[kinectNumber].height);
 		ofPushMatrix();
-		ofTranslate(-kinect[j].width/2,-kinect[j].height/2);
+		ofTranslate(-kinect[kinectNumber].width/2,-kinect[kinectNumber].height/2);
 		ofSetRectMode(OF_RECTMODE_CORNER);
-		contourFinder[j].draw();
+		contourFinder[kinectNumber].draw();
 		ofPopMatrix();
 		ofPopStyle();
 		ofPopMatrix();
 
-		RectTracker& tracker = contourFinder[j].getTracker();
+		RectTracker& tracker = contourFinder[kinectNumber].getTracker();
 
-		for(int i=0; i < contourFinder[j].size(); i++){
+		for(int i=0; i < contourFinder[kinectNumber].size(); i++){
 
-			unsigned int label = contourFinder[j].getLabel(i);
+			unsigned int label = contourFinder[kinectNumber].getLabel(i);
 
 			if(tracker.existsPrevious(label)) {
 
-				ofPoint center = toWorldCoord( toOf(contourFinder[j].getCenter(i)),j);
+				ofPoint center = toWorldCoord( toOf(contourFinder[kinectNumber].getCenter(i)),kinectNumber);
 				ofPushStyle();
 				ofSetColor(255,0,0);
 				ofSetRectMode(OF_RECTMODE_CENTER);
@@ -375,14 +375,14 @@ void ofApp::debugMode(){
 				ofEllipse(center.x,center.y,10,10);
 				string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
 				ofDrawBitmapString(msg,center.x,center.y);
-				ofVec2f velocity = toOf(contourFinder[j].getVelocity(i));
+				ofVec2f velocity = toOf(contourFinder[kinectNumber].getVelocity(i));
 
 				ofPushMatrix();
 				ofTranslate(center.x, center.y);
 				ofScale(10, 10);
 				ofLine(0, 0, velocity.x, velocity.y);
 				ofPopMatrix();
-				ofScale(sensorArea[j],sensorArea[j]);
+				ofScale(sensorArea[kinectNumber],sensorArea[kinectNumber]);
 
 				ofPopMatrix();
 				ofPopStyle();
@@ -430,29 +430,29 @@ void ofApp::screenSetup(){
 
 void ofApp::kinectUpdate(){
 
-	for(int i = 0; i < 2; i++){
-		kinect[i].update();
+	for(int kinectNumber = 0; kinectNumber < 2; kinectNumber++){
+		kinect[kinectNumber].update();
 		// there is a new frame and we are connected
-		if(kinect[i].isFrameNew()) {
+		if(kinect[kinectNumber].isFrameNew()) {
 
 			// load grayscale depth image from the kinect source
-			grayImage[i].setFromPixels(kinect[i].getDepthPixels(), kinect[i].width, kinect[i].height);
+			grayImage[kinectNumber].setFromPixels(kinect[kinectNumber].getDepthPixels(), kinect[kinectNumber].width, kinect[kinectNumber].height);
 
 			// we do two thresholds - one for the far plane and one for the near plane
 			// we then do a cvAnd to get the pixels which are a union of the two thresholds
-			grayThreshNear[i] = grayImage[i];
-			grayThreshFar[i] = grayImage[i];
-			grayThreshNear[i].threshold(nearThreshold, true);
-			grayThreshFar[i].threshold(farThreshold[i]);
-			cvAnd(grayThreshNear[i].getCvImage(), grayThreshFar[i].getCvImage(), grayImage[i].getCvImage(), NULL);
+			grayThreshNear[kinectNumber] = grayImage[kinectNumber];
+			grayThreshFar[kinectNumber] = grayImage[kinectNumber];
+			grayThreshNear[kinectNumber].threshold(nearThreshold, true);
+			grayThreshFar[kinectNumber].threshold(farThreshold[kinectNumber]);
+			cvAnd(grayThreshNear[kinectNumber].getCvImage(), grayThreshFar[kinectNumber].getCvImage(), grayImage[kinectNumber].getCvImage(), NULL);
 
 
 			// update the cv images
-			grayImage[i].flagImageChanged();
+			grayImage[kinectNumber].flagImageChanged();
 
-			contourFinder[i].setMinAreaRadius(minBlobSize[i]);
-			contourFinder[i].setMaxAreaRadius(maxBlobSize[i]);
-			contourFinder[i].findContours(grayImage[i]);
+			contourFinder[kinectNumber].setMinAreaRadius(minBlobSize[kinectNumber]);
+			contourFinder[kinectNumber].setMaxAreaRadius(maxBlobSize[kinectNumber]);
+			contourFinder[kinectNumber].findContours(grayImage[kinectNumber]);
 		}
 	}
 }
@@ -491,7 +491,7 @@ void ofApp::kinectSetup(int kinectNumber, string id){
 
 	ofSetFrameRate(60);
 	// zero the tilt on startup
-	kinect[kinectNumber].setCameraTiltAngle(10);
+//	kinect[kinectNumber].setCameraTiltAngle(10);
 
 	nearThreshold = 255;
 
@@ -507,19 +507,20 @@ void ofApp::guiSetup(){
 
 	gui.setup("Settings", "settings.xml");
 
-	for(int i = 0; i < 2; i++){
+	for(int kinectNumber = 0; kinectNumber < 2; kinectNumber++){
 
-		parametersKinect[i].setName("Kinect " + ofToString(i));
-		parametersKinect[i].add(farThreshold[i].set("Far Threshold", 0,0, 255 ));
-		parametersKinect[i].add(numMaxBlobs[i].set("Num Max Blos",10,0,15));
-		parametersKinect[i].add(maxBlobSize[i].set("max Blob Size",0,0,500));
-		parametersKinect[i].add(minBlobSize[i].set("min Blob Size",0,0,500));
-		parametersKinect[i].add(offsetX[i].set("Offset X", 0,-200, 200 ));
-		parametersKinect[i].add(offsetY[i].set("Offset Y", 0,-200, 200 ));
-		parametersKinect[i].add(sensorPos[i].set("Sensor Pos", ofVec2f(1,10.0),ofVec2f(0,0),ofVec2f(CWIDTH,CHEIGHT)));
-		parametersKinect[i].add(sensorArea[i].set("Sensor Area", 0.5, 0.1,2));
+		parametersKinect[kinectNumber].setName("Kinect " + ofToString(kinectNumber));
+		parametersKinect[kinectNumber].add(farThreshold[kinectNumber].set("Far Threshold", 0,0, 255 ));
+		parametersKinect[kinectNumber].add(numMaxBlobs[kinectNumber].set("Num Max Blos",10,0,15));
+		parametersKinect[kinectNumber].add(maxBlobSize[kinectNumber].set("max Blob Size",0,0,500));
+		parametersKinect[kinectNumber].add(minBlobSize[kinectNumber].set("min Blob Size",0,0,500));
+		parametersKinect[kinectNumber].add(offsetX[kinectNumber].set("Offset X", 0,-200, 200 ));
+		parametersKinect[kinectNumber].add(offsetY[kinectNumber].set("Offset Y", 0,-200, 200 ));
+		parametersKinect[kinectNumber].add(sensorPos[kinectNumber].set("Sensor Pos", ofVec2f(1,10.0),ofVec2f(0,0),ofVec2f(CWIDTH,CHEIGHT)));
+		parametersKinect[kinectNumber].add(sensorArea[kinectNumber].set("Sensor Area", 0.5, 0.1,2));
+        parametersKinect[kinectNumber].add(waveColor[kinectNumber].set("waveColor", ofColor(255,255), ofColor(0,0),ofColor(255,255)));
 
-		gui.add(parametersKinect[i]);
+		gui.add(parametersKinect[kinectNumber]);
 	}
 	// events for change in paramenters on ofpp application
 	gui.add(myBack.particlesGUI);
