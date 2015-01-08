@@ -36,7 +36,7 @@ void ofPhysicalObject::setup(AppConfig *_appConfig, ofxBox2d *_box2d, ofVec2f ve
     ribbon->length  = ofRandom(50, 200);
     ang = ofRandom(5, 30);
 
-    objectImage.loadImage("circle.png");
+    objectImage.loadImage("golden.png");
 
     firstTime = ofGetElapsedTimef();
     decayTime = ofRandom(10,20);
@@ -77,7 +77,22 @@ void ofPhysicalObject::draw() {
     if (appConfig->runningMode == SHAPES) {
         ofPushStyle();
         ofPoint pos = rectBody->getPosition();
-        objectImage.draw(pos.x, pos.y);
+        float ang = rectBody->getRotation();
+        ofPushMatrix();
+        ofTranslate(pos.x, pos.y);
+        ofRotate(ang, 0, 0, 1);
+        objectImage.draw(-25, -25);
+        ofPopMatrix();
+        ofPopStyle();
+    }
+    
+    if (appConfig->runningMode == SQUARES) {
+        ofPushStyle();
+        ofNoFill();
+        ofPoint pos = rectBody->getPosition();
+        ofSetLineWidth(10);
+        //ofRect(pos.x, pos.y, 50, 50);
+        rectBody->draw();
         ofPopStyle();
     }
 }

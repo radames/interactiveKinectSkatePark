@@ -159,8 +159,8 @@ void ofApp::createObjects() {
 			unsigned int label = contourFinder[kinectNumber].getLabel(i);
 
 			if (addedObjs[kinectNumber].count(label) == 0) {
-				float w = 20;
-				float h = 20;
+				float w = 50;
+				float h = 50;
 				ofPoint center = toWorldCoord(toOf(contourFinder[kinectNumber].getCenter(i)), kinectNumber);
 
 				// Create new wave
@@ -266,14 +266,17 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-    post.begin();
     
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glClearColor(0.0, 0.0, 0.0, 255.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    ofClear(0,0,0,255);
+    //ofClear(0,0,0,255);
 	ofEnableAlphaBlending();
+    
+    if(bDebugMode){ debugMode(); }//draw debug mode
 
-	if(bDebugMode){ debugMode(); }//draw debug mode
+    if (!bDebugMode) {
+        post.begin();
+    }
 
 	for (int i = 0; i < physObjects.size(); ++i) {
 		physObjects[i].draw();
@@ -301,7 +304,9 @@ void ofApp::draw() {
         waves[i].draw();
     }
 
-    post.end();
+    if (!bDebugMode) {
+        post.end();
+    }
     syphonServer.publishScreen(); //syphon screen
 }
 
@@ -604,6 +609,9 @@ void ofApp::keyPressed (int key) {
         case 'c':
             appConfig.runningMode = SHAPES;
             break;
+        case 'v':
+            appConfig.runningMode = SQUARES;
+            break;
         case '1':
             post[0]->setEnabled(!post[0]->getEnabled());
             break;
@@ -627,6 +635,12 @@ void ofApp::keyPressed (int key) {
             break;
         case '8':
             post[7]->setEnabled(!post[7]->getEnabled());
+            break;
+            
+        case '0':
+            for(int i = 0; i<8; i++){
+                post[i]->setEnabled(false);
+            }
             break;
             
 	}
