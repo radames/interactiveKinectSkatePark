@@ -171,7 +171,7 @@ void ofApp::createObjects() {
 				// Add Physical Object
 				ofVec2f velocity = toOf(tracker.getVelocity(i));
                 ofPhysicalObject physicalObject;
-				physicalObject.setup(&appConfig, &box2d, velocity, center, kinectNumber, label, w, h);
+				physicalObject.setup(&appConfig, &box2d, velocity*velocityRatio, center, kinectNumber, label, w, h);
 				physObjects.push_back(physicalObject);
 
                 // Keep track of object index
@@ -187,7 +187,7 @@ void ofApp::createObjects() {
 				   }
 				   trail.push_back(box_trail);
                 */
-                 
+                
 				// Add attract points to background
 				myBack.addAttractPoints(center);
 
@@ -200,8 +200,6 @@ void ofApp::createObjects() {
 					m.setAddress("/skatista/DE");
 				}
 				m.addIntArg(kinectNumber); // which sensor plus velocity
-				m.addFloatArg(velocity.x);
-				m.addFloatArg(velocity.y);
 				sender.sendMessage(m);
 
 			}
@@ -210,7 +208,7 @@ void ofApp::createObjects() {
 				ofVec2f velocity = toOf(tracker.getVelocity(i));
 				if (velocity.x != 0 && velocity.y != 0) {
                     ofPhysicalObject physObject = physObjects[addedObjs[kinectNumber][label]];
-                    physObject.updateVelocity(velocity);
+                    physObject.updateVelocity(velocity * velocityRatio);
 					addedObjs[kinectNumber][label] == -1;
 				}
 			}
@@ -525,6 +523,7 @@ void ofApp::guiSetup(){
 	// events for change in paramenters on ofpp application
 	gui.add(myBack.particlesGUI);
 
+    gui.add(velocityRatio.set("Velo Ratio",1,0.1,10));
 	gui.minimizeAll();
 	gui.loadFromFile("settings.xml");
 

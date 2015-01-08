@@ -27,4 +27,5 @@
 		<max_NumParticles>1062</max_NumParticles>
 	<particle_Color>243, 255, 39, 255</particle_Color>
 	</Particles>
+<Velo_Ratio>1</Velo_Ratio>
 </Settings>

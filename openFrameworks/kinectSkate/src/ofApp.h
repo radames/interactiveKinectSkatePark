@@ -95,6 +95,8 @@ public:
 	ofParameter<float> sensorArea[2];
     ofParameter<ofColor> waveColor[2];
 
+    ofParameter<float> velocityRatio;
+
 	vector <tr1::unordered_map<int, int> > addedObjs;
 
 	//options variables
