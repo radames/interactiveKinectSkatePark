@@ -7,6 +7,10 @@ using namespace ofxCv;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+    
+    post.init(ofGetWidth(), ofGetHeight());
+    post.createPass<BloomPass>();
+    
     appConfig.runningMode = TRAILS;
     
 	trail_i.assign(100, 0);
@@ -254,6 +258,8 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+    post.begin();
+    
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	ofEnableAlphaBlending();
@@ -285,8 +291,8 @@ void ofApp::draw() {
         waves[i].draw();
     }
 
+    post.end();
     syphonServer.publishScreen(); //syphon screen
-
 }
 
 void ofApp::drawTrail() {

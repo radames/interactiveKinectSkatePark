@@ -13,6 +13,7 @@
 #include "ofPhysicalObject.h"
 #include "ofxTwistedRibbon.h"
 #include "ofAppConfig.h"
+#include "ofxPostProcessing.h"
 #include <tr1/unordered_map>
 
 #define HOST "localhost"
@@ -129,4 +130,6 @@ public:
     ofImage objectImage;
 
     AppConfig appConfig;
+    
+    ofxPostProcessing post;
 };
