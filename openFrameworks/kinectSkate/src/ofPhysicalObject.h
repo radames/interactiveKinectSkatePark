@@ -25,6 +25,8 @@ public:
     void updateVelocity(ofVec2f _velocity);
     void draw();
     bool isReadyToDie();
+    void setDecayTime(long _dTime);
+    
     ofPtr<ofxBox2dRect> rectBody;
     ofxBox2d *box2d;
     int kinectNumber;
@@ -36,7 +38,7 @@ public:
     
     AppConfig *appConfig;
     
-    float firstTime;
-    float decayTime;
+    long firstTime;
+    long decayTime;
 
 };

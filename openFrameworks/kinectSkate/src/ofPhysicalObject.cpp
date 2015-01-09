@@ -38,9 +38,13 @@ void ofPhysicalObject::setup(AppConfig *_appConfig, ofxBox2d *_box2d, ofVec2f ve
 
     objectImage.loadImage("golden.png");
 
-    firstTime = ofGetElapsedTimef();
-    decayTime = ofRandom(2,5);
+    firstTime = ofGetElapsedTimeMillis();
+    decayTime = ofRandom(1000,5000);
 
+}
+
+void ofPhysicalObject::setDecayTime(long _dTime){
+    decayTime = _dTime;
 }
 
 void ofPhysicalObject::updateVelocity(ofVec2f _velocity) {
@@ -98,7 +102,7 @@ void ofPhysicalObject::draw() {
 }
 
 bool ofPhysicalObject::isReadyToDie(){
-    if((ofGetElapsedTimef() - firstTime) > decayTime){
+    if((ofGetElapsedTimeMillis() - firstTime) > decayTime){
         return true;
     }else{
         return false;

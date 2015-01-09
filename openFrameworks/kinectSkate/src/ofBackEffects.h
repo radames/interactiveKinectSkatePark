@@ -22,7 +22,8 @@ public:
     //maxParticles for the cycling list of particles
     ofParameter<int> maxParticles = 1500;
     ofParameter<ofColor>  particleColor;
-    
+    ofParameter<int>  decayTime;
+
 private:
     //background particles
     

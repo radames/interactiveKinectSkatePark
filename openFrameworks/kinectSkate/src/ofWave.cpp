@@ -12,7 +12,7 @@ ofWave::ofWave(){};
 ofWave::~ofWave(){};
 
 
-void ofWave::setup(ofPoint _center, int _numberWaveFronts, float _velocity , ofColor _c) {
+void ofWave::setup(ofPoint _center, int _numberWaveFronts, float _velocity , ofColor _c, long _dTime) {
     center = _center;
     startTime =  ofGetElapsedTimeMillis();
     numberWaveFronts =  _numberWaveFronts;
@@ -20,7 +20,7 @@ void ofWave::setup(ofPoint _center, int _numberWaveFronts, float _velocity , ofC
     accel = 0.2;
     linearVelocity = 0.5;
     wColor = _c;
-    dTime = 2000;
+    dTime = _dTime;
 }
 
 void ofWave::update() {

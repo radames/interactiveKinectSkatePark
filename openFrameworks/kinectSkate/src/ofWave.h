@@ -15,7 +15,7 @@ public:
     ofWave();
     ~ofWave();
 
-    void setup(ofPoint center, int numberWaveFronts, float velocity, ofColor _c);
+    void setup(ofPoint center, int numberWaveFronts, float velocity, ofColor _c, long _dTime);
     void update();
     void draw();
     bool isReadyToDie();

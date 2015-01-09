@@ -94,8 +94,12 @@ public:
 	ofParameter<ofVec2f> sensorPos[2];
 	ofParameter<float> sensorArea[2];
     ofParameter<ofColor> waveColor[2];
-
+    ofParameter<int> waveDecayTime[2];
+    
     ofParameter<float> velocityRatio;
+    
+    ofParameter<int> pObjDecTime;
+   
 
 	vector <tr1::unordered_map<int, int> > addedObjs;
 

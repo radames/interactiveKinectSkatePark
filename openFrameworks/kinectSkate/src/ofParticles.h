@@ -21,6 +21,7 @@ public:
     void setAnimationMode(animationMode newMode);
     void setAttractPoints( vector <ofPoint> * attract );
     void setColor(ofColor c);
+    void setDecayTime(long dTime);
     bool isReadyToDie();
     
     void reset();
@@ -35,8 +36,8 @@ public:
     float uniqueVal;
     float scale;
     
-    float firstTime;
-    float decayTime;
+    long firstTime;
+    long decayTime;
 
     particleMode mode;
     animationMode animMode;

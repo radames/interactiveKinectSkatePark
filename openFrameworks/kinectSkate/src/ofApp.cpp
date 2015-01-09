@@ -162,17 +162,17 @@ void ofApp::createObjects() {
 				float w = 50;
 				float h = 50;
 				ofPoint center = toWorldCoord(toOf(contourFinder[kinectNumber].getCenter(i)), kinectNumber);
-                //center.y = CHEIGHT - center.y;
                 
 				// Create new wave
                 ofWave newWave;
-                newWave.setup(center, 10, 50, waveColor[kinectNumber]);
+                newWave.setup(center, 10, 50, waveColor[kinectNumber], waveDecayTime[kinectNumber]);
 				waves.push_back(newWave);
 
 				// Add Physical Object
 				ofVec2f velocity = toOf(tracker.getVelocity(i));
                 ofPhysicalObject physicalObject;
 				physicalObject.setup(&appConfig, &box2d, velocity*velocityRatio, center, kinectNumber, label, w, h);
+                physicalObject.setDecayTime(pObjDecTime);
 				physObjects.push_back(physicalObject);
 
                 // Keep track of object index
@@ -271,28 +271,25 @@ void ofApp::draw() {
     //ofClear(0,0,0,255);
 	ofEnableAlphaBlending();
   
-    post.begin();
 
-    ofTranslate(CWIDTH/2, CHEIGHT/2);
-    ofRotate(180, 0, 0, 1);
+    if (!bDebugMode) {
+        post.begin();
+
+        ofTranslate(CWIDTH/2, CHEIGHT/2);
+        ofRotate(180, 0, 0, 1);
         ofRotate(180, 0, 1, 0);
-    ofTranslate(-CWIDTH/2, -CHEIGHT/2);
-
+        ofTranslate(-CWIDTH/2, -CHEIGHT/2);
+    }
     
     if(bDebugMode){ debugMode(); }//draw debug mode
 
-    //if (!bDebugMode) {
-      //  ofScale(0,-1,0);
-        //ofTranslate(0, CHEIGHT);
-        //ofScale(0,-1);
-//        post.begin();
-   // }
 
 	for (int i = 0; i < physObjects.size(); ++i) {
 		physObjects[i].draw();
 	}
     
     if (appConfig.runningMode == GRAPH) {
+        ofPushStyle();
         for (int i = 0; i < physObjects.size(); ++i) {
             for (int j = i + 1; j < physObjects.size(); ++j) {
                 ofPoint p1 = physObjects[i].rectBody->getPosition();
@@ -301,6 +298,8 @@ void ofApp::draw() {
                 ofLine(p1.x, p1.y, p2.x, p2.y);
             }
         }
+        ofPopStyle();
+
     }
     
     
@@ -314,9 +313,9 @@ void ofApp::draw() {
         waves[i].draw();
     }
 
-  //  if (!bDebugMode) {
+   if (!bDebugMode) {
         post.end();
- //   }
+    }
     syphonServer.publishScreen(); //syphon screen
 }
 
@@ -528,15 +527,19 @@ void ofApp::guiSetup(){
 		parametersKinect[kinectNumber].add(offsetY[kinectNumber].set("Offset Y", 0,-200, 200 ));
 		parametersKinect[kinectNumber].add(sensorPos[kinectNumber].set("Sensor Pos", ofVec2f(1,10.0),ofVec2f(0,0),ofVec2f(CWIDTH,CHEIGHT)));
 		parametersKinect[kinectNumber].add(sensorArea[kinectNumber].set("Sensor Area", 0.5, 0.1,2));
-        parametersKinect[kinectNumber].add(waveColor[kinectNumber].set("waveColor", ofColor(255,255), ofColor(0,0),ofColor(255,255)));
-
-		gui.add(parametersKinect[kinectNumber]);
+        parametersKinect[kinectNumber].add(waveDecayTime[kinectNumber].set("WaveDecayTime",1000,200,3000));
+        parametersKinect[kinectNumber].add(waveColor[kinectNumber].set("WaveColor", ofColor(255,255), ofColor(0,0),ofColor(255,255)));
+        gui.add(parametersKinect[kinectNumber]);
+        
 	}
 	// events for change in paramenters on ofpp application
 	gui.add(myBack.particlesGUI);
+    
+    gui.add(velocityRatio.set("Velo Ratio",1,0.1,2));
+    gui.add(pObjDecTime.set("Physical Obj dTime",1000,1000,10000));
 
-    gui.add(velocityRatio.set("Velo Ratio",1,0.1,10));
-	gui.minimizeAll();
+    gui.minimizeAll();
+
 	gui.loadFromFile("settings.xml");
 
 }

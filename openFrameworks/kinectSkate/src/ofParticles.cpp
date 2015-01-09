@@ -3,11 +3,15 @@
 //------------------------------------------------------------------
 ofParticles::ofParticles(){
     attractPoints = NULL;
-    firstTime = ofGetElapsedTimef();
-    decayTime = ofRandom(1,5);
+    firstTime = ofGetElapsedTimeMillis();
+    decayTime = ofRandom(1000,5000);
     pColor = ofColor(ofRandom(255),ofRandom(255),ofRandom(255));
 }
 
+void ofParticles::setDecayTime(long dTime){
+    decayTime = dTime;
+    
+}
 //------------------------------------------------------------------
 void ofParticles::setMode(particleMode newMode){
     mode = newMode;
@@ -190,7 +194,7 @@ void ofParticles::draw(){
 }
 
 bool ofParticles::isReadyToDie(){
-    if((ofGetElapsedTimef() - firstTime) > decayTime){
+    if((ofGetElapsedTimeMillis() - firstTime) > decayTime){
         return true;
     }else{
         return false;

@@ -10,9 +10,11 @@
 	<Sensor_Pos>395.355, 260.212</Sensor_Pos>
 	<Sensor_Area>0.507653</Sensor_Area>
 	<waveColor>21, 0, 255, 255</waveColor>
+	<WaveDecayTime>1000</WaveDecayTime>
+		<WaveColor>0, 0, 255, 255</WaveColor>
 	</Kinect_0>
 	<Kinect_1>
-		<Far_Threshold>68</Far_Threshold>
+		<Far_Threshold>79</Far_Threshold>
 		<Num_Max_Blos>10</Num_Max_Blos>
 		<max_Blob_Size>242</max_Blob_Size>
 		<min_Blob_Size>40</min_Blob_Size>
@@ -21,11 +23,15 @@
 	<Sensor_Pos>1131.05, 276.205</Sensor_Pos>
 	<Sensor_Area>0.507653</Sensor_Area>
 	<waveColor>5, 233, 0, 184</waveColor>
+	<WaveDecayTime>1000</WaveDecayTime>
+		<WaveColor>255, 5, 5, 255</WaveColor>
 	</Kinect_1>
 <Settings/>
 <Particles>
 		<max_NumParticles>1062</max_NumParticles>
 	<particle_Color>243, 255, 39, 255</particle_Color>
+	<decay_Time>2000</decay_Time>
 	</Particles>
 <Velo_Ratio>0.595</Velo_Ratio>
+<Physical_Obj_dTime>6894</Physical_Obj_dTime>
 </Settings>
