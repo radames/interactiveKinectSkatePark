@@ -10,7 +10,7 @@
 	<Sensor_Pos>448.666, 284.202</Sensor_Pos>
 	<Sensor_Area>0.507653</Sensor_Area>
 	<waveColor>21, 0, 255, 255</waveColor>
-	<WaveDecayTime>957</WaveDecayTime>
+	<WaveDecayTime>500</WaveDecayTime>
 		<WaveColor>255, 255, 255, 255</WaveColor>
 	</Kinect_0>
 	<Kinect_1>
@@ -23,8 +23,8 @@
 	<Sensor_Pos>1152.37, 372.165</Sensor_Pos>
 	<Sensor_Area>0.507653</Sensor_Area>
 	<waveColor>5, 233, 0, 184</waveColor>
-	<WaveDecayTime>914</WaveDecayTime>
-		<WaveColor>255, 255, 134, 255</WaveColor>
+	<WaveDecayTime>557</WaveDecayTime>
+		<WaveColor>0, 255, 0, 255</WaveColor>
 	</Kinect_1>
 <Settings/>
 <Particles>
@@ -39,6 +39,6 @@
 <general>
 		<Velo_Ratio>1</Velo_Ratio>
 		<Physical_Obj_dTime>8989</Physical_Obj_dTime>
-		<Trail_Color>116, 66, 255, 255</Trail_Color>
+		<Trail_Color>255, 212, 255, 255</Trail_Color>
 	</general>
 </Settings>

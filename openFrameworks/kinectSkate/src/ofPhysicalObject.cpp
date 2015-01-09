@@ -21,8 +21,8 @@ void ofPhysicalObject::setup(AppConfig *_appConfig, ofxBox2d *_box2d, ofVec2f ve
     
 
     ofxBox2dRect *rect = rectBody.get();
-    
-    objectImage.loadImage("elemento 04.png");
+    string id = ofToString( appConfig->imageNameId+1);
+    objectImage.loadImage("images/elemento0"+ id+ ".png");
     float s = ofRandom(0.2,1.5);
     objectImage.resize(objectImage.width*s, objectImage.width*s);
     
@@ -75,7 +75,7 @@ void ofPhysicalObject::update() {
 }
 
 void ofPhysicalObject::draw() {
-    if (appConfig->runningMode == TRAILS) {
+    if (appConfig->runningMode == TRAILS ) {
         ofPushStyle();
         //ofFill();
         //ofSetHexColor(0xe63b8b);
@@ -87,7 +87,7 @@ void ofPhysicalObject::draw() {
         ofPopStyle();
     }
 
-    if (appConfig->runningMode == SHAPES) {
+    if (appConfig->runningMode == SHAPES ) {
         ofPushStyle();
             ofPoint pos = rectBody->getPosition();
             float ang = rectBody->getRotation();

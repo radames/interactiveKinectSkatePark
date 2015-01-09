@@ -263,39 +263,7 @@ void ofApp::update() {
     }
     
     
-    if(ofGetFrameNum()%200==0 && true==false){
-        
-        int kinectNumber = ofRandom(0,2);
-        int label = ofRandom(0,100);
-        
-        
-        if (addedObjs[kinectNumber].count(label) == 0) {
-            float w = 50;
-            float h = 50;
-            ofPoint center = toWorldCoord(ofPoint(ofRandom(0,640),ofRandom(0,480)), kinectNumber);
-            
-            // Create new wave
-            ofWave newWave;
-            newWave.setup(center, 10, 50, waveColor[kinectNumber], waveDecayTime[kinectNumber]);
-            waves.push_back(newWave);
-            
-            // Add Physical Object
-            ofVec2f velocity = ofPoint(ofRandom(-100,100),ofRandom(-100,100));
-            ofPhysicalObject physicalObject;
-            physicalObject.setup(&appConfig, &box2d, velocity*velocityRatio, center, kinectNumber, label, trailColor);
-            physicalObject.setDecayTime(pObjDecTime);
-            physObjects.push_back(physicalObject);
-            
-            // Keep track of object index
-            addedObjs[kinectNumber][label] = physObjects.size() - 1;
-            
-            myBack.addAttractPoints(center);
-            
-            
-            
-        }
-        
-    }
+   
 }
 
 //--------------------------------------------------------------
@@ -306,7 +274,6 @@ void ofApp::draw() {
     //ofClear(0,0,0,255);
 	ofEnableAlphaBlending();
   
-
 
     
     if(bDebugMode){
@@ -322,54 +289,75 @@ void ofApp::draw() {
 
 
     
-    if (appConfig.runningMode == GRAPH) {
-        ofPushStyle();
-        for (int i = 0; i < physObjects.size(); ++i) {
-            for (int j = i + 1; j < physObjects.size(); ++j) {
-                ofPoint p1 = physObjects[i].rectBody->getPosition();
-                ofPoint p2 = physObjects[j].rectBody->getPosition();
-                ofSetLineWidth(20);
-                ofLine(p1.x, p1.y, p2.x, p2.y);
-            }
+
+    
+    if(appConfig.onlyParticles){
+        //drawParticle
+        
+        
+        myBack.enableParticles = true;
+        myBack.draw(); //draw background effects
+        
+        // draw waves
+        for (int i = 0; i < waves.size(); ++i) {
+            waves[i].draw();
         }
-        ofPopStyle();
-
-    }
-    // draw waves
-    for (int i = 0; i < waves.size(); ++i) {
-        waves[i].draw();
-    }
-    
-    
-    // drawPositions();
-    myBack.draw(); //draw background effects
-
-    // draw objects trail
-    drawTrail();
-
-    for (int i = 0; i < physObjects.size(); ++i) {
-        physObjects[i].draw();
+        
+    }else{
+        
+        
+        if (appConfig.runningMode == GRAPH) {
+            ofPushStyle();
+            for (int i = 0; i < physObjects.size(); ++i) {
+                for (int j = i + 1; j < physObjects.size(); ++j) {
+                    ofPoint p1 = physObjects[i].rectBody->getPosition();
+                    ofPoint p2 = physObjects[j].rectBody->getPosition();
+                    ofSetLineWidth(20);
+                    ofLine(p1.x, p1.y, p2.x, p2.y);
+                }
+            }
+            ofPopStyle();
+            
+        }
+        
+        //drawParticle
+        myBack.draw(); //draw background effects
+        
+        // draw waves
+        for (int i = 0; i < waves.size(); ++i) {
+            waves[i].draw();
+        }
         
 
-        if (true) {
-            ofPushStyle();
+        // draw objects trail
+        drawTrail();
 
-            for (int j = i + 1; j < physObjects.size(); ++j) {
-                ofPoint p1 = physObjects[i].rectBody->getPosition();
-                ofPoint p2 = physObjects[j].rectBody->getPosition();
-                ofSetLineWidth(1);
-
-                ofLine(p1.x, p1.y, p2.x, p2.y);
-            }
+        
+        //draw physical objects
+        for (int i = 0; i < physObjects.size(); ++i) {
+            physObjects[i].draw();
             
-            ofPopStyle();
+            //enables graph for all kinds of canvas mode inside physObjects
+            if (appConfig.graphEnable) {
+                ofPushStyle();
+
+                for (int j = i + 1; j < physObjects.size(); ++j) {
+                    ofPoint p1 = physObjects[i].rectBody->getPosition();
+                    ofPoint p2 = physObjects[j].rectBody->getPosition();
+                    ofSetLineWidth(1);
+
+                    ofLine(p1.x, p1.y, p2.x, p2.y);
+                }
+                
+                ofPopStyle();
+
+            }
 
         }
 
-    }
-
-    if (!bDebugMode) {
-        post.end();
+        if (!bDebugMode) {
+            post.end();
+        }
     }
     syphonServer.publishScreen(); //syphon screen
 }
@@ -641,40 +629,31 @@ void ofApp::oscUpdate(){
 void ofApp::keyPressed (int key) {
 	switch (key) {
 
-		case 's':
+		case 'q':
 			gui.saveToFile("settings.xml");
 			break;
-		case 'l':
+		case 'w':
 			gui.loadFromFile("settings.xml");
 			break;
+        case 'e':
+            bDebugMode = !bDebugMode;
+            break;
+            
+            
+        case OF_KEY_RIGHT:
+            
+            appConfig.imageNameId = (appConfig.imageNameId+1) % 4;
 
-		case 'f':
-			ofToggleFullscreen();
-			ofSetWindowShape(CWIDTH,CHEIGHT); //set windowSize the same as the
-			break;
-
-		case 'd':
-			bDebugMode = !bDebugMode;
-
-			break;
-
-		case 'm':
-			break;
-
-		case OF_KEY_UP:
-			break;
-
-		case OF_KEY_DOWN:
-			break;
-
-		case OF_KEY_LEFT:
-			break;
-
-		case OF_KEY_RIGHT:
-			break;
-
+            break;
+            
         case 'a':
             myBack.enableParticles = !myBack.enableParticles;
+            break;
+        case 's':
+            appConfig.graphEnable = !appConfig.graphEnable;
+            break;
+        case 'd':
+            appConfig.onlyParticles = !appConfig.onlyParticles;
             break;
             
 		case 'z':
@@ -689,9 +668,7 @@ void ofApp::keyPressed (int key) {
         case 'v':
             appConfig.runningMode = SQUARES;
             break;
-        case 'b':
-            appConfig.runningMode = CIRCLES;
-            break;
+
         case '1':
             post[0]->setEnabled(!post[0]->getEnabled());
             break;
@@ -746,7 +723,20 @@ void ofApp::keyPressed (int key) {
                 addedObjs[kinectNumber][label] = physObjects.size() - 1;
                 
                 myBack.addAttractPoints(center);
+                
+                ofxOscMessage m;
+                
+                if(center.x  < sensorPos[kinectNumber]-> x ){ //if this then he've appeared first on th left
+                    m.setAddress("/skatista/ED");
+                }else{
+                    m.setAddress("/skatista/DE");
+                }
+                m.addIntArg(kinectNumber); // which sensor plus velocity
+                sender.sendMessage(m);
             }
+            
+            
+            
             
             
             break;
