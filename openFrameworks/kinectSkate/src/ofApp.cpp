@@ -523,8 +523,6 @@ void ofApp::guiSetup(){
 		parametersKinect[kinectNumber].add(numMaxBlobs[kinectNumber].set("Num Max Blos",10,0,15));
 		parametersKinect[kinectNumber].add(maxBlobSize[kinectNumber].set("max Blob Size",0,0,500));
 		parametersKinect[kinectNumber].add(minBlobSize[kinectNumber].set("min Blob Size",0,0,500));
-		parametersKinect[kinectNumber].add(offsetX[kinectNumber].set("Offset X", 0,-200, 200 ));
-		parametersKinect[kinectNumber].add(offsetY[kinectNumber].set("Offset Y", 0,-200, 200 ));
 		parametersKinect[kinectNumber].add(sensorPos[kinectNumber].set("Sensor Pos", ofVec2f(1,10.0),ofVec2f(0,0),ofVec2f(CWIDTH,CHEIGHT)));
 		parametersKinect[kinectNumber].add(sensorArea[kinectNumber].set("Sensor Area", 0.5, 0.1,2));
         parametersKinect[kinectNumber].add(waveDecayTime[kinectNumber].set("WaveDecayTime",1000,200,3000));

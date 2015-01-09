@@ -85,12 +85,9 @@ public:
 	ofParameterGroup parametersKinect[2];
 
 	ofParameter<int> farThreshold[2];
-	ofParameter<float> offsetX[2];
-	ofParameter<float> offsetY[2];
 	ofParameter<int> numMaxBlobs[2];
 	ofParameter<int> minBlobSize[2];
 	ofParameter<int> maxBlobSize[2];
-
 	ofParameter<ofVec2f> sensorPos[2];
 	ofParameter<float> sensorArea[2];
     ofParameter<ofColor> waveColor[2];

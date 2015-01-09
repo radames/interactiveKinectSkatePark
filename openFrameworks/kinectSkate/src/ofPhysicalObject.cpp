@@ -39,7 +39,7 @@ void ofPhysicalObject::setup(AppConfig *_appConfig, ofxBox2d *_box2d, ofVec2f ve
     objectImage.loadImage("golden.png");
 
     firstTime = ofGetElapsedTimeMillis();
-    decayTime = ofRandom(1000,5000);
+    decayTime = 5000;
 
 }
 
@@ -61,7 +61,7 @@ void ofPhysicalObject::update() {
     newPosition.y  = newRectPosition.y;
     ofColor color;
     int sat = int(ofGetElapsedTimef() * 10) % 255;
-    color.setHsb(ribbonColor.getHue(), 155, 100, 150);
+    color.setHsb(ribbonColor.getHue(), 255, 255, 255);
     ribbon->update(newPosition, color);
 }
 

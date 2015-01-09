@@ -18,7 +18,7 @@ void ofBackEffects::setup(){
     particlesGUI.setName("Particles");
     particlesGUI.add(maxParticles.set("max NumParticles", 100, 10, 3000));
     particlesGUI.add(decayTime.set("decay Time", 2000,500,5000));
-    
+    particlesGUI.add(particleColor.set("particle color", ofColor(255,0,0), ofColor(0,0),ofColor(255,255)));
 
 }
 
