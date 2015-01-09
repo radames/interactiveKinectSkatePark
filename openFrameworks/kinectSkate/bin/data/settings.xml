@@ -1,10 +1,10 @@
 <Settings>
 	<Mouse_DEBUG>1</Mouse_DEBUG>
 	<Kinect_0>
-		<Far_Threshold>221</Far_Threshold>
+		<Far_Threshold>75</Far_Threshold>
 		<Num_Max_Blos>10</Num_Max_Blos>
 		<max_Blob_Size>227</max_Blob_Size>
-		<min_Blob_Size>25</min_Blob_Size>
+		<min_Blob_Size>10</min_Blob_Size>
 		<Offset_X>0</Offset_X>
 		<Offset_Y>0</Offset_Y>
 	<Sensor_Pos>395.355, 260.212</Sensor_Pos>
@@ -12,7 +12,7 @@
 	<waveColor>21, 0, 255, 255</waveColor>
 	</Kinect_0>
 	<Kinect_1>
-		<Far_Threshold>223</Far_Threshold>
+		<Far_Threshold>68</Far_Threshold>
 		<Num_Max_Blos>10</Num_Max_Blos>
 		<max_Blob_Size>242</max_Blob_Size>
 		<min_Blob_Size>40</min_Blob_Size>
@@ -27,5 +27,5 @@
 		<max_NumParticles>1062</max_NumParticles>
 	<particle_Color>243, 255, 39, 255</particle_Color>
 	</Particles>
-<Velo_Ratio>1</Velo_Ratio>
+<Velo_Ratio>0.595</Velo_Ratio>
 </Settings>

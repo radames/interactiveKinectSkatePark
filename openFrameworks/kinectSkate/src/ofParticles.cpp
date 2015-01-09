@@ -4,7 +4,7 @@
 ofParticles::ofParticles(){
     attractPoints = NULL;
     firstTime = ofGetElapsedTimef();
-    decayTime = ofRandom(1,10);
+    decayTime = ofRandom(1,5);
     pColor = ofColor(ofRandom(255),ofRandom(255),ofRandom(255));
 }
 

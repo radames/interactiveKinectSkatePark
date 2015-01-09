@@ -24,8 +24,8 @@ void ofApp::setup() {
 	ofRectangle bounds = ofRectangle(0, 0, CWIDTH, CHEIGHT);
 
 	screenSetup(); //screen and some OF setups
-	kinectSetup(0,"A00367813858042A"); //kinetic setup
-	kinectSetup(1,""); //kinetic setup
+	kinectSetup(1,"A00367813858042A"); //kinetic setup
+	kinectSetup(0,""); //kinetic setup
 
 	// register the listener so that we get the events
 	ofAddListener(box2d.contactStartEvents, this, &ofApp::contactStart);
@@ -162,7 +162,8 @@ void ofApp::createObjects() {
 				float w = 50;
 				float h = 50;
 				ofPoint center = toWorldCoord(toOf(contourFinder[kinectNumber].getCenter(i)), kinectNumber);
-
+                //center.y = CHEIGHT - center.y;
+                
 				// Create new wave
                 ofWave newWave;
                 newWave.setup(center, 10, 50, waveColor[kinectNumber]);
@@ -269,12 +270,23 @@ void ofApp::draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //ofClear(0,0,0,255);
 	ofEnableAlphaBlending();
+  
+    post.begin();
+
+    ofTranslate(CWIDTH/2, CHEIGHT/2);
+    ofRotate(180, 0, 0, 1);
+        ofRotate(180, 0, 1, 0);
+    ofTranslate(-CWIDTH/2, -CHEIGHT/2);
+
     
     if(bDebugMode){ debugMode(); }//draw debug mode
 
-    if (!bDebugMode) {
-        post.begin();
-    }
+    //if (!bDebugMode) {
+      //  ofScale(0,-1,0);
+        //ofTranslate(0, CHEIGHT);
+        //ofScale(0,-1);
+//        post.begin();
+   // }
 
 	for (int i = 0; i < physObjects.size(); ++i) {
 		physObjects[i].draw();
@@ -302,9 +314,9 @@ void ofApp::draw() {
         waves[i].draw();
     }
 
-    if (!bDebugMode) {
+  //  if (!bDebugMode) {
         post.end();
-    }
+ //   }
     syphonServer.publishScreen(); //syphon screen
 }
 
@@ -583,6 +595,9 @@ void ofApp::keyPressed (int key) {
 
 		case 'd':
 			bDebugMode = !bDebugMode;
+            for(int i = 0; i<8; i++){
+                post[i]->setEnabled(false);
+            }
 			break;
 
 		case 'm':

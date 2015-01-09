@@ -39,7 +39,7 @@ void ofPhysicalObject::setup(AppConfig *_appConfig, ofxBox2d *_box2d, ofVec2f ve
     objectImage.loadImage("golden.png");
 
     firstTime = ofGetElapsedTimef();
-    decayTime = ofRandom(10,20);
+    decayTime = ofRandom(2,5);
 
 }
 
