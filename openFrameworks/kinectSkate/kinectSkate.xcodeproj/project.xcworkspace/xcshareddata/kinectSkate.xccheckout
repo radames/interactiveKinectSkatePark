@@ -20,6 +20,8 @@
 		<string>git://github.com/vanderlin/ofxBox2d.git</string>
 		<key>95F70890EFD46183734FEDFE52CF53391DE6937E</key>
 		<string>https://github.com/neilmendoza/ofxPostProcessing</string>
+		<key>F080FE456D2598C8CEBB59BC836218BE8B5468F4</key>
+		<string>https://github.com/ofTheo/ofxAppGLFWWindowMulti.git</string>
 		<key>F4CCB893AFADB97238A965FD2F28717F1CAAE613</key>
 		<string>https://github.com/astellato/ofxSyphon.git</string>
 	</dict>
@@ -37,6 +39,8 @@
 		<string>../../../../../Development/openFrameworks/addons/ofxBox2d</string>
 		<key>95F70890EFD46183734FEDFE52CF53391DE6937E</key>
 		<string>../../../../../Development/openFrameworks/addons/ofxPostProcessing</string>
+		<key>F080FE456D2598C8CEBB59BC836218BE8B5468F4</key>
+		<string>../../../../../Development/openFrameworks/addons/ofxAppGLFWWindowMulti</string>
 		<key>F4CCB893AFADB97238A965FD2F28717F1CAAE613</key>
 		<string>../../../../../Development/openFrameworks/addons/ofxSyphon</string>
 	</dict>
@@ -55,6 +59,14 @@
 			<string>820D8ECECF908AEE9B246B025F1F606DC1E2C31E</string>
 			<key>IDESourceControlWCCName</key>
 			<string>kinectSkate</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F080FE456D2598C8CEBB59BC836218BE8B5468F4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ofxAppGLFWWindowMulti</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>

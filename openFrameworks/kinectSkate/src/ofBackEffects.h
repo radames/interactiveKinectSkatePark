@@ -23,6 +23,7 @@ public:
     ofParameter<int> maxParticles = 1500;
     ofParameter<ofColor>  particleColor;
     ofParameter<int>  decayTime;
+    bool enableParticles = true;
 
 private:
     //background particles

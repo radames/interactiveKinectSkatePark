@@ -8,6 +8,7 @@ using namespace ofxCv;
 //--------------------------------------------------------------
 void ofApp::setup() {
     
+    
     post.init(CWIDTH, CHEIGHT);
     post.createPass<BloomPass>()->setEnabled(false);
     post.createPass<DofPass>()->setEnabled(false);
@@ -15,8 +16,6 @@ void ofApp::setup() {
     post.createPass<NoiseWarpPass>()->setEnabled(false);
     post.createPass<PixelatePass>()->setEnabled(false);
     post.createPass<GodRaysPass>()->setEnabled(false);
-    post.createPass<EdgePass>()->setEnabled(false);
-    post.createPass<FxaaPass>()->setEnabled(false);
 
     appConfig.runningMode = TRAILS;
     
@@ -170,11 +169,12 @@ void ofApp::createObjects() {
 
 				// Add Physical Object
 				ofVec2f velocity = toOf(tracker.getVelocity(i));
-                ofPhysicalObject physicalObject;
-				physicalObject.setup(&appConfig, &box2d, velocity*velocityRatio, center, kinectNumber, label, w, h);
-                physicalObject.setDecayTime(pObjDecTime);
-				physObjects.push_back(physicalObject);
 
+                ofPhysicalObject physicalObject;
+                physicalObject.setup(&appConfig, &box2d, velocity*velocityRatio, center, kinectNumber, label, trailColor);
+                physicalObject.setDecayTime(pObjDecTime);
+                physObjects.push_back(physicalObject);
+                
                 // Keep track of object index
                 addedObjs[kinectNumber][label] = physObjects.size() - 1;
                 
@@ -261,32 +261,66 @@ void ofApp::update() {
             ++it;
         }
     }
+    
+    
+    if(ofGetFrameNum()%200==0 && true==false){
+        
+        int kinectNumber = ofRandom(0,2);
+        int label = ofRandom(0,100);
+        
+        
+        if (addedObjs[kinectNumber].count(label) == 0) {
+            float w = 50;
+            float h = 50;
+            ofPoint center = toWorldCoord(ofPoint(ofRandom(0,640),ofRandom(0,480)), kinectNumber);
+            
+            // Create new wave
+            ofWave newWave;
+            newWave.setup(center, 10, 50, waveColor[kinectNumber], waveDecayTime[kinectNumber]);
+            waves.push_back(newWave);
+            
+            // Add Physical Object
+            ofVec2f velocity = ofPoint(ofRandom(-100,100),ofRandom(-100,100));
+            ofPhysicalObject physicalObject;
+            physicalObject.setup(&appConfig, &box2d, velocity*velocityRatio, center, kinectNumber, label, trailColor);
+            physicalObject.setDecayTime(pObjDecTime);
+            physObjects.push_back(physicalObject);
+            
+            // Keep track of object index
+            addedObjs[kinectNumber][label] = physObjects.size() - 1;
+            
+            myBack.addAttractPoints(center);
+            
+            
+            
+        }
+        
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
     
-	glClearColor(0.0, 0.0, 0.0, 0);
+	glClearColor(0.0, 0.0, 0.0, 255.00);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //ofClear(0,0,0,255);
 	ofEnableAlphaBlending();
   
 
-    if (!bDebugMode) {
-        post.begin();
 
+    
+    if(bDebugMode){
+        debugMode(); //draw debug mode
+    }else{
+        
+        post.begin();
         ofTranslate(CWIDTH/2, CHEIGHT/2);
         ofRotate(180, 0, 0, 1);
         ofRotate(180, 0, 1, 0);
         ofTranslate(-CWIDTH/2, -CHEIGHT/2);
     }
-    
-    if(bDebugMode){ debugMode(); }//draw debug mode
 
 
-	for (int i = 0; i < physObjects.size(); ++i) {
-		physObjects[i].draw();
-	}
     
     if (appConfig.runningMode == GRAPH) {
         ofPushStyle();
@@ -301,6 +335,10 @@ void ofApp::draw() {
         ofPopStyle();
 
     }
+    // draw waves
+    for (int i = 0; i < waves.size(); ++i) {
+        waves[i].draw();
+    }
     
     
     // drawPositions();
@@ -308,12 +346,29 @@ void ofApp::draw() {
 
     // draw objects trail
     drawTrail();
-    // draw waves
-    for (int i = 0; i < waves.size(); ++i) {
-        waves[i].draw();
+
+    for (int i = 0; i < physObjects.size(); ++i) {
+        physObjects[i].draw();
+        
+
+        if (true) {
+            ofPushStyle();
+
+            for (int j = i + 1; j < physObjects.size(); ++j) {
+                ofPoint p1 = physObjects[i].rectBody->getPosition();
+                ofPoint p2 = physObjects[j].rectBody->getPosition();
+                ofSetLineWidth(1);
+
+                ofLine(p1.x, p1.y, p2.x, p2.y);
+            }
+            
+            ofPopStyle();
+
+        }
+
     }
 
-   if (!bDebugMode) {
+    if (!bDebugMode) {
         post.end();
     }
     syphonServer.publishScreen(); //syphon screen
@@ -326,7 +381,7 @@ void ofApp::drawTrail() {
 			ofPushStyle();
 			ofPoint p1 = trail[i][(trail_i[i] + j) % 30];
 			ofPoint p2 = trail[i][(trail_i[i] + j + 1) % 30];
-			ofSetColor(255, 0, 0);
+			ofSetColor(255,255);
 			//  ofSetLineWidth(j*2);
 			ofLine(p1.x, p1.y, p2.x, p2.y);
 			ofPopStyle();
@@ -343,7 +398,7 @@ void ofApp::debugMode(){
 	//width height debug screens
 	float w = 300;
 	float h = 200;
-	debugImage.draw(0,0);
+	///debugImage.draw(0,0);
 
     for(int kinectNumber = 0; kinectNumber < 2; kinectNumber++){
 		//drawing two depth areas
@@ -530,12 +585,17 @@ void ofApp::guiSetup(){
         gui.add(parametersKinect[kinectNumber]);
         
 	}
-	// events for change in paramenters on ofpp application
-	gui.add(myBack.particlesGUI);
-    
-    gui.add(velocityRatio.set("Velo Ratio",1,0.1,2));
-    gui.add(pObjDecTime.set("Physical Obj dTime",1000,1000,10000));
+    gui.add(myBack.particlesGUI);
 
+    
+    generalParameters.setName("general");
+	// events for change in paramenters on ofpp application
+    generalParameters.add(velocityRatio.set("Velo Ratio",1,0.1,2));
+    generalParameters.add(pObjDecTime.set("Physical Obj dTime",1000,1000,10000));
+    generalParameters.add(trailColor.set("Trail Color", ofColor(255,255), ofColor(0,0),ofColor(255,255)));
+    
+    gui.add(generalParameters);
+    
     gui.minimizeAll();
 
 	gui.loadFromFile("settings.xml");
@@ -583,7 +643,6 @@ void ofApp::keyPressed (int key) {
 
 		case 's':
 			gui.saveToFile("settings.xml");
-
 			break;
 		case 'l':
 			gui.loadFromFile("settings.xml");
@@ -596,9 +655,7 @@ void ofApp::keyPressed (int key) {
 
 		case 'd':
 			bDebugMode = !bDebugMode;
-            for(int i = 0; i<8; i++){
-                post[i]->setEnabled(false);
-            }
+
 			break;
 
 		case 'm':
@@ -616,6 +673,10 @@ void ofApp::keyPressed (int key) {
 		case OF_KEY_RIGHT:
 			break;
 
+        case 'a':
+            myBack.enableParticles = !myBack.enableParticles;
+            break;
+            
 		case 'z':
             appConfig.runningMode = TRAILS;
 			break;
@@ -627,6 +688,9 @@ void ofApp::keyPressed (int key) {
             break;
         case 'v':
             appConfig.runningMode = SQUARES;
+            break;
+        case 'b':
+            appConfig.runningMode = CIRCLES;
             break;
         case '1':
             post[0]->setEnabled(!post[0]->getEnabled());
@@ -644,19 +708,47 @@ void ofApp::keyPressed (int key) {
             post[4]->setEnabled(!post[4]->getEnabled());
             break;
         case '6':
-            post[5]->setEnabled(!post[5]->getEnabled());
             break;
         case '7':
-            post[6]->setEnabled(!post[6]->getEnabled());
             break;
         case '8':
-            post[7]->setEnabled(!post[7]->getEnabled());
             break;
             
         case '0':
-            for(int i = 0; i<8; i++){
-                post[i]->setEnabled(false);
+            for(int i = 0; i< post.size(); i++){
+                post[i]-> setEnabled(false);
             }
+            break;
+        case ' ':
+            
+            int kinectNumber = ofRandom(0,2);
+            int label = ofRandom(0,100);
+            
+            
+            if (addedObjs[kinectNumber].count(label) == 0) {
+                float w = 50;
+                float h = 50;
+                ofPoint center = toWorldCoord(ofPoint(ofRandom(0,640),ofRandom(0,480)), kinectNumber);
+                
+                // Create new wave
+                ofWave newWave;
+                newWave.setup(center, 10, 50, waveColor[kinectNumber], waveDecayTime[kinectNumber]);
+                waves.push_back(newWave);
+                
+                // Add Physical Object
+                ofVec2f velocity = ofPoint(ofRandom(-100,100),ofRandom(-100,100));
+                ofPhysicalObject physicalObject;
+                physicalObject.setup(&appConfig, &box2d, velocity*velocityRatio, center, kinectNumber, label, trailColor);
+                physicalObject.setDecayTime(pObjDecTime);
+                physObjects.push_back(physicalObject);
+                
+                // Keep track of object index
+                addedObjs[kinectNumber][label] = physObjects.size() - 1;
+                
+                myBack.addAttractPoints(center);
+            }
+            
+            
             break;
             
 	}

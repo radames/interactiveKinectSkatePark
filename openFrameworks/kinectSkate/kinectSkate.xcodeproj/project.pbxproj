@@ -42,6 +42,13 @@
 		5104D4B419D8D349002EB372 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D44619D8D349002EB372 /* Utilities.cpp */; };
 		5104D4B519D8D349002EB372 /* Wrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D44719D8D349002EB372 /* Wrappers.cpp */; };
 		5104D4B719D8D349002EB372 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 5104D44A19D8D349002EB372 /* readme.md */; };
+		51191B5A1A602A9500B07DAE /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51191B531A602A9500B07DAE /* tinyxml.cpp */; };
+		51191B5B1A602A9500B07DAE /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51191B551A602A9500B07DAE /* tinyxmlerror.cpp */; };
+		51191B5C1A602A9500B07DAE /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51191B561A602A9500B07DAE /* tinyxmlparser.cpp */; };
+		51191B5D1A602A9500B07DAE /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51191B581A602A9500B07DAE /* ofxXmlSettings.cpp */; };
+		51191B761A602C3A00B07DAE /* ofxAppGLFWWindowMulti.mm in Sources */ = {isa = PBXBuildFile; fileRef = 51191B711A602C3A00B07DAE /* ofxAppGLFWWindowMulti.mm */; };
+		51191B771A602C3A00B07DAE /* WindowManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51191B721A602C3A00B07DAE /* WindowManager.cpp */; };
+		513371661A60315C00C7E3D1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 513371651A60315C00C7E3D1 /* Carbon.framework */; };
 		513BD8F61A52018200C42626 /* ofBackEffects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 513BD8F41A52018200C42626 /* ofBackEffects.cpp */; };
 		517F7CFE1A49DBDE00F217DB /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 517F7C591A49DBDE00F217DB /* b2BroadPhase.cpp */; };
 		517F7CFF1A49DBDE00F217DB /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 517F7C5B1A49DBDE00F217DB /* b2CollideCircle.cpp */; };
@@ -283,6 +290,17 @@
 		5104D44719D8D349002EB372 /* Wrappers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Wrappers.cpp; sourceTree = "<group>"; };
 		5104D44A19D8D349002EB372 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 		5104D44C19D8D349002EB372 /* ofxCv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCv.h; sourceTree = "<group>"; };
+		51191B531A602A9500B07DAE /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
+		51191B541A602A9500B07DAE /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
+		51191B551A602A9500B07DAE /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
+		51191B561A602A9500B07DAE /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
+		51191B581A602A9500B07DAE /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
+		51191B591A602A9500B07DAE /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		51191B701A602C3A00B07DAE /* ofxAppGLFWWindowMulti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAppGLFWWindowMulti.h; sourceTree = "<group>"; };
+		51191B711A602C3A00B07DAE /* ofxAppGLFWWindowMulti.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxAppGLFWWindowMulti.mm; sourceTree = "<group>"; };
+		51191B721A602C3A00B07DAE /* WindowManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowManager.cpp; sourceTree = "<group>"; };
+		51191B731A602C3A00B07DAE /* WindowManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowManager.h; sourceTree = "<group>"; };
+		513371651A60315C00C7E3D1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		513BD8F41A52018200C42626 /* ofBackEffects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofBackEffects.cpp; sourceTree = "<group>"; };
 		513BD8F51A52018200C42626 /* ofBackEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofBackEffects.h; sourceTree = "<group>"; };
 		516717F84C0146512C47A3EC /* ofxCvHaarFinder.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxCvHaarFinder.h; path = ../../../openFrameworks/addons/ofxOpenCv/src/ofxCvHaarFinder.h; sourceTree = SOURCE_ROOT; };
@@ -620,6 +638,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				513371661A60315C00C7E3D1 /* Carbon.framework in Frameworks */,
 				E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */,
 				E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */,
 				5101F7D319D78A6600E8AD90 /* Syphon.framework in Frameworks */,
@@ -990,6 +1009,56 @@
 			isa = PBXGroup;
 			children = (
 				5104D44C19D8D349002EB372 /* ofxCv.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		51191B511A602A9500B07DAE /* ofxXmlSettings */ = {
+			isa = PBXGroup;
+			children = (
+				51191B521A602A9500B07DAE /* libs */,
+				51191B571A602A9500B07DAE /* src */,
+			);
+			name = ofxXmlSettings;
+			path = ../../../../openFrameworks/addons/ofxXmlSettings;
+			sourceTree = "<group>";
+		};
+		51191B521A602A9500B07DAE /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				51191B531A602A9500B07DAE /* tinyxml.cpp */,
+				51191B541A602A9500B07DAE /* tinyxml.h */,
+				51191B551A602A9500B07DAE /* tinyxmlerror.cpp */,
+				51191B561A602A9500B07DAE /* tinyxmlparser.cpp */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		51191B571A602A9500B07DAE /* src */ = {
+			isa = PBXGroup;
+			children = (
+				51191B581A602A9500B07DAE /* ofxXmlSettings.cpp */,
+				51191B591A602A9500B07DAE /* ofxXmlSettings.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		51191B5E1A602C3A00B07DAE /* ofxAppGLFWWindowMulti */ = {
+			isa = PBXGroup;
+			children = (
+				51191B6F1A602C3A00B07DAE /* src */,
+			);
+			name = ofxAppGLFWWindowMulti;
+			path = ../../../../openFrameworks/addons/ofxAppGLFWWindowMulti;
+			sourceTree = "<group>";
+		};
+		51191B6F1A602C3A00B07DAE /* src */ = {
+			isa = PBXGroup;
+			children = (
+				51191B701A602C3A00B07DAE /* ofxAppGLFWWindowMulti.h */,
+				51191B711A602C3A00B07DAE /* ofxAppGLFWWindowMulti.mm */,
+				51191B721A602C3A00B07DAE /* WindowManager.cpp */,
+				51191B731A602C3A00B07DAE /* WindowManager.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1443,6 +1512,8 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				51191B5E1A602C3A00B07DAE /* ofxAppGLFWWindowMulti */,
+				51191B511A602A9500B07DAE /* ofxXmlSettings */,
 				D7EE623E1A5E4813005895BE /* ofxPostProcessing */,
 				51F49BA41A59C775004C7FD0 /* ofxOsc */,
 				517F7B161A49DBDA00F217DB /* ofxBox2d */,
@@ -1458,6 +1529,7 @@
 		BBAB23C913894ECA00AA2426 /* system frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				513371651A60315C00C7E3D1 /* Carbon.framework */,
 				E7F985F515E0DE99003869B5 /* Accelerate.framework */,
 				E4C2424410CC5A17004149E2 /* AppKit.framework */,
 				E4C2424510CC5A17004149E2 /* Cocoa.framework */,
@@ -1809,9 +1881,11 @@
 				517F7D031A49DBDE00F217DB /* b2Distance.cpp in Sources */,
 				D7EE62971A5E4814005895BE /* RenderPass.cpp in Sources */,
 				517F7D331A49DBDE00F217DB /* ofxBox2dPolygon.cpp in Sources */,
+				51191B5B1A602A9500B07DAE /* tinyxmlerror.cpp in Sources */,
 				517F7D1D1A49DBDE00F217DB /* b2PolygonAndCircleContact.cpp in Sources */,
 				517F7D251A49DBDE00F217DB /* b2PrismaticJoint.cpp in Sources */,
 				517F7D1B1A49DBDE00F217DB /* b2EdgeAndCircleContact.cpp in Sources */,
+				51191B5C1A602A9500B07DAE /* tinyxmlparser.cpp in Sources */,
 				51F49BD81A59C776004C7FD0 /* ofxOscBundle.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
@@ -1832,6 +1906,7 @@
 				D7EE62921A5E4814005895BE /* LimbDarkeningPass.cpp in Sources */,
 				51F49BCF1A59C776004C7FD0 /* IpEndpointName.cpp in Sources */,
 				517F7D101A49DBDE00F217DB /* b2Body.cpp in Sources */,
+				51191B761A602C3A00B07DAE /* ofxAppGLFWWindowMulti.mm in Sources */,
 				D7EE62961A5E4814005895BE /* PostProcessing.cpp in Sources */,
 				FCC16AB16073FF0581F50ED7 /* loader.c in Sources */,
 				517F7D291A49DBDE00F217DB /* b2WeldJoint.cpp in Sources */,
@@ -1840,6 +1915,7 @@
 				21A059755481CC0BF969FD2D /* keep_alive.c in Sources */,
 				5101F7D419D78A6600E8AD90 /* SyphonNameboundClient.m in Sources */,
 				D7EE62931A5E4814005895BE /* LUTPass.cpp in Sources */,
+				51191B5D1A602A9500B07DAE /* ofxXmlSettings.cpp in Sources */,
 				5104D4AD19D8D349002EB372 /* Distance.cpp in Sources */,
 				F4135EEFC911E9ED211FB6F9 /* core.c in Sources */,
 				517F7D261A49DBDE00F217DB /* b2PulleyJoint.cpp in Sources */,
@@ -1874,6 +1950,7 @@
 				517F7D2A1A49DBDE00F217DB /* b2WheelJoint.cpp in Sources */,
 				517F7D2F1A49DBDE00F217DB /* ofxBox2dBaseShape.cpp in Sources */,
 				51F49BD31A59C776004C7FD0 /* UdpSocketWin.cpp in Sources */,
+				51191B5A1A602A9500B07DAE /* tinyxml.cpp in Sources */,
 				5104D4B319D8D349002EB372 /* Tracker.cpp in Sources */,
 				517F7D151A49DBDE00F217DB /* b2WorldCallbacks.cpp in Sources */,
 				517F7D321A49DBDE00F217DB /* ofxBox2dJoint.cpp in Sources */,
@@ -1893,6 +1970,7 @@
 				517F7D0A1A49DBDE00F217DB /* b2BlockAllocator.cpp in Sources */,
 				517F7D051A49DBDE00F217DB /* b2TimeOfImpact.cpp in Sources */,
 				517F7D201A49DBDE00F217DB /* b2FrictionJoint.cpp in Sources */,
+				51191B771A602C3A00B07DAE /* WindowManager.cpp in Sources */,
 				D7EE628A1A5E4814005895BE /* DofAltPass.cpp in Sources */,
 				5104D17A19D8675A002EB372 /* ofxBaseGui.cpp in Sources */,
 				5104D4B219D8D349002EB372 /* RunningBackground.cpp in Sources */,

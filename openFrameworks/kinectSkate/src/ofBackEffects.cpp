@@ -18,7 +18,7 @@ void ofBackEffects::setup(){
     particlesGUI.setName("Particles");
     particlesGUI.add(maxParticles.set("max NumParticles", 100, 10, 3000));
     particlesGUI.add(decayTime.set("decay Time", 2000,500,5000));
-    particlesGUI.add(particleColor.set("particle color", ofColor(255,0,0), ofColor(0,0),ofColor(255,255)));
+    particlesGUI.add(particleColor.set("Particle Color", ofColor(255,255), ofColor(0,0),ofColor(255,255)));
 
 }
 
@@ -55,23 +55,13 @@ void ofBackEffects::addParticles(int num, ofPoint origin, ofPoint velocity) {
 }
 
 void ofBackEffects::draw(){
+    if(enableParticles){
+        
+        for(unsigned int i = 0; i < particles.size(); i++){
+            particles[i].draw();
+        }
 
-    for(unsigned int i = 0; i < particles.size(); i++){
-        particles[i].draw();
     }
-
-    ofSetColor(190);
-    if( currentMode == PARTICLE_MODE_NEAREST_POINTS ){
-    /*
-        for(unsigned int i = 0; i < attractPoints.size(); i++){
-            ofNoFill();
-//       cout << "A >  " << attractPointsWithMovement[i] << endl;
-            ofCircle(attractPointsWithMovement[i], 10);
-            ofFill();
-            ofCircle(attractPointsWithMovement[i], 4);
-        }*/
-    }
-
 }
 
 void ofBackEffects::update(vector <ofPtr<ofxBox2dRect> > boxes){

@@ -65,7 +65,7 @@ public:
     void setRunningMode(canvasMode _newRunningMode);
     
 	void oscUpdate();
-
+    
 	// convert blob position to world
 	ofPoint toWorldCoord(ofPoint point, int kinectId);
 
@@ -93,10 +93,13 @@ public:
     ofParameter<ofColor> waveColor[2];
     ofParameter<int> waveDecayTime[2];
     
-    ofParameter<float> velocityRatio;
+    ofParameterGroup generalParameters;
+
     
+    ofParameter<float> velocityRatio;
     ofParameter<int> pObjDecTime;
-   
+    ofParameter<ofColor> trailColor;
+
 
 	vector <tr1::unordered_map<int, int> > addedObjs;
 

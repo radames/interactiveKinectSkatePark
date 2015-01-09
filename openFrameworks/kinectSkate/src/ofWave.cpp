@@ -37,7 +37,7 @@ void ofWave::draw() {
         circle.arc(center, i*accel*dt*dt + i*linearVelocity*dt, i*accel*dt*dt + i*linearVelocity*dt, 0, 360);
         circle.close();
         circle.arc(center, i*accel*dt*dt + i*linearVelocity*dt + 0.6*i*dt*dt/20, i*accel*dt*dt + i*linearVelocity*dt + 0.6*i*dt*dt/20, 0, 360);
-        ofColor c(wColor,255 - MIN(1,float(time)/dTime)*255);
+        ofColor c(wColor,100 - MIN(1,float(time)/dTime)*100+155);
         circle.setColor(c);
         circle.draw();
         ofPopStyle();

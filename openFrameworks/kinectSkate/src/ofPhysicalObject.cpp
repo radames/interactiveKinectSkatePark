@@ -12,16 +12,25 @@ ofPhysicalObject::ofPhysicalObject(){};
 ofPhysicalObject::~ofPhysicalObject(){};
 
 
-void ofPhysicalObject::setup(AppConfig *_appConfig, ofxBox2d *_box2d, ofVec2f velocity, ofPoint position, int _kinectNumber, int _label, int _width, int _height) {
+void ofPhysicalObject::setup(AppConfig *_appConfig, ofxBox2d *_box2d, ofVec2f velocity, ofPoint position, int _kinectNumber, int _label, ofColor rColor) {
     appConfig = _appConfig;
     label = _label;
     kinectNumber = _kinectNumber;
     box2d = _box2d;
     rectBody = ofPtr<ofxBox2dRect>(new ofxBox2dRect);
+    
+
     ofxBox2dRect *rect = rectBody.get();
+    
+    objectImage.loadImage("elemento 04.png");
+    float s = ofRandom(0.2,1.5);
+    objectImage.resize(objectImage.width*s, objectImage.width*s);
+    
     rect->setVelocity(velocity.x, velocity.y);
     rect->setPhysics(3.0, 0.53, 0.1);
-    rect->setup(box2d->getWorld(), position.x, position.y, _width, _height);
+    rect->setup(box2d->getWorld(), position.x, position.y, objectImage.width, objectImage.height);
+
+        
 
     ofVec3f ribPos;
     ribPos.z = 0;
@@ -29,14 +38,13 @@ void ofPhysicalObject::setup(AppConfig *_appConfig, ofxBox2d *_box2d, ofVec2f ve
     ribPos.y  = position.y;
     ofColor color;
     int hue = ofRandom(0, 255);
-    ribbonColor.setHsb(hue, 120, 100, 150);
+    ribbonColor = rColor;
 
     ribbon = ofPtr<ofxTwistedRibbon>(new ofxTwistedRibbon);
     ribbon->update(position, color);
     ribbon->length  = ofRandom(50, 200);
     ang = ofRandom(5, 30);
 
-    objectImage.loadImage("golden.png");
 
     firstTime = ofGetElapsedTimeMillis();
     decayTime = 5000;
@@ -59,10 +67,11 @@ void ofPhysicalObject::update() {
     newPosition.z = 0; //sin(ofGetElapsedTimef() * 0.3) * radius;
     newPosition.x  = newRectPosition.x;
     newPosition.y  = newRectPosition.y;
-    ofColor color;
-    int sat = int(ofGetElapsedTimef() * 10) % 255;
-    color.setHsb(ribbonColor.getHue(), 255, 255, 255);
-    ribbon->update(newPosition, color);
+   // ofColor color;
+    //int sat = int(ofGetElapsedTimef() * 10) % 255;
+    //color.setHsb(ribbonColor.getHue(), 255, 255, 255);
+    ribbon->update(newPosition, ribbonColor);
+    
 }
 
 void ofPhysicalObject::draw() {
@@ -80,12 +89,15 @@ void ofPhysicalObject::draw() {
 
     if (appConfig->runningMode == SHAPES) {
         ofPushStyle();
-        ofPoint pos = rectBody->getPosition();
-        float ang = rectBody->getRotation();
+            ofPoint pos = rectBody->getPosition();
+            float ang = rectBody->getRotation();
         ofPushMatrix();
-        ofTranslate(pos.x, pos.y);
-        ofRotate(ang, 0, 0, 1);
-        objectImage.draw(-25, -25);
+            ofTranslate(pos.x, pos.y);
+            ofRotate(ang, 0, 0, 1);
+            ofSetRectMode(OF_RECTMODE_CENTER);
+            //ofSetColor(255,0,0);
+            ofFill();
+            objectImage.draw(0,0);
         ofPopMatrix();
         ofPopStyle();
     }

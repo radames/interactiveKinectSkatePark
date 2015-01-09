@@ -181,7 +181,7 @@ void ofParticles::draw(){
             break;
         
         case TRAIL:
-            ofSetColor(pColor, vel.length()/12*255);
+            ofSetColor(pColor);
             // colour, pow(r,0.1), 0.9*sqrt(1-r), Z[i].magnitude/100+abs(Z[i].z/depth)*0.05
             //cout << vel.length() << endl;
             //ofSetColor(ofColor::fromHsb(128, 255, 255, 1));
