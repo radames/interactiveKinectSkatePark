@@ -28,7 +28,7 @@
 	</Kinect_1>
 <Settings/>
 <Particles>
-		<max_NumParticles>101</max_NumParticles>
+		<max_NumParticles>940</max_NumParticles>
 	<particle_Color>243, 255, 39, 255</particle_Color>
 	<decay_Time>2000</decay_Time>
 	<particle_color>255, 255, 0, 255</particle_color>

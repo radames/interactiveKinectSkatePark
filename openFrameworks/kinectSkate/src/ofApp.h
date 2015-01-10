@@ -124,7 +124,7 @@ public:
 	vector <int> addedTrailSegments;
 	vector <ContactData> colCenters;
 
-	ofBackEffects myBack;
+	//ofBackEffects myBack;
 	ofImage debugImage;
 
 	// Waves

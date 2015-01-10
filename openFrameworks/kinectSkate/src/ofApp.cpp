@@ -36,7 +36,7 @@ void ofApp::setup() {
 	box2d.setFPS(30.0);
 	box2d.createBounds(bounds);
 
-	myBack.setup();
+	//myBack.setup();
 	ofSetVerticalSync(false);
 	ofSetFrameRate(60);
 
@@ -84,10 +84,10 @@ void ofApp::contactStart(ofxBox2dContactArgs &e) {
 				bData->hit = true;
 			}
 
-			myBack.addParticles(50, ofPoint(OFX_BOX2D_SCALE*e.a->GetBody()->GetPosition().x, OFX_BOX2D_SCALE*e.a->GetBody()->GetPosition().y),
-					ofPoint(e.a->GetBody()->GetLinearVelocity().x, e.a->GetBody()->GetLinearVelocity().y));
-			myBack.addParticles(50, ofPoint(OFX_BOX2D_SCALE*e.b->GetBody()->GetPosition().x, OFX_BOX2D_SCALE*e.b->GetBody()->GetPosition().y),
-					ofPoint(e.b->GetBody()->GetLinearVelocity().x, e.b->GetBody()->GetLinearVelocity().y));
+//			myBack.addParticles(50, ofPoint(OFX_BOX2D_SCALE*e.a->GetBody()->GetPosition().x, OFX_BOX2D_SCALE*e.a->GetBody()->GetPosition().y),
+  //          ofPoint(e.a->GetBody()->GetLinearVelocity().x, e.a->GetBody()->GetLinearVelocity().y));
+//			myBack.addParticles(50, ofPoint(OFX_BOX2D_SCALE*e.b->GetBody()->GetPosition().x, OFX_BOX2D_SCALE*e.b->GetBody()->GetPosition().y),
+//					ofPoint(e.b->GetBody()->GetLinearVelocity().x, e.b->GetBody()->GetLinearVelocity().y));
 		}
 	}
 }
@@ -190,7 +190,7 @@ void ofApp::createObjects() {
                 */
                 
 				// Add attract points to background
-				myBack.addAttractPoints(center);
+				//myBack.addAttractPoints(center);
 
 				//Osc Message for new Objects on the screen based on the sensorPositions[j] j = kinectic number
 				ofxOscMessage m;
@@ -222,7 +222,7 @@ void ofApp::update() {
 	kinectUpdate();
 	box2d.update();
 
-	myBack.update(boxes);
+	//myBack.update(boxes);
 
 	//oscUpdate();
 	//varre os blobs, checa
@@ -295,8 +295,8 @@ void ofApp::draw() {
         //drawParticle
         
         
-        myBack.enableParticles = true;
-        myBack.draw(); //draw background effects
+       // myBack.enableParticles = true;
+        //myBack.draw(); //draw background effects
         
         // draw waves
         for (int i = 0; i < waves.size(); ++i) {
@@ -321,7 +321,7 @@ void ofApp::draw() {
         }
         
         //drawParticle
-        myBack.draw(); //draw background effects
+        //myBack.draw(); //draw background effects
         
         // draw waves
         for (int i = 0; i < waves.size(); ++i) {
@@ -573,7 +573,7 @@ void ofApp::guiSetup(){
         gui.add(parametersKinect[kinectNumber]);
         
 	}
-    gui.add(myBack.particlesGUI);
+   // gui.add(myBack.particlesGUI);
 
     
     generalParameters.setName("general");
@@ -647,7 +647,7 @@ void ofApp::keyPressed (int key) {
             break;
             
         case 'a':
-            myBack.enableParticles = !myBack.enableParticles;
+       //     myBack.enableParticles = !myBack.enableParticles;
             break;
         case 's':
             appConfig.graphEnable = !appConfig.graphEnable;
@@ -722,7 +722,7 @@ void ofApp::keyPressed (int key) {
                 // Keep track of object index
                 addedObjs[kinectNumber][label] = physObjects.size() - 1;
                 
-                myBack.addAttractPoints(center);
+                //myBack.addAttractPoints(center);
                 
                 ofxOscMessage m;
                 

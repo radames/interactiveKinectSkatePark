@@ -70,6 +70,7 @@ void ofBackEffects::update(vector <ofPtr<ofxBox2dRect> > boxes){
     for(vector<ofParticles>::iterator it = particles.begin(); it != particles.end(); ){
         it->setMode(currentMode);
         it->setAnimationMode(animMode);
+        it->setDecayTime(decayTime);
         it->update();
         
         if(it->isReadyToDie()){
