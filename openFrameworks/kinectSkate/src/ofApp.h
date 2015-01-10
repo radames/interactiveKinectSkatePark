@@ -16,8 +16,9 @@
 #include "ofxPostProcessing.h"
 #include <tr1/unordered_map>
 
-#define HOST "localhost"
-#define PORT 12345
+#define HOST "192.168.2.100"
+#define R_PORT 12345
+#define S_PORT 12346
 
 class ContactData {
 public:

@@ -20,7 +20,7 @@ public:
     
     ofParameterGroup particlesGUI;
     //maxParticles for the cycling list of particles
-    ofParameter<int> maxParticles = 1500;
+    ofParameter<int> maxParticles = 200;
     ofParameter<ofColor>  particleColor;
     ofParameter<int>  decayTime;
     bool enableParticles = true;

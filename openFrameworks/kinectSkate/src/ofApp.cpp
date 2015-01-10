@@ -49,8 +49,8 @@ void ofApp::setup() {
 	debugImage.resize(1024*2, 768);
 
 	//Osc communication
-	sender.setup(HOST, PORT);
-	receiver.setup(PORT);
+	sender.setup(HOST, S_PORT);
+	receiver.setup(R_PORT);
 
 	//ribbon = new ofxTwistedRibbon();
 
@@ -354,10 +354,10 @@ void ofApp::draw() {
             }
 
         }
-
-        if (!bDebugMode) {
-            post.end();
-        }
+    }
+    
+    if (!bDebugMode) {
+        post.end();
     }
     syphonServer.publishScreen(); //syphon screen
 }
@@ -726,15 +726,17 @@ void ofApp::keyPressed (int key) {
                 
                 ofxOscMessage m;
                 
-                if(center.x  < sensorPos[kinectNumber]-> x ){ //if this then he've appeared first on th left
-                    m.setAddress("/skatista/ED");
-                }else{
-                    m.setAddress("/skatista/DE");
+                if(kinectNumber == 1){ //sensor over the piramede
+                    m.setAddress("/md8key/ctrl_layer_media/3"); //osc message to control modul8 layers
+                    m.addIntArg(ofRandom(10)); ////random media
+                    sender.sendMessage(m);
+                    
+                }else if(kinectNumber == 0){ //sensor over quarter
+                    m.setAddress("/md8key/ctrl_layer_media/4");
+                    m.addIntArg(ofRandom(10)); //random media
+                    sender.sendMessage(m);
                 }
-                m.addIntArg(kinectNumber); // which sensor plus velocity
-                sender.sendMessage(m);
             }
-            
             
             
             

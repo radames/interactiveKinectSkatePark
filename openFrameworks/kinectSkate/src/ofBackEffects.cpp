@@ -17,7 +17,7 @@ void ofBackEffects::setup(){
     
     particlesGUI.setName("Particles");
     particlesGUI.add(maxParticles.set("max NumParticles", 100, 10, 3000));
-    particlesGUI.add(decayTime.set("decay Time", 2000,500,5000));
+    particlesGUI.add(decayTime.set("decay Time", 2000,100,5000));
     particlesGUI.add(particleColor.set("Particle Color", ofColor(255,255), ofColor(0,0),ofColor(255,255)));
 
 }
@@ -27,8 +27,8 @@ void ofBackEffects::addParticles(int num, ofPoint origin, ofPoint velocity) {
     
         for (int i = 0; i < num; ++i) {
             ofParticles p;
-            p.setColor(particleColor);
             p.setDecayTime(decayTime);
+            p.setColor(particleColor);
             p.uniqueVal = ofRandom(-10000, 10000);
             p.pos.x = origin.x;
             p.pos.y = origin.y;
