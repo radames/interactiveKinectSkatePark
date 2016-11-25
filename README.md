@@ -12,6 +12,8 @@ In collaboration with [VJ Vigas](https://www.madmapper.com/artists/vigas/) doing
   * ofxTwistedRibbon
   * ofxPostProcessing
 
+Video [here](https://www.youtube.com/watch?v=mqQuPi-zMMI)
+
 ##Skate Park
 
 <p align="center">
