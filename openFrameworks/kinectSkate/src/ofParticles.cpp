@@ -176,7 +176,7 @@ void ofParticles::draw(){
     switch (animMode) {
         case POINT:
             ofSetColor(pColor);
-            ofCircle(pos.x, pos.y, scale * 4.0);
+            ofDrawCircle(pos.x, pos.y, scale * 4.0);
             
             break;
         
@@ -186,8 +186,8 @@ void ofParticles::draw(){
             //cout << vel.length() << endl;
             //ofSetColor(ofColor::fromHsb(128, 255, 255, 1));
             ofSetLineWidth(20);
-            ofLine(pos.x, pos.y, -vel.length()/12*30, pos.x - 4*vel.x, pos.y - 4*vel.y, 0);
-            //ofCircle(pos.x, pos.y, scale * 4.0);
+            ofDrawLine(pos.x, pos.y, -vel.length()/12*30, pos.x - 4*vel.x, pos.y - 4*vel.y, 0);
+            //ofDrawCircle(pos.x, pos.y, scale * 4.0);
             break;
     }
     ofPopStyle();

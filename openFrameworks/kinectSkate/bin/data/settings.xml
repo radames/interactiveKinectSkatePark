@@ -1,7 +1,7 @@
 <Settings>
 	<Mouse_DEBUG>1</Mouse_DEBUG>
 	<Kinect_0>
-		<Far_Threshold>53</Far_Threshold>
+		<Far_Threshold>75</Far_Threshold>
 		<Num_Max_Blos>10</Num_Max_Blos>
 		<max_Blob_Size>227</max_Blob_Size>
 		<min_Blob_Size>35</min_Blob_Size>
@@ -10,11 +10,11 @@
 	<Sensor_Pos>448.666, 284.202</Sensor_Pos>
 	<Sensor_Area>0.507653</Sensor_Area>
 	<waveColor>21, 0, 255, 255</waveColor>
-	<WaveDecayTime>1042</WaveDecayTime>
+	<WaveDecayTime>1014</WaveDecayTime>
 		<WaveColor>255, 255, 255, 255</WaveColor>
 	</Kinect_0>
 	<Kinect_1>
-		<Far_Threshold>72</Far_Threshold>
+		<Far_Threshold>83</Far_Threshold>
 		<Num_Max_Blos>0</Num_Max_Blos>
 		<max_Blob_Size>242</max_Blob_Size>
 		<min_Blob_Size>35</min_Blob_Size>
@@ -23,7 +23,7 @@
 	<Sensor_Pos>1152.37, 372.165</Sensor_Pos>
 	<Sensor_Area>0.507653</Sensor_Area>
 	<waveColor>5, 233, 0, 184</waveColor>
-	<WaveDecayTime>1028</WaveDecayTime>
+	<WaveDecayTime>1128</WaveDecayTime>
 		<WaveColor>255, 255, 255, 255</WaveColor>
 	</Kinect_1>
 <Settings/>
@@ -37,8 +37,35 @@
 <Velo_Ratio>0.6415</Velo_Ratio>
 <Physical_Obj_dTime>9910</Physical_Obj_dTime>
 <general>
-		<Velo_Ratio>0.429592</Velo_Ratio>
+		<Velo_Ratio>0.381122</Velo_Ratio>
 		<Physical_Obj_dTime>6464</Physical_Obj_dTime>
 		<Trail_Color>255, 255, 255, 255</Trail_Color>
 	</general>
+<group>
+		<Kinect_0>
+			<Far_Threshold>120</Far_Threshold>
+			<Num_Max_Blos>10</Num_Max_Blos>
+			<max_Blob_Size>323</max_Blob_Size>
+			<min_Blob_Size>198</min_Blob_Size>
+			<Sensor_Pos>416.68, 200.237</Sensor_Pos>
+			<Sensor_Area>0.5</Sensor_Area>
+			<WaveDecayTime>1000</WaveDecayTime>
+			<WaveColor>255, 255, 255, 255</WaveColor>
+		</Kinect_0>
+		<Kinect_1>
+			<Far_Threshold>157</Far_Threshold>
+			<Num_Max_Blos>7</Num_Max_Blos>
+			<max_Blob_Size>211</max_Blob_Size>
+			<min_Blob_Size>173</min_Blob_Size>
+			<Sensor_Pos>0, 10</Sensor_Pos>
+			<Sensor_Area>0.5</Sensor_Area>
+			<WaveDecayTime>1000</WaveDecayTime>
+			<WaveColor>255, 255, 255, 255</WaveColor>
+		</Kinect_1>
+		<general>
+			<Velo_Ratio>1</Velo_Ratio>
+			<Physical_Obj_dTime>1000</Physical_Obj_dTime>
+			<Trail_Color>255, 255, 255, 255</Trail_Color>
+		</general>
+	</group>
 </Settings>

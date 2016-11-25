@@ -22,13 +22,13 @@ void ofPhysicalObject::setup(AppConfig *_appConfig, ofxBox2d *_box2d, ofVec2f ve
 
     ofxBox2dRect *rect = rectBody.get();
     string id = ofToString( appConfig->imageNameId+1);
-    objectImage.loadImage("images/elemento0"+ id+ ".png");
+    objectImage.load("images/elemento0"+ id+ ".png");
     float s = ofRandom(0.2,1.5);
-    objectImage.resize(objectImage.width*s, objectImage.width*s);
+    objectImage.resize(objectImage.getWidth()*s, objectImage.getWidth()*s);
     
     rect->setVelocity(velocity.x, velocity.y);
     rect->setPhysics(3.0, 0.53, 0.1);
-    rect->setup(box2d->getWorld(), position.x, position.y, objectImage.width, objectImage.height);
+    rect->setup(box2d->getWorld(), position.x, position.y, objectImage.getWidth(), objectImage.getHeight());
 
         
 

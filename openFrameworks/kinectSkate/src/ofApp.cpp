@@ -41,11 +41,11 @@ void ofApp::setup() {
 	ofSetFrameRate(60);
 
 	// dictionaries to control already added objects based on tracker labels
-	tr1::unordered_map<int,int> ao1, ao2;
+	unordered_map<int,int> ao1, ao2;
 	addedObjs.push_back(ao1);
 	addedObjs.push_back(ao2);
-
-	debugImage.loadImage("skatepark.png");
+    
+	debugImage.load("skatepark.png");
 	debugImage.resize(1024*2, 768);
 
 	//Osc communication
@@ -56,7 +56,7 @@ void ofApp::setup() {
 
 	guiSetup(); //GUI Setup
     
-    objectImage.loadImage("data/circle.png");
+    objectImage.load("data/circle.png");
 
 }
 
@@ -119,7 +119,7 @@ void ofApp::drawPositions() {
 			ofSetHexColor(0xff0000);
 			ofVec2f pos_j = boxes[j].get()->getPosition();
 			if (pos_j.squareDistance(pos_center)/100 < 1200) {
-				ofLine(pos_center.x, pos_center.y, pos_j.x, pos_j.y);
+				ofDrawLine(pos_center.x, pos_center.y, pos_j.x, pos_j.y);
 			}
 		}
 	}
@@ -127,7 +127,7 @@ void ofApp::drawPositions() {
 	for (int i = 0; i < colCenters.size(); ++i) {
 		ContactData c = colCenters[i];
 
-		ofCircle(c.x, c.y, 0, c.r*20);
+		ofDrawCircle(c.x, c.y, 0, c.r*20);
 	}
 
 }
@@ -193,15 +193,19 @@ void ofApp::createObjects() {
 				//myBack.addAttractPoints(center);
 
 				//Osc Message for new Objects on the screen based on the sensorPositions[j] j = kinectic number
-				ofxOscMessage m;
-
-				if(center.x  < sensorPos[kinectNumber]-> x ){ //if this then he've appeared first on th left
-					m.setAddress("/skatista/ED");
-				}else{
-					m.setAddress("/skatista/DE");
-				}
-				m.addIntArg(kinectNumber); // which sensor plus velocity
-				sender.sendMessage(m);
+                ofxOscMessage m;
+                
+                if(kinectNumber == 1){ //sensor over the piramede
+                    m.setAddress("/md8key/ctrl_layer_media/3"); //osc message to control modul8 layers
+                    m.addIntArg(ofRandom(10)); ////random media
+                    sender.sendMessage(m);
+                    
+                }else if(kinectNumber == 0){ //sensor over quarter
+                    m.setAddress("/md8key/ctrl_layer_media/4");
+                    m.addIntArg(ofRandom(10)); //random media
+                    sender.sendMessage(m);
+                }
+            
 
 			}
 
@@ -313,7 +317,7 @@ void ofApp::draw() {
                     ofPoint p1 = physObjects[i].rectBody->getPosition();
                     ofPoint p2 = physObjects[j].rectBody->getPosition();
                     ofSetLineWidth(20);
-                    ofLine(p1.x, p1.y, p2.x, p2.y);
+                    ofDrawLine(p1.x, p1.y, p2.x, p2.y);
                 }
             }
             ofPopStyle();
@@ -346,7 +350,7 @@ void ofApp::draw() {
                     ofPoint p2 = physObjects[j].rectBody->getPosition();
                     ofSetLineWidth(1);
 
-                    ofLine(p1.x, p1.y, p2.x, p2.y);
+                    ofDrawLine(p1.x, p1.y, p2.x, p2.y);
                 }
                 
                 ofPopStyle();
@@ -371,7 +375,7 @@ void ofApp::drawTrail() {
 			ofPoint p2 = trail[i][(trail_i[i] + j + 1) % 30];
 			ofSetColor(255,255);
 			//  ofSetLineWidth(j*2);
-			ofLine(p1.x, p1.y, p2.x, p2.y);
+			ofDrawLine(p1.x, p1.y, p2.x, p2.y);
 			ofPopStyle();
 		}
 	}
@@ -386,7 +390,7 @@ void ofApp::debugMode(){
 	//width height debug screens
 	float w = 300;
 	float h = 200;
-	///debugImage.draw(0,0);
+	debugImage.draw(0,0);
 
     for(int kinectNumber = 0; kinectNumber < 2; kinectNumber++){
 		//drawing two depth areas
@@ -424,7 +428,7 @@ void ofApp::debugMode(){
 				ofPushMatrix();
 				//ofTranslate(center.x , center.y);
 
-				ofEllipse(center.x,center.y,10,10);
+				ofDrawEllipse(center.x,center.y,10,10);
 				string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
 				ofDrawBitmapString(msg,center.x,center.y);
 				ofVec2f velocity = toOf(contourFinder[kinectNumber].getVelocity(i));
@@ -432,7 +436,7 @@ void ofApp::debugMode(){
 				ofPushMatrix();
 				ofTranslate(center.x, center.y);
 				ofScale(10, 10);
-				ofLine(0, 0, velocity.x, velocity.y);
+				ofDrawLine(0, 0, velocity.x, velocity.y);
 				ofPopMatrix();
 				ofScale(sensorArea[kinectNumber],sensorArea[kinectNumber]);
 
@@ -488,7 +492,7 @@ void ofApp::kinectUpdate(){
 		if(kinect[kinectNumber].isFrameNew()) {
 
 			// load grayscale depth image from the kinect source
-			grayImage[kinectNumber].setFromPixels(kinect[kinectNumber].getDepthPixels(), kinect[kinectNumber].width, kinect[kinectNumber].height);
+			grayImage[kinectNumber].setFromPixels(kinect[kinectNumber].getDepthPixels());
 
 			// we do two thresholds - one for the far plane and one for the near plane
 			// we then do a cvAnd to get the pixels which are a union of the two thresholds
@@ -611,8 +615,8 @@ void ofApp::oscUpdate(){
 	while(receiver.hasWaitingMessages()){
 		// get the next message
 		ofxOscMessage m;
-		receiver.getNextMessage(&m);
-
+		receiver.getNextMessage(m);
+        
 		// check for mouse moved message
 		if(m.getAddress() == "/mouse/position"){
 			// both the arguments are int32's

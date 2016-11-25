@@ -14,9 +14,11 @@
 #include "ofxTwistedRibbon.h"
 #include "ofAppConfig.h"
 #include "ofxPostProcessing.h"
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 #define HOST "192.168.2.100"
+//#define HOST "localhost"
+
 #define R_PORT 12345
 #define S_PORT 12346
 
@@ -102,7 +104,7 @@ public:
     ofParameter<ofColor> trailColor;
 
 
-	vector <tr1::unordered_map<int, int> > addedObjs;
+	vector <unordered_map<int, int> > addedObjs;
 
 	//options variables
 	bool bDebugMode = true;
